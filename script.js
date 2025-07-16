@@ -1705,7 +1705,7 @@ document.addEventListener('DOMContentLoaded', function() {
         customizeProducts: [
           { name: "Wall Plaque", image: "assets/images/WallAward.PNG" },
           { name: "Customized Merch", image: "assets/images/ServicePins.PNG" },
-          { name: "Awards", image: "assets/images/EmployeeOfTheMonth.PNG2" },
+          { name: "Awards", image: "assets/images/EOM.png" },
           { name: "Plateau Merch Catalog", image: "assets/images/CustomGiftLevels.PNG" }
         ]
       },
@@ -1776,7 +1776,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <p>Frequent recognition builds momentum and contributes to retention. Organizations with effective recognition programs can see up to a <span class="stat-highlight stat-tooltip">40% reduction in voluntary turnover<span class="tooltip-content">Source: Bucketlist Rewards</span></span>, as employees feel consistently valued for their contributions.</p>
         `,
         products: [
-          { name: "Spot Recognition", image: "assets/images/EmployeeOfTheMonth.PNG2" },
+          { name: "Spot Recognition", image: "assets/images/EOM.png" },
           { name: "Gift Cards", image: "assets/images/GiftCards.png" },
           { name: "Redeemable Tokens", image: "assets/images/CustomizedTokens.png" },
           { name: "Give Points", image: "assets/images/Points.jpg" }

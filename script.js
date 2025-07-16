@@ -259,10 +259,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check if we're adding to Program Builder 1 (build-program.html)
     const isAddingToProgramBuilder1 = redirectUrl && redirectUrl.includes('build-program.html');
     
+    // Load features for both builders
     let selectedFeatures = [];
+    let selectedFeatures2 = [];
     try {
       const stored = localStorage.getItem('selectedFeatures');
       if (stored) selectedFeatures = JSON.parse(stored);
+      
+      const stored2 = localStorage.getItem('selectedFeatures2');
+      if (stored2) selectedFeatures2 = JSON.parse(stored2);
     } catch (e) {
       console.error('Error reading localStorage:', e);
     }
@@ -274,8 +279,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const customFeatureName = `Custom: ${customName.trim()}`;
         if (!selectedFeatures.includes(customFeatureName)) {
           selectedFeatures.push(customFeatureName);
+          selectedFeatures2.push(customFeatureName);
           try {
             localStorage.setItem('selectedFeatures', JSON.stringify(selectedFeatures));
+            localStorage.setItem('selectedFeatures2', JSON.stringify(selectedFeatures2));
             
             // For Program Builder 1, we need to also clear the canvas state 
             // so the new feature gets loaded on page load
@@ -314,8 +321,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (!isAlreadyAdded) {
       selectedFeatures.push(featureName);
+      selectedFeatures2.push(featureName);
       try {
         localStorage.setItem('selectedFeatures', JSON.stringify(selectedFeatures));
+        localStorage.setItem('selectedFeatures2', JSON.stringify(selectedFeatures2));
         
         // For Program Builder 1, we need to also clear the canvas state 
         // so the new feature gets loaded when the page loads
@@ -412,7 +421,8 @@ document.addEventListener('DOMContentLoaded', function() {
           'incentives': 'Incentive Programs',
           'attendance': 'Attendance Recognition',
           'safety': 'Safety Recognition',
-          'community': 'Community Impact'
+          'community': 'Community Impact',
+          'patient-care': 'Patient Care Recognition'
         };
         canvasFeatures = moduleIds.map(id => moduleToFeatureName[id]).filter(Boolean);
       }
@@ -523,7 +533,8 @@ document.addEventListener('DOMContentLoaded', function() {
           'incentives': 'Incentive Programs',
           'attendance': 'Attendance Recognition',
           'safety': 'Safety Recognition',
-          'community': 'Community Impact'
+          'community': 'Community Impact',
+          'patient-care': 'Patient Care Recognition'
         };
         
         const featureName = featureNameMap[currentFeatureKey];
@@ -766,7 +777,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 'incentives': 'Motivate Success',
                 'attendance': 'Build Reliability',
                 'safety': 'Promote Safety',
-                'community': 'Honor Service'
+                'community': 'Honor Service',
+                'patient-care': 'Recognize Patient Care'
               };
               
               // Update the products section title
@@ -1095,7 +1107,8 @@ document.addEventListener('DOMContentLoaded', function() {
         'Incentive Programs': 'incentives',
         'Attendance Recognition': 'attendance',
         'Safety Recognition': 'safety',
-        'Community Impact': 'community'
+        'Community Impact': 'community',
+        'Patient Care Recognition': 'patient-care'
       };
 
       let featuresAdded = false;
@@ -1205,7 +1218,8 @@ document.addEventListener('DOMContentLoaded', function() {
           'Incentive Programs': 'Strategic programs that drive specific behaviors and accelerate goal achievement',
           'Attendance Recognition': 'Building reliability culture and reducing absenteeism through consistent recognition',
           'Safety Recognition': 'Creating safety champions and preventing workplace incidents through proactive recognition',
-          'Community Impact': 'Building purpose-driven culture through recognition of volunteer and community engagement'
+          'Community Impact': 'Building purpose-driven culture through recognition of volunteer and community engagement',
+          'Patient Care Recognition': 'Recognizing exceptional patient care and fostering a culture of empathy'
         };
 
         formFeaturesList.innerHTML = '';
@@ -1361,7 +1375,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Attendance Recognition': 'https://promomonster-clientportal.com/sub_category_post/employee-appreciation-merchandise-drinkware/',
                 'Safety Recognition': 'https://promomonster-clientportal.com/sub_category_post/employee-appreciation-merchandise-apparel/',
                 'Community Impact': 'https://promomonster-clientportal.com/sub_category_post/incentives-all-products/',
-                'Custom Recognition': 'https://promomonster-clientportal.com/sub_category_post/incentives-all-products/'
+                'Custom Recognition': 'https://promomonster-clientportal.com/sub_category_post/incentives-all-products/',
+                'Patient Care Recognition': 'https://promomonster-clientportal.com/sub_category_post/incentives-all-products/'
             };
             
             summaryModulesList.innerHTML = selectedModuleNames.map(name => {
@@ -1628,6 +1643,7 @@ document.addEventListener('DOMContentLoaded', function() {
             'Attendance Recognition': 'attendance',
             'Safety Recognition': 'safety',
             'Community Impact': 'community',
+            'Patient Care Recognition': 'patient-care',
             // Legacy fallbacks for old naming
             'Years of Service': 'service',
             'Performance Bonuses': 'performance'
@@ -1937,6 +1953,28 @@ document.addEventListener('DOMContentLoaded', function() {
           { name: "Custom Drinkware", image: "assets/images/Drinkware2.png.png" }
         ]
       },
+      'patient-care': {
+        title: "Patient Care Recognition",
+        icon: "fas fa-heart-pulse",
+        description: `
+          <p>Recognizing employees for exceptional patient care strengthens healthcare organizations by fostering a culture of empathy and excellence. The importance of patient care recognition, its benefits, and its impact on staff and patients is critical and supported by key statistics.</p>
+          
+          <h4>Impact on Patient Satisfaction</h4>
+          <p>Hospitals with robust recognition programs see a <span class="stat-highlight stat-tooltip">12% improvement in patient satisfaction scores<span class="tooltip-content">Source: Press Ganey</span></span>, demonstrating the direct impact of celebrating caring behavior.</p>
+          
+          <h4>Staff Retention and Engagement</h4>
+          <p>Healthcare organizations with strong recognition programs experience <span class="stat-highlight stat-tooltip">31% lower voluntary turnover<span class="tooltip-content">Source: Gallup</span></span>, creating a workplace where employees feel valued and motivated to deliver exceptional care.</p>
+          
+          <h4>Building a Culture of Excellence</h4>
+          <p>Recognition reinforces your core mission of exceptional patient care and encourages staff to prioritize empathy in every interaction. Enable peer nominations to foster a culture of mutual appreciation and shared commitment to excellence.</p>
+        `,
+        products: [
+          { name: "Comfort Blankets", image: "assets/images/Blankets.png.png" },
+          { name: "Personalized Pens", image: "assets/images/PersonalizedPen.png.png" },
+          { name: "Custom Socks", image: "assets/images/CustomSocks.png.png" },
+          { name: "Customizable Awards", image: "assets/images/ServicePins.PNG" }
+        ]
+      },
       custom: {
         title: "Customize Your Personalized Program",
         icon: "fas fa-edit",
@@ -2007,7 +2045,8 @@ document.addEventListener('DOMContentLoaded', function() {
               'attendance': 'Recognize Reliability',
               'safety': 'Celebrate Safety',
               'community': 'Honor Service',
-              'custom': 'Create Something Unique'
+              'custom': 'Create Something Unique',
+              'patient-care': 'Recognize Patient Care'
             };
             
             // Update the products section title
@@ -2100,7 +2139,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 'incentives': 'Incentive Programs',
                 'attendance': 'Attendance Recognition',
                 'safety': 'Safety Recognition',
-                'community': 'Community Impact'
+                'community': 'Community Impact',
+                'patient-care': 'Patient Care Recognition'
               };
               
               const featureName = featureNameMap[featureKey];

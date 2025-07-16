@@ -1838,6 +1838,23 @@
               </div>
             </div>
 
+            <!-- Patient Care Recognition Feature -->
+            <div class="detailed-module" data-feature-id="patient-care">
+              <h3>
+                <i class="fas fa-heart-pulse module-icon"></i>
+                Patient Care Recognition
+              </h3>
+              <p class="module-description">Recognize exceptional patient care to boost staff motivation, enhance patient satisfaction, and strengthen organizational loyalty.</p>
+              <ul class="module-benefits">
+                <li>12% improvement in patient satisfaction</li>
+                <li>31% lower voluntary turnover</li>
+                <li>Strengthen care quality culture</li>
+              </ul>
+              <div class="module-actions">
+                <button class="btn learn-more-btn" data-feature="patient-care">View Ideas</button>
+                <button class="add-to-program-btn" data-feature="Patient Care Recognition">Add to Program</button>
+              </div>
+            </div>
 
             <!-- Custom Recognition Feature - Double Width -->
             <div class="detailed-module custom-module" data-feature-id="custom">
@@ -2290,7 +2307,8 @@
           'Attendance Recognition': 'Building reliability culture and reducing absenteeism through consistent recognition',
           'Safety Recognition': 'Creating safety champions and preventing workplace incidents through proactive recognition',
           'Community Impact': 'Building purpose-driven culture through recognition of volunteer and community engagement',
-          'Custom Recognition': 'Tailored recognition programs that address your unique organizational values and goals'
+          'Custom Recognition': 'Tailored recognition programs that address your unique organizational values and goals',
+          'Patient Care Recognition': 'Recognizing exceptional patient care and fostering a culture of empathy'
         };
 
         formFeaturesList.innerHTML = '';
@@ -2392,6 +2410,7 @@
             'Attendance Recognition': 'https://promomonster-clientportal.com/sub_category_post/employee-appreciation-merchandise-drinkware/',
             'Safety Recognition': 'https://promomonster-clientportal.com/sub_category_post/employee-appreciation-merchandise-apparel/',
             'Community Impact': 'https://promomonster-clientportal.com/sub_category_post/incentives-all-products/',
+            'Patient Care Recognition': 'https://promomonster-clientportal.com/sub_category_post/incentives-all-products/',
             'Custom Recognition': 'https://promomonster-clientportal.com/sub_category_post/incentives-all-products/'
           };
           
@@ -2548,7 +2567,9 @@
           'Incentives': 'incentives', // Fallback for build-program.html title text
           'Attendance Recognition': 'attendance',
           'Safety Recognition': 'safety',
-          'Community Impact': 'community'
+          'Community Impact': 'community',
+          'Patient Care Recognition': 'patient-care',
+          'Custom Recognition': 'custom'
         };
         const result = nameMapping[name] || null;
         
@@ -2680,7 +2701,7 @@
           title: "Spot Recognition",
           icon: "fas fa-star",
           description: `
-            <p>Spot recognition allows managers and peers to acknowledge exceptional performance in real-time. Whether it’s staying late to comfort a patient’s family or stepping up during a staffing gap, this immediate, meaningful feedback energizes employees and reinforces positive behavior.</p>
+            <p>Spot recognition allows managers and peers to acknowledge exceptional performance in real-time. Whether it's staying late to comfort a patient's family or stepping up during a staffing gap, this immediate, meaningful feedback energizes employees and reinforces positive behavior.</p>
             
             <h4>The Power of Now: Why Timeliness Matters</h4>
                              <p>For recognition to be most effective, it needs to be timely. Quick recognition creates momentum, boosts morale, and keeps employees engaged—especially during high-stress periods.</p>
@@ -2707,7 +2728,7 @@
             <p>The most authentic recognition often comes from colleagues who understand the daily challenges and contributions of their peers. Peer-to-peer recognition builds stronger team bonds and creates a culture of mutual appreciation.</p>
             
             <h4>The Power of Authentic Recognition</h4>
-                        <p>Peer-to-peer recognition empowers employees at all levels to highlight each other’s contributions. This grassroots form of appreciation builds trust, fosters teamwork, and promotes inclusivity in the workplace.</p>
+                        <p>Peer-to-peer recognition empowers employees at all levels to highlight each other's contributions. This grassroots form of appreciation builds trust, fosters teamwork, and promotes inclusivity in the workplace.</p>
               
               <h4>Fostering Collaboration and Growth</h4>
               <!-- Source: https://www.terryberry.com/blog/employee-recognition-statistics/ -->
@@ -2838,7 +2859,7 @@
           title: "Community Impact",
           icon: "fas fa-hands-helping",
           description: `
-            <p>Programs that reward employees for participating in community outreach—such as health fairs, blood drives, or charity events—build a culture of compassion and service. This kind of recognition reinforces the organization’s mission beyond the walls of the facility.</p>
+            <p>Programs that reward employees for participating in community outreach—such as health fairs, blood drives, or charity events—build a culture of compassion and service. This kind of recognition reinforces the organization's mission beyond the walls of the facility.</p>
             
             <h4>The Purpose-Driven Workforce</h4>
             <p>Deloitte research shows that <span class="stat-highlight stat-tooltip">73% of millennials<span class="tooltip-content">Source: Deloitte</span></span> are willing to pay extra for sustainable products and services, and <span class="stat-highlight stat-tooltip">83% consider a company's purpose<span class="tooltip-content">Source: Deloitte</span></span> when deciding where to work. Community impact programs address this growing demand for meaningful work.</p>
@@ -2854,6 +2875,28 @@
             { name: "Fun Gifts", image: "assets/images/socks1.PNG" },
             { name: "Matching Apparel", image: "assets/images/Apparel3.png.png" },
             { name: "Custom Drinkware", image: "assets/images/Drinkware2.png.png" }
+          ]
+        },
+        'patient-care': {
+          title: "Patient Care Recognition",
+          icon: "fas fa-heart-pulse",
+          description: `
+            <p>Recognizing employees for exceptional patient care strengthens healthcare organizations by fostering a culture of empathy and excellence. The importance of patient care recognition, its benefits, and its impact on staff and patients is critical and supported by key statistics.</p>
+            
+            <h4>Impact on Patient Satisfaction</h4>
+            <p>Hospitals with robust recognition programs see a <span class="stat-highlight">12% improvement in patient satisfaction scores</span>, demonstrating the direct impact of celebrating caring behavior.</p>
+            
+            <h4>Staff Retention and Engagement</h4>
+            <p>Healthcare organizations with strong recognition programs experience <span class="stat-highlight">31% lower voluntary turnover</span>, creating a workplace where employees feel valued and motivated to deliver exceptional care.</p>
+            
+            <h4>Building a Culture of Excellence</h4>
+            <p>Recognition reinforces your core mission of exceptional patient care and encourages staff to prioritize empathy in every interaction. Enable peer nominations to foster a culture of mutual appreciation and shared commitment to excellence.</p>
+          `,
+          products: [
+            { name: "Comfort Blankets", image: "assets/images/Blankets.png.png" },
+            { name: "Personalized Pens", image: "assets/images/PersonalizedPen.png.png" },
+            { name: "Custom Socks", image: "assets/images/CustomSocks.png.png" },
+            { name: "Customizable Awards", image: "assets/images/ServicePins.PNG" }
           ]
         },
         custom: {
@@ -2924,6 +2967,7 @@
               'attendance': 'Recognize Reliability',
               'safety': 'Celebrate Safety',
               'community': 'Honor Service',
+              'patient-care': 'Recognize Patient Care',
               'custom': 'Create Something Unique'
             };
             
@@ -3008,6 +3052,7 @@
               'attendance': 'Attendance Recognition',
               'safety': 'Safety Recognition',
               'community': 'Community Impact',
+              'patient-care': 'Patient Care Recognition',
               'custom': 'Custom Recognition'
             };
             
@@ -3035,8 +3080,6 @@
                   if (!selectedFeatures.has(customFeatureName)) {
                     selectedFeatures.add(customFeatureName);
                     updateStickyBuilder();
-                    modal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
                   } else {
                     alert('This custom feature has already been added to your program.');
                   }

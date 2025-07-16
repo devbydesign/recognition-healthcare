@@ -1,0 +1,6 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+Now lets see if there are any areas on each page that can be optimized and cleaned up, and better marked so you can knwo what to do for any future changes. Maintain all funcitonality and make sure it looks the same if you change anything. Maintain and unique code that is needed for different styles or functionality or sections, and optimize everything you can with best practices.

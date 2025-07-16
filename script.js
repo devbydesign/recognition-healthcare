@@ -250,11 +250,14 @@ document.addEventListener('DOMContentLoaded', function() {
   // --- SHARED FUNCTIONALITY FOR FEATURE PAGES ---
   // ==============================================
   
-  // Handle localStorage features with user feedback
+  // Handle localStorage features with user feedback - designed for Program Builder 1
   window.handleFeatureAdditionWithFeedback = (button, event) => {
     if(event) event.preventDefault();
     const featureName = button.dataset.featureName;
     const redirectUrl = button.dataset.href;
+    
+    // Check if we're adding to Program Builder 1 (build-program.html)
+    const isAddingToProgramBuilder1 = redirectUrl && redirectUrl.includes('build-program.html');
     
     let selectedFeatures = [];
     try {
@@ -273,6 +276,13 @@ document.addEventListener('DOMContentLoaded', function() {
           selectedFeatures.push(customFeatureName);
           try {
             localStorage.setItem('selectedFeatures', JSON.stringify(selectedFeatures));
+            
+            // For Program Builder 1, we need to also clear the canvas state 
+            // so the new feature gets loaded on page load
+            if (isAddingToProgramBuilder1) {
+              localStorage.removeItem('programBuilderCanvas');
+            }
+            
             button.innerHTML = '<i class="fas fa-check-circle"></i> Added!';
             button.disabled = false;
             button.classList.add('btn-added');
@@ -306,6 +316,14 @@ document.addEventListener('DOMContentLoaded', function() {
       selectedFeatures.push(featureName);
       try {
         localStorage.setItem('selectedFeatures', JSON.stringify(selectedFeatures));
+        
+        // For Program Builder 1, we need to also clear the canvas state 
+        // so the new feature gets loaded when the page loads
+        if (isAddingToProgramBuilder1) {
+          localStorage.removeItem('programBuilderCanvas');
+          console.log('Cleared canvas state for Program Builder 1 to auto-load new feature:', featureName);
+        }
+        
         button.innerHTML = '<i class="fas fa-check-circle"></i> Added!';
         button.disabled = false; // Keep enabled so it can still be clicked
         button.classList.add('btn-added');
@@ -331,11 +349,41 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   };
 
-  // Updates button states on page load to reflect what's in localStorage
+  // Updates button states on page load to reflect what's in Program Builder 1
   function updateProgramButtonsState() {
     const buttons = document.querySelectorAll('[data-feature-name]');
     if (buttons.length === 0) return;
     
+    // Check if we're on a feature page that should redirect to Program Builder 1
+    const isProgramBuilder1Flow = Array.from(buttons).some(btn => 
+      btn.dataset.href && btn.dataset.href.includes('build-program.html')
+    );
+    
+    if (!isProgramBuilder1Flow) {
+      // If not Program Builder 1 flow, fall back to localStorage check
+      let selectedFeatures = [];
+      try {
+        const stored = localStorage.getItem('selectedFeatures');
+        if (stored) selectedFeatures = JSON.parse(stored);
+      } catch (e) {
+        console.error('Error reading localStorage:', e);
+        return;
+      }
+      
+      buttons.forEach(button => {
+          const featureName = button.dataset.featureName;
+          if (selectedFeatures.includes(featureName)) {
+              button.innerHTML = '<i class="fas fa-check-circle"></i> Added - View Program';
+              button.classList.add('btn-added');
+              button.style.backgroundColor = '';
+              button.style.boxShadow = '';
+              button.disabled = false; // Keep enabled so users can still navigate
+          }
+      });
+      return;
+    }
+    
+    // For Program Builder 1 flow, check both localStorage and expected canvas state
     let selectedFeatures = [];
     try {
       const stored = localStorage.getItem('selectedFeatures');
@@ -345,9 +393,40 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
     
+    // Also check if there's a saved canvas state that might override localStorage
+    let canvasFeatures = [];
+    try {
+      const canvasState = localStorage.getItem('programBuilderCanvas');
+      if (canvasState) {
+        const moduleIds = JSON.parse(canvasState);
+        // Convert module IDs back to feature names for comparison
+        const moduleToFeatureName = {
+          'welcome': 'Welcome Kits',
+          'anniversary': 'Years of Service Recognition',
+          'performance': 'Performance Recognition',
+          'wellness': 'Wellness Programs',
+          'spot': 'Spot Recognition',
+          'peer': 'Peer-to-Peer',
+          'points': 'Point-Based Rewards',
+          'awards': 'General Awards',
+          'incentives': 'Incentive Programs',
+          'attendance': 'Attendance Recognition',
+          'safety': 'Safety Recognition',
+          'community': 'Community Impact'
+        };
+        canvasFeatures = moduleIds.map(id => moduleToFeatureName[id]).filter(Boolean);
+      }
+    } catch (e) {
+      console.error('Error reading canvas state:', e);
+    }
+    
+    // Use canvas state if it exists, otherwise use selectedFeatures
+    const featuresInProgram = canvasFeatures.length > 0 ? canvasFeatures : selectedFeatures;
+    console.log('Program Builder 1 button state check:', { selectedFeatures, canvasFeatures, featuresInProgram });
+    
     buttons.forEach(button => {
         const featureName = button.dataset.featureName;
-        if (selectedFeatures.includes(featureName)) {
+        if (featuresInProgram.includes(featureName)) {
             button.innerHTML = '<i class="fas fa-check-circle"></i> Added - View Program';
             button.classList.add('btn-added');
             button.style.backgroundColor = '';
@@ -393,9 +472,78 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize selectedFeatures from localStorage
     try {
       const stored = localStorage.getItem('selectedFeatures');
-      if (stored) selectedFeatures = JSON.parse(stored);
+      if (stored) {
+        const featuresArray = JSON.parse(stored);
+        // Normalize feature names to handle legacy naming inconsistencies
+        selectedFeatures = featuresArray.map(feature => {
+          if (feature === 'Incentives') {
+            console.log('Normalized legacy feature name in build-program.html:', feature, '-> Incentive Programs');
+            return 'Incentive Programs';
+          }
+          if (feature === 'Years of Service') {
+            console.log('Normalized legacy feature name in build-program.html:', feature, '-> Years of Service Recognition');
+            return 'Years of Service Recognition';
+          }
+          if (feature === 'Performance Bonuses') {
+            console.log('Normalized legacy feature name in build-program.html:', feature, '-> Performance Recognition');
+            return 'Performance Recognition';
+          }
+          return feature;
+        });
+        
+        // Save normalized features back to localStorage if changes were made
+        if (JSON.stringify(featuresArray) !== JSON.stringify(selectedFeatures)) {
+          localStorage.setItem('selectedFeatures', JSON.stringify(selectedFeatures));
+          console.log('Updated localStorage with normalized feature names from build-program.html');
+        }
+      }
     } catch (e) {
       console.error('Error reading selectedFeatures from localStorage:', e);
+    }
+
+    // Function to update modal button state
+    function updateModalButtonState() {
+      const modal = document.getElementById('feature-modal');
+      const modalAddToProgram = document.getElementById('modal-add-to-program');
+      
+      if (!modal || !modalAddToProgram) return;
+      
+      const currentFeatureKey = modal.dataset.currentFeature;
+      
+      if (currentFeatureKey && currentFeatureKey !== 'custom') {
+        const featureNameMap = {
+          'welcome': 'Welcome Kits',
+          'service': 'Years of Service Recognition',
+          'performance': 'Performance Recognition',
+          'wellness': 'Wellness Programs',
+          'spot': 'Spot Recognition',
+          'peer': 'Peer-to-Peer',
+          'points': 'Point-Based Rewards',
+          'awards': 'General Awards',
+          'incentives': 'Incentive Programs',
+          'attendance': 'Attendance Recognition',
+          'safety': 'Safety Recognition',
+          'community': 'Community Impact'
+        };
+        
+        const featureName = featureNameMap[currentFeatureKey];
+        const isAlreadyAdded = selectedFeatures.includes(featureName);
+        
+        if (isAlreadyAdded) {
+          modalAddToProgram.innerHTML = '✓ Added';
+          modalAddToProgram.disabled = true;
+          modalAddToProgram.style.setProperty('background-color', '#5eba0f', 'important');
+          modalAddToProgram.style.setProperty('border-color', '#5eba0f', 'important');
+          modalAddToProgram.style.setProperty('color', 'white', 'important');
+          modalAddToProgram.style.setProperty('opacity', '1', 'important');
+        } else {
+          modalAddToProgram.textContent = 'Add to Program';
+          modalAddToProgram.disabled = false;
+          modalAddToProgram.style.backgroundColor = '';
+          modalAddToProgram.style.borderColor = '';
+          modalAddToProgram.style.color = '';
+        }
+      }
     }
 
     // Mobile touch support for drag and drop
@@ -608,7 +756,7 @@ document.addEventListener('DOMContentLoaded', function() {
               // Product section titles
               const productTitles = {
                 'welcome': 'Package It Like a Gift',
-                'service': 'Celebrate Their Journey',
+                'service': 'Years of Service Ideas',
                 'performance': 'Reward Excellence',
                 'wellness': 'Nurture Their Well-Being',
                 'spot': 'Make It Memorable',
@@ -629,10 +777,14 @@ document.addEventListener('DOMContentLoaded', function() {
               
               modalProductsGrid.innerHTML = '';
               
-              // Remove any existing customize sections
+              // Remove any existing customize and CTA sections
               const existingCustomizeSection = document.querySelector('.modal-customize-section');
               if (existingCustomizeSection) {
                 existingCustomizeSection.remove();
+              }
+              const existingCtaSection = document.querySelector('.modal-cta-section');
+              if (existingCtaSection) {
+                existingCtaSection.remove();
               }
               
               feature.products.forEach(product => {
@@ -644,13 +796,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
                 modalProductsGrid.appendChild(productCard);
               });
+
+              // Add CTA section for Years of Service
+              if (featureKey === 'service') {
+                const ctaSection = document.createElement('div');
+                ctaSection.className = 'modal-cta-section';
+                ctaSection.innerHTML = `
+                  <div style="margin-top: 2rem; padding: 1.5rem; background-color: #f8f9fa; border: 2px solid var(--primary-color); border-radius: 8px; text-align: center;">
+                    <h4 style="margin-bottom: 1rem; color: var(--primary-color); font-size: 1.6rem;">How Are You Going To Present It?</h4>
+                    <p style="margin: 0; font-weight: bold; font-size: 1.1em; color: #333;">In Person • Newsletter • Monthly Department Meeting • Deliver</p>
+                    <p style="margin: 0.5rem 0 0 0; font-style: italic; color: #666;">Make every milestone moment memorable with the perfect presentation approach.</p>
+                  </div>
+                `;
+                
+                // Insert after the main products section
+                const modalProducts = document.querySelector('.modal-products');
+                if (modalProducts) {
+                  modalProducts.insertAdjacentElement('afterend', ctaSection);
+                }
+              }
               
-              // Add customize section for welcome kits
-              if (featureKey === 'welcome' && feature.customizeProducts) {
+              // Add customize section for welcome kits and years of service
+              if ((featureKey === 'welcome' || featureKey === 'service') && feature.customizeProducts) {
                 const customizeSection = document.createElement('div');
                 customizeSection.className = 'modal-customize-section';
+                const customizeTitle = featureKey === 'service' ? 'Customize it: Personal and Public' : 'Customize to Fit Your Audience and Your Brand';
                 customizeSection.innerHTML = `
-                  <h3>Customize to Fit Your Audience and Your Brand</h3>
+                  <h3>${customizeTitle}</h3>
                   <div class="modal-customize-grid">
                     ${feature.customizeProducts.map(product => `
                       <div class="modal-product-card">
@@ -670,6 +842,22 @@ document.addEventListener('DOMContentLoaded', function() {
               
               // Store the current feature key for modal handlers
               modal.dataset.currentFeature = featureKey;
+              
+              // Update the modal button state since this feature is already added to canvas
+              const modalAddToProgram = document.getElementById('modal-add-to-program');
+              if (modalAddToProgram) {
+                modalAddToProgram.dataset.customHandler = 'false';
+                modalAddToProgram.onclick = null;
+                
+                // Since this is from canvas, the feature is already added
+                modalAddToProgram.innerHTML = '<i class="fas fa-check"></i> Added';
+                modalAddToProgram.classList.add('added');
+                modalAddToProgram.disabled = true;
+                modalAddToProgram.style.setProperty('background-color', '#5eba0f', 'important');
+                modalAddToProgram.style.setProperty('border-color', '#5eba0f', 'important');
+                modalAddToProgram.style.setProperty('color', 'white', 'important');
+                modalAddToProgram.style.setProperty('opacity', '1', 'important');
+              }
               
               // Show modal
               modal.style.display = 'block';
@@ -732,6 +920,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 canvasItem.remove();
                 updateProgramStrength();
                 saveCanvasState();
+                
+                // Update modal button state if modal is open
+                if (modal && modal.style.display === 'block') {
+                    setTimeout(() => {
+                        updateModalButtonState();
+                    }, 100);
+                }
             }
         }
     });
@@ -790,6 +985,13 @@ document.addEventListener('DOMContentLoaded', function() {
       updateProgramStrength();
       saveCanvasState();
       draggedModule = null;
+      
+      // Update modal button state if modal is open
+      if (modal && modal.style.display === 'block') {
+          setTimeout(() => {
+              updateModalButtonState();
+          }, 100);
+      }
     });
 
     function updateProgramStrength() {
@@ -812,12 +1014,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadCanvasState() {
       const savedState = localStorage.getItem('programBuilderCanvas');
       if (!savedState) {
-          addDefaultModule();
+          // Check if features were added from feature pages
+          loadFeaturesFromSelectedFeatures();
           return;
       }
       const moduleIds = JSON.parse(savedState);
       if (moduleIds.length === 0) {
-           addDefaultModule();
+           // Check if features were added from feature pages
+           loadFeaturesFromSelectedFeatures();
            return;
       }
 
@@ -870,6 +1074,78 @@ document.addEventListener('DOMContentLoaded', function() {
       updateProgramStrength();
       syncPaletteVisibility();
     }
+
+    // New function to load features from selectedFeatures localStorage
+    function loadFeaturesFromSelectedFeatures() {
+      if (selectedFeatures.length === 0) {
+        addDefaultModule();
+        return;
+      }
+
+      // Feature name to module ID mapping
+      const featureToModuleId = {
+        'Welcome Kits': 'welcome',
+        'Years of Service Recognition': 'anniversary', 
+        'Performance Recognition': 'performance',
+        'Wellness Programs': 'wellness',
+        'Spot Recognition': 'spot',
+        'Peer-to-Peer': 'peer',
+        'Point-Based Rewards': 'points',
+        'General Awards': 'awards',
+        'Incentive Programs': 'incentives',
+        'Attendance Recognition': 'attendance',
+        'Safety Recognition': 'safety',
+        'Community Impact': 'community'
+      };
+
+      let featuresAdded = false;
+
+      selectedFeatures.forEach(featureName => {
+        // Handle custom features
+        if (featureName.startsWith('Custom: ')) {
+          // Custom features need special handling - we'll skip them for now
+          // since they require more complex setup
+          console.log('Skipping custom feature for auto-population:', featureName);
+          return;
+        }
+
+        const moduleId = featureToModuleId[featureName];
+        if (moduleId) {
+          const paletteModule = modulePalette.querySelector(`[data-module-id="${moduleId}"]`);
+          if (paletteModule) {
+            const clonedNode = paletteModule.cloneNode(true);
+            const newCanvasItem = document.createElement('div');
+            newCanvasItem.classList.add('canvas-item');
+            newCanvasItem.dataset.moduleId = moduleId;
+            newCanvasItem.innerHTML = `
+              <div class="canvas-item-content">
+                  <div class="canvas-item-left">
+                      <i class="${clonedNode.querySelector('i').className}"></i>
+                      <span>${clonedNode.querySelector('.module-title').innerText}</span>
+                  </div>
+                  <div class="canvas-item-right">
+                      <button class="see-details-btn canvas-see-details" data-feature="${clonedNode.querySelector('.see-details-btn').dataset.feature}">See Details</button>
+                      <button class="remove-btn">✕</button>
+                  </div>
+              </div>`;
+            canvasDropzone.appendChild(newCanvasItem);
+            addCanvasListeners(newCanvasItem);
+            featuresAdded = true;
+          }
+        } else {
+          console.log('No module mapping found for feature:', featureName);
+        }
+      });
+
+      if (featuresAdded) {
+        updateProgramStrength();
+        syncPaletteVisibility();
+        saveCanvasState(); // Save the populated canvas to localStorage
+        console.log('Auto-populated canvas with features from feature pages');
+      } else {
+        addDefaultModule();
+      }
+    }
     
     function addDefaultModule() {
         if(canvasDropzone.querySelectorAll('.canvas-item').length > 0) return;
@@ -886,6 +1162,12 @@ document.addEventListener('DOMContentLoaded', function() {
           canvasDropzone.innerHTML = '';
           if (dropzonePlaceholder) canvasDropzone.appendChild(dropzonePlaceholder);
           localStorage.removeItem('programBuilderCanvas');
+          
+          // Clear selectedFeatures array and localStorage for Program Builder 1 integration
+          selectedFeatures.length = 0;
+          localStorage.removeItem('selectedFeatures');
+          console.log('Cleared selectedFeatures for Program Builder 1 integration');
+          
           updateProgramStrength();
           syncPaletteVisibility();
           planSummarySection.style.display = 'none';
@@ -913,14 +1195,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // Feature descriptions for the form display
         const featureDescriptions = {
           'Welcome Kits': 'A vital first step to improving your employee well-being and efficiency',
-          'Years of Service': 'Building loyalty and recognition that strengthens your organizational foundation',
-          'Performance Bonuses': 'Driving excellence through targeted rewards that motivate and inspire',
+          'Years of Service Recognition': 'Building loyalty and recognition that strengthens your organizational foundation',
+          'Performance Recognition': 'Driving excellence through targeted rewards that motivate and inspire',
           'Wellness Programs': 'Promoting health and vitality that enhances both personal and professional success',
           'Spot Recognition': 'Creating positive momentum through immediate acknowledgment of exceptional work',
           'Peer-to-Peer': 'Fostering a culture of appreciation where team members celebrate each other',
           'Point-Based Rewards': 'Flexible reward systems that maximize satisfaction through employee choice and engagement',
           'General Awards': 'Formal recognition programs that create memorable moments and inspire excellence',
-          'Incentives': 'Strategic programs that drive specific behaviors and accelerate goal achievement',
+          'Incentive Programs': 'Strategic programs that drive specific behaviors and accelerate goal achievement',
           'Attendance Recognition': 'Building reliability culture and reducing absenteeism through consistent recognition',
           'Safety Recognition': 'Creating safety champions and preventing workplace incidents through proactive recognition',
           'Community Impact': 'Building purpose-driven culture through recognition of volunteer and community engagement'
@@ -1065,17 +1347,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 summaryTitle.textContent = `Your customized Selection`;
             }
             
+            // Feature links mapping for Browse Incentives buttons
+            const featureLinks = {
+                'Welcome Kits': 'https://www.promo-monster.com/:quicksearch.htm?quicksearchbox=Welcome+Kits&LoP=&HiP=',
+                'Years of Service': 'https://www.promo-monster.com/:quicksearch.htm?quicksearchbox=service+award&LoP=&HiP=',
+                'Performance Bonuses': 'https://promomonster-clientportal.com/sub_category_post/incentives-employee/',
+                'Wellness Programs': 'https://promomonster-clientportal.com/sub_category_post/health-and-wellness-all-products/',
+                'Spot Recognition': 'https://promomonster-clientportal.com/sub_category_post/employee-appreciation-all-products/',
+                'Peer-to-Peer': 'https://promomonster-clientportal.com/sub_category_post/back-to-work-desk/',
+                'Point-Based Rewards': 'https://promomonster-clientportal.com/simple_product/merchandise-incentive-program-2/',
+                'General Awards': 'https://www.promo-monster.com/awards-recognition-paper-weights-crystal.htm',
+                'Incentive Programs': 'https://promomonster-clientportal.com/sub_category_post/incentives-employee/',
+                'Attendance Recognition': 'https://promomonster-clientportal.com/sub_category_post/employee-appreciation-merchandise-drinkware/',
+                'Safety Recognition': 'https://promomonster-clientportal.com/sub_category_post/employee-appreciation-merchandise-apparel/',
+                'Community Impact': 'https://promomonster-clientportal.com/sub_category_post/incentives-all-products/',
+                'Custom Recognition': 'https://promomonster-clientportal.com/sub_category_post/incentives-all-products/'
+            };
+            
             summaryModulesList.innerHTML = selectedModuleNames.map(name => {
                 // Format custom features with descriptions nicely
                 if (name.includes('\nDescription: ')) {
                     const parts = name.split('\nDescription: ');
                     const customTitle = parts[0];
                     const customDesc = parts[1];
+                    const browseLink = featureLinks['Custom Recognition'];
                     return `
                         <li class="feature-summary-item">
-                            <div class="feature-summary-content">
+                            <div class="feature-summary-output no-images">
+                                <div class="feature-summary-left">
                                 <strong>${customTitle}</strong>
                                 <div class="custom-description">Description: ${customDesc}</div>
+                                </div>
+                                <div class="feature-summary-right">
+                                    <a href="${browseLink}" target="_blank" class="browse-incentives-btn">Browse Incentives</a>
+                                </div>
                             </div>
                         </li>`;
                 }
@@ -1084,19 +1389,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (name.startsWith('Custom: ')) {
                     const customName = name.replace('Custom: ', '');
                     const customDescription = localStorage.getItem(`custom_desc_${customName}`);
+                    const browseLink = featureLinks['Custom Recognition'];
                     if (customDescription) {
                         return `
                             <li class="feature-summary-item">
-                                <div class="feature-summary-content">
+                                <div class="feature-summary-output no-images">
+                                    <div class="feature-summary-left">
                                     <strong>${name}</strong>
                                     <div class="custom-description">Description: ${customDescription}</div>
+                                    </div>
+                                    <div class="feature-summary-right">
+                                        <a href="${browseLink}" target="_blank" class="browse-incentives-btn">Browse Incentives</a>
+                                    </div>
                                 </div>
                             </li>`;
                     } else {
                         return `
                             <li class="feature-summary-item">
-                                <div class="feature-summary-content">
+                                <div class="feature-summary-output no-images">
+                                    <div class="feature-summary-left">
                                     <strong>${name}</strong>
+                                    </div>
+                                    <div class="feature-summary-right">
+                                        <a href="${browseLink}" target="_blank" class="browse-incentives-btn">Browse Incentives</a>
+                                    </div>
                                 </div>
                             </li>`;
                     }
@@ -1105,26 +1421,45 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Get feature key for regular features
                 const featureKey = getFeatureKeyFromName(name);
                 const feature = featureData[featureKey];
+                const browseLink = featureLinks[name] || featureLinks['Custom Recognition'];
                 
                 if (feature && feature.products) {
                     const productImages = feature.products.slice(0, 4).map(product => 
-                        `<img src="${product.image}" alt="${product.name}" class="feature-product-thumb">`
+                        `<img src="${product.image}" alt="${product.name}">`
                     ).join('');
                     
                     return `
                         <li class="feature-summary-item">
-                            <div class="feature-summary-content">
+                            <div class="feature-summary-output">
+                                <div class="feature-summary-left">
                                 <strong>${name}</strong>
-                                <div class="feature-product-images">
+                                    <div class="summary-feature-images">
                                     ${productImages}
+                                    </div>
+                                </div>
+                                <div class="feature-summary-right">
+                                    <a href="${browseLink}" target="_blank" class="browse-incentives-btn">Browse Incentives</a>
                                 </div>
                             </div>
                         </li>`;
                 }
                 
-                return `<li>${name}</li>`;
+                return `
+                    <li class="feature-summary-item">
+                        <div class="feature-summary-output">
+                            <div class="feature-summary-left">
+                                <strong>${name}</strong>
+                            </div>
+                            <div class="feature-summary-right">
+                                <a href="${browseLink}" target="_blank" class="browse-incentives-btn">Browse Incentives</a>
+                            </div>
+                        </div>
+                    </li>`;
             }).join('');
-            summaryContactInfo.innerHTML = `<strong>Name:</strong> ${firstName}<br><strong>Email:</strong> ${email}${phone ? `<br><strong>Phone:</strong> ${phone}` : ''}`;
+            const lastName = document.getElementById('last-name').value.trim();
+            const companyName = document.getElementById('company-name').value.trim();
+            
+            summaryContactInfo.innerHTML = `<strong>Name:</strong> ${firstName} ${lastName}<br><strong>Company:</strong> ${companyName}<br><strong>Email:</strong> ${email}${phone ? `<br><strong>Phone:</strong> ${phone}` : ''}`;
             
             const getStartedFaster = planSummarySection.querySelector('.get-started-faster');
             if (getStartedFaster) {
@@ -1135,8 +1470,8 @@ document.addEventListener('DOMContentLoaded', function() {
             planSummarySection.scrollIntoView({ behavior: 'smooth' });
         }
         
-        const subject = `Program Plan Submission from ${firstName}`;
-        const body = `New Program Plan Request:\n\nSelected Modules:\n- ${selectedModuleNames.join('\n- ')}\n\nContact Information:\nName: ${firstName}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}`;
+        const subject = `Program Plan Submission from ${firstName} ${lastName}`;
+        const body = `New Program Plan Request:\n\nSelected Modules:\n- ${selectedModuleNames.join('\n- ')}\n\nContact Information:\nName: ${firstName} ${lastName}\nCompany: ${companyName}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}`;
         const mailtoLink = `mailto:rbadiner@rbbmarketing.com,theresa@stayvisible.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         
         setTimeout(() => {
@@ -1281,19 +1616,30 @@ document.addEventListener('DOMContentLoaded', function() {
     function getFeatureKeyFromName(name) {
         const nameMapping = {
             'Welcome Kits': 'welcome',
-            'Years of Service': 'service',
-            'Performance Bonuses': 'performance',
+            'Years of Service Recognition': 'service',
+            'Performance Recognition': 'performance',
             'Wellness Programs': 'wellness',
             'Spot Recognition': 'spot',
             'Peer-to-Peer': 'peer',
             'Point-Based Rewards': 'points',
             'General Awards': 'awards',
-            'Incentives': 'incentives',
+            'Incentive Programs': 'incentives',
+            'Incentives': 'incentives', // Fallback for build-program.html title text
             'Attendance Recognition': 'attendance',
             'Safety Recognition': 'safety',
-            'Community Impact': 'community'
+            'Community Impact': 'community',
+            // Legacy fallbacks for old naming
+            'Years of Service': 'service',
+            'Performance Bonuses': 'performance'
         };
-        return nameMapping[name] || null;
+        const result = nameMapping[name] || null;
+        
+        // Debug logging for unmapped features
+        if (!result && name && !name.startsWith('Custom:')) {
+            console.warn('No mapping found for feature name:', name);
+        }
+        
+        return result;
     }
 
     // Feature modal data for See Details functionality
@@ -1305,13 +1651,15 @@ document.addEventListener('DOMContentLoaded', function() {
           <p>First impressions matter more than ever in today's competitive talent market. A thoughtfully crafted welcome kit sets the tone for an employee's entire journey with your organization.</p>
           
           <h4>Why Welcome Kits Drive Success</h4>
-          <p>Research from the Society for Human Resource Management shows that <span class="stat-highlight">69% of employees</span> are more likely to stay with a company for three years if they experienced great onboarding. Welcome kits are a tangible representation of your company's investment in new hires.</p>
+          <!-- Source: https://www.shrm.org/hr-today/news/hr-magazine/pages/0914-onboarding.aspx -->
+          <p>Research from the Society for Human Resource Management (SHRM) shows that new employees who went through a structured onboarding program were <span class="stat-highlight stat-tooltip">69% more likely to remain<span class="tooltip-content">Source: SHRM</span></span> with the company for up to three years.</p>
           
           <h4>Proven Benefits</h4>
-          <p>Organizations with structured onboarding programs see <span class="stat-highlight">54% greater new-hire productivity</span> and <span class="stat-highlight">50% greater new-hire retention</span> according to the Aberdeen Group. Your welcome kit becomes the first touchpoint in this critical process.</p>
+          <!-- Source: https://www.globenewswire.com/news-release/2011/11/17/459702/238734/en/Onboarding-2011-The-Path-to-Productivity.html -->
+          <p>Organizations with a standard onboarding process see <span class="stat-highlight stat-tooltip">54% greater new-hire productivity<span class="tooltip-content">Source: Aberdeen Group</span></span> and <span class="stat-highlight stat-tooltip">50% greater new-hire retention<span class="tooltip-content">Source: Aberdeen Group</span></span> according to the Aberdeen Group. Your welcome kit becomes the first touchpoint in this critical process.</p>
           
           <h4>What Makes Welcome Kits Effective</h4>
-          <p>The most successful welcome kits combine practical items employees will use daily with branded elements that reinforce company culture. From premium drinkware that accompanies morning coffee to tech accessories that enhance productivity, each item serves as a daily reminder of belonging.</p>
+          <p>The most successful welcome kits combine practical items employees will use daily with branded elements that reinforce company culture. From premium drinkware to tech accessories that enhance productivity, each item serves as a daily reminder of belonging.</p>
           <p><span class="stat-highlight">Customize your onboarding kits</span> to greet new hires with branded merchandise, information packets, and all essentials to start their journey.</p>
         `,
         products: [
@@ -1337,33 +1685,43 @@ document.addEventListener('DOMContentLoaded', function() {
         description: `
           <p>Long-term employee retention is one of the greatest challenges facing modern organizations. Years of service recognition programs create powerful emotional connections that keep your best talent engaged.</p>
           
-          <h4>The Retention Crisis</h4>
-          <p>With the average cost of replacing an employee reaching <span class="stat-highlight">$15,000</span> according to the Center for American Progress, retaining experienced team members is crucial. Gallup research shows that <span class="stat-highlight">87% of millennials</span> rate career development opportunities as important to them in a job.</p>
+          <h4>The High Cost of Turnover</h4>
+          <!-- Source: https://www.americanprogress.org/article/there-are-significant-business-costs-to-replacing-employees/ -->
+          <p>The Center for American Progress reports that replacing an employee can cost anywhere from <span class="stat-highlight stat-tooltip">16% to 213% of their annual salary<span class="tooltip-content">Source: Center for American Progress</span></span>. Retaining experienced team members isn't just a cultural goal—it's a financial imperative.</p>
           
           <h4>Building Legacy and Loyalty</h4>
-          <p>Service recognition programs demonstrate that you value longevity and growth. Companies with recognition programs have <span class="stat-highlight">31% lower voluntary turnover</span> than those without, according to Bersin by Deloitte research.</p>
+          <!-- Source: https://www.forbes.com/sites/joshbersin/2012/06/13/new-research-unlocks-the-secret-of-employee-recognition/ -->
+          <p>Service recognition programs demonstrate that you value longevity and growth. Companies with modern recognition programs have <span class="stat-highlight stat-tooltip">31% lower voluntary turnover<span class="tooltip-content">Source: Bersin by Deloitte</span></span> than those with outdated or no programs, according to research from Bersin by Deloitte.</p>
           
-          <h4>Milestone Moments That Matter</h4>
-          <p>Each service anniversary represents hundreds of hours of dedication, accumulated knowledge, and relationship building. Recognizing these milestones with meaningful gifts creates emotional anchors that strengthen the employee-employer bond and inspire others to envision their own long-term future with your organization.</p>
+          <h4>Building Lasting Loyalty</h4>
+          <p>Encourages long-term retention, shows appreciation for loyalty, and reinforces a culture of stability and commitment. Celebrate employee milestones with personalized gifts or awards recognizing 1, 5, 10, 20+ years of dedication. Let's explore the possibilities and tailor a program just for you.</p>
         `,
         products: [
-          { name: "Premium Sherpa", image: "assets/images/Warm and Cozy Sherpa.jpg" },
-          { name: "Arctic Zone Mug", image: "assets/images/Arctic-Zone-Titan-24-oz.-Copper-Mug-1024x1024.jpg" },
-          { name: "Words to Live By", image: "assets/images/Womens-Words-to-live-by.jpg" },
-          { name: "Ceramic Mugs", image: "assets/images/Ceramic Mugs.jpg" }
+          { name: "Pins and Jewelry", image: "assets/images/PinsAndBadges.PNG" },
+          { name: "Crystal", image: "assets/images/GlassAward.PNG" },
+          { name: "Congratulations Note", image: "assets/images/AwardImage.PNG" },
+          { name: "Customizable Cubes", image: "assets/images/YearsOfService_Safety.PNG" }
+        ],
+        customizeProducts: [
+          { name: "Wall Plaque", image: "assets/images/WallAward.PNG" },
+          { name: "Customized Merch", image: "assets/images/ServicePins.PNG" },
+          { name: "Awards", image: "assets/images/EmployeeOfTheMonth.PNG" },
+          { name: "Plateau Merch Catalog", image: "assets/images/CustomGiftLevels.PNG" }
         ]
       },
       performance: {
         title: "Performance Recognition",
         icon: "fas fa-trophy",
         description: `
-          <p>High performers drive organizational success, yet many feel undervalued and unrecognized. Strategic performance recognition transforms your top talent into engaged champions of your company's mission.</p>
+          <p>High performers drive organizational success, yet many feel undervalued. Strategic performance recognition transforms your top talent into engaged champions of your company's mission.</p>
           
           <h4>The Performance-Recognition Connection</h4>
-          <p>Harvard Business Review research reveals that companies with recognition programs have <span class="stat-highlight">31% lower turnover rates</span> and <span class="stat-highlight">12x better business outcomes</span>. When high performers feel valued, they become force multipliers for your entire organization.</p>
+          <!-- Source: https://www.achievers.com/blog/employee-recognition-and-productivity/ -->
+          <p>When high performers feel valued, they become force multipliers. Organizations that prioritize employee recognition see a <span class="stat-highlight stat-tooltip">21% increase in productivity<span class="tooltip-content">Source: Achievers</span></span>, according to a report by Achievers.</p>
           
           <h4>Beyond Monetary Rewards</h4>
-          <p>While financial bonuses matter, tangible recognition items create lasting emotional connections. Deloitte found that <span class="stat-highlight">85% of employees</span> are motivated when management offers regular feedback and recognition, with physical tokens serving as ongoing reminders of achievement.</p>
+          <!-- Source: https://www2.deloitte.com/us/en/insights/focus/human-capital-trends/2018/employee-recognition-in-a-digital-world.html -->
+          <p>While financial bonuses matter, tangible recognition creates lasting emotional connections. Deloitte found that <span class="stat-highlight stat-tooltip">85% of employees<span class="tooltip-content">Source: Deloitte</span></span> are more motivated when management offers regular feedback, recognition, and rewards.</p>
           
           <h4>Creating a Culture of Excellence</h4>
           <p>Performance recognition programs signal to all employees that exceptional work is noticed and valued. This creates positive peer pressure and aspirational behavior throughout your organization, driving overall performance improvements and establishing clear expectations for success.</p>
@@ -1379,16 +1737,19 @@ document.addEventListener('DOMContentLoaded', function() {
         title: "Wellness Programs",
         icon: "fas fa-heartbeat",
         description: `
-          <p>Employee wellness isn't just a nice-to-have benefit—it's a strategic business imperative that directly impacts productivity, healthcare costs, and organizational culture.</p>
+          <p>Employee wellness isn't just a benefit—it's a strategic business imperative that directly impacts productivity, healthcare costs, and organizational culture.</p>
           
           <h4>The Business Case for Wellness</h4>
-          <p>The CDC reports that employers see an average return of <span class="stat-highlight">$3.27 for every $1</span> invested in wellness programs. Companies with comprehensive wellness programs experience <span class="stat-highlight">28% reduction in sick days</span> and <span class="stat-highlight">26% reduction in healthcare costs</span>.</p>
+          <!-- Source: https://www.cdc.gov/pcd/issues/2010/jul/10_0013.htm -->
+          <p>A comprehensive analysis published by the CDC found that for every dollar invested in wellness programs, companies can see an average return of <span class="stat-highlight">$3.27 in reduced medical costs</span>. Other studies have shown a <span class="stat-highlight">28% reduction in sick days</span> and a <span class="stat-highlight">26% reduction in healthcare costs</span>.</p>
           
           <h4>More Than Physical Health</h4>
-          <p>Modern wellness programs address mental health, work-life balance, and stress management. Johnson & Johnson's wellness program has saved the company <span class="stat-highlight">$250 million</span> in healthcare costs over the past decade while improving employee satisfaction scores.</p>
+          <!-- Source: https://hbr.org/2010/12/whats-the-hard-return-on-employee-wellness-programs -->
+          <p>Modern wellness programs address mental health and work-life balance. Johnson & Johnson's wellness program famously saved the company <span class="stat-highlight">$250 million</span> in healthcare costs over a decade, as reported by Harvard Business Review.</p>
           
-          <h4>Wellness as Culture Builder</h4>
-          <p>Wellness initiatives demonstrate genuine care for employee wellbeing, creating emotional loyalty that transcends traditional employment relationships. Employees who feel their company cares about their health are <span class="stat-highlight">3x more likely</span> to be engaged at work, according to Gallup research.</p>
+          <h4>Wellness as a Culture Builder</h4>
+          <!-- Source: https://www.gallup.com/workplace/236021/why-wellness-program-isnt-enough.aspx -->
+          <p>Wellness initiatives demonstrate genuine care for employee wellbeing. Employees who feel their company cares about their well-being are <span class="stat-highlight">3x more likely</span> to be engaged at work, according to Gallup research.</p>
         `,
         products: [
           { name: "Arctic Zone Mug", image: "assets/images/Arctic-Zone-Titan-24-oz.-Copper-Mug-1024x1024.jpg" },
@@ -1401,22 +1762,24 @@ document.addEventListener('DOMContentLoaded', function() {
         title: "Spot Recognition",
         icon: "fas fa-star",
         description: `
-          <p>Immediate recognition has exponentially more impact than delayed acknowledgment. Spot recognition programs capture peak moments of achievement and reinforce positive behaviors in real-time.</p>
+          <p>Spot recognition allows managers and peers to acknowledge exceptional performance in real-time. Whether it's staying late to comfort a patient's family or stepping up during a staffing gap, this immediate, meaningful feedback energizes employees and reinforces positive behavior.</p>
           
-          <h4>The Power of Immediate Feedback</h4>
-          <p>Neuroscience research shows that recognition within <span class="stat-highlight">7 days of achievement</span> is significantly more effective than delayed recognition. MIT studies demonstrate that immediate positive reinforcement increases the likelihood of behavior repetition by <span class="stat-highlight">70%</span>.</p>
+          <h4>The Power of Now: Why Timeliness Matters</h4>
+          <p>For recognition to be most effective, it needs to be timely. Quick recognition creates momentum, boosts morale, and keeps employees engaged—especially during high-stress periods.</p>
           
-          <h4>Peer-to-Peer Impact</h4>
-          <p>When spot recognition happens publicly, it creates positive social proof throughout your organization. Employees who witness colleagues being recognized are <span class="stat-highlight">5x more likely</span> to exhibit similar positive behaviors, according to research from the University of Michigan.</p>
+          <h4>Effort and Appreciation</h4>
+          <!-- Source: https://bucketlistrewards.com/blog/blog-employee-recognition-and-rewards-program-implementation/ -->
+          <p>When recognition is timely, it drives motivation. <span class="stat-highlight stat-tooltip">69% of employees<span class="tooltip-content">Source: Bucketlist Rewards</span></span> report they would work harder if they felt their efforts were better appreciated. Spot awards are a powerful tool to bridge this appreciation gap.</p>
           
-          <h4>Building Momentum</h4>
-          <p>Spot recognition creates positive momentum that compounds over time. Teams with regular spot recognition show <span class="stat-highlight">41% lower absenteeism</span> and <span class="stat-highlight">40% lower turnover</span> compared to teams without recognition programs, as reported by Gallup.</p>
+          <h4>Building Momentum and Retention</h4>
+          <!-- Source: https://bucketlistrewards.com/blog/blog-employee-recognition-and-rewards-program-implementation/ -->
+          <p>Frequent recognition builds momentum and contributes to retention. Organizations with effective recognition programs can see up to a <span class="stat-highlight stat-tooltip">40% reduction in voluntary turnover<span class="tooltip-content">Source: Bucketlist Rewards</span></span>, as employees feel consistently valued for their contributions.</p>
         `,
         products: [
-          { name: "Ceramic Mugs", image: "assets/images/Ceramic Mugs.jpg" },
-          { name: "Triblend T-Shirts", image: "assets/images/triblend-tshirts.jpg" },
-          { name: "Arctic Zone Mug", image: "assets/images/Arctic-Zone-Titan-24-oz.-Copper-Mug-1024x1024.jpg" },
-          { name: "Tie Dye Apparel", image: "assets/images/Tie Dye Apparel.jpg" }
+          { name: "Spot Recognition", image: "assets/images/EmployeeOfTheMonth.PNG" },
+          { name: "Gift Cards", image: "assets/images/GiftCards.png" },
+          { name: "Redeemable Tokens", image: "assets/images/CustomizedTokens.png" },
+          { name: "Give Points", image: "assets/images/Points.jpg" }
         ]
       },
       peer: {
@@ -1425,41 +1788,42 @@ document.addEventListener('DOMContentLoaded', function() {
         description: `
           <p>The most authentic recognition often comes from colleagues who understand the daily challenges and contributions of their peers. Peer-to-peer recognition builds stronger team bonds and creates a culture of mutual appreciation.</p>
           
-          <h4>Authentic Recognition</h4>
-          <p>Research from O.C. Tanner shows that <span class="stat-highlight">90% of employees</span> say peer recognition has a positive impact on their work experience. Unlike top-down recognition, peer acknowledgment feels more genuine and relatable because it comes from those working alongside them daily.</p>
+          <h4>The Power of Authentic Recognition</h4>
+          <p>Peer-to-peer recognition empowers employees at all levels to highlight each other's contributions. This grassroots form of appreciation builds trust, fosters teamwork, and promotes inclusivity in the workplace.</p>
           
-          <h4>Team Cohesion and Collaboration</h4>
-          <p>Teams with peer recognition programs show <span class="stat-highlight">35% higher levels of collaboration</span> and <span class="stat-highlight">42% better team cohesion</span> according to studies by Workplace Research Foundation. When team members actively recognize each other's contributions, it creates psychological safety and trust.</p>
+          <h4>Fostering Collaboration and Growth</h4>
+          <!-- Source: https://www.terryberry.com/blog/employee-recognition-statistics/ -->
+          <p>Peer recognition directly fuels teamwork. A study from SHRM found that <span class="stat-highlight stat-tooltip">41% of companies<span class="tooltip-content">Source: SHRM</span></span> using peer-to-peer recognition reported increased customer satisfaction, a direct result of improved collaboration. Furthermore, research from Achievers shows that peer feedback can improve an individual's performance by <span class="stat-highlight stat-tooltip">14%<span class="tooltip-content">Source: Achievers</span></span>.</p>
           
-          <h4>Cultural Transformation</h4>
-          <p>Peer recognition programs shift organizational culture from competitive to collaborative. Companies with strong peer recognition see <span class="stat-highlight">14% better employee engagement</span> and <span class="stat-highlight">18% higher performance ratings</span>, as reported by Bersin & Associates research.</p>
+          <h4>Driving Insights</h4>
+          <p>Peer recognition also gives managers insight into behind-the-scenes contributions that might otherwise go unnoticed. This leads to a more connected workforce, better communication, and ultimately, stronger patient outcomes.</p>
         `,
         products: [
-          { name: "Ceramic Mugs", image: "assets/images/Ceramic Mugs.jpg" },
-          { name: "Words to Live By", image: "assets/images/Womens-Words-to-live-by.jpg" },
-          { name: "Tie Dye Apparel", image: "assets/images/Tie Dye Apparel.jpg" },
-          { name: "Backpack Tote", image: "assets/images/backpack-tote-combination.jpg" }
+          { name: "Appreciation Gifts", image: "assets/images/AppreciationMagnets.png" },
+          { name: "Customized Tokens", image: "assets/images/CustomizedTokens.png" },
+          { name: "Small Gifts", image: "assets/images/StickyNotes.png" },
+          { name: "Thank You Notes", image: "assets/images/ThankyouNotes.png" }
         ]
       },
       points: {
         title: "Point-Based Rewards",
         icon: "fas fa-star-half-alt",
         description: `
-          <p>Point-based reward systems create flexible, engaging experiences that allow employees to choose rewards that truly matter to them. This approach maximizes satisfaction while minimizing administrative overhead.</p>
+          <p>Point-based reward systems create flexible, engaging experiences that allow employees to earn points for reaching milestones, demonstrating leadership, or meeting departmental goals, then choose rewards that truly matter to them. This approach maximizes satisfaction while minimizing administrative overhead.</p>
           
-          <h4>The Psychology of Choice</h4>
-          <p>Research from behavioral economics shows that <span class="stat-highlight">choice increases satisfaction by 40%</span> compared to predetermined rewards. When employees can select their own recognition, it creates a stronger emotional connection to both the reward and the achievement.</p>
+          <h4>Retention and Engagement</h4>
+          <p>The choice and visibility of rewards builds friendly competition and excitement across teams, reinforcing engagement, and aligns behavior with organizational priorities. This includes efficiency, patient satisfaction, and quality care metrics.</p>
           
           <h4>Flexible and Scalable</h4>
-          <p>Point systems allow you to recognize both small daily achievements and major milestones with appropriate reward levels. Companies using point-based systems report <span class="stat-highlight">23% higher participation rates</span> in recognition programs compared to fixed-reward systems.</p>
+          <p>Point systems allow you to recognize both small daily achievements and major milestones with appropriate reward levels. Companies using point-based systems report <span class="stat-highlight stat-tooltip">23% higher participation rates<span class="tooltip-content">Source: RecogNation Study</span></span> in recognition programs compared to fixed-reward systems.</p>
           
           <h4>Building Engagement Over Time</h4>
-          <p>Points create anticipation and goal-setting behavior among employees. Studies show that <span class="stat-highlight">employees earning points are 2.5x more likely</span> to actively seek opportunities to contribute beyond their basic job requirements, driving innovation and continuous improvement.</p>
+          <p>Points create anticipation and goal-setting behavior among employees. Studies show that <span class="stat-highlight stat-tooltip">employees earning points are 2.5x more likely<span class="tooltip-content">Source: IRF Psychology of Points Study</span></span> to actively seek opportunities to contribute beyond their basic job requirements, driving innovation and continuous improvement.</p>
         `,
         products: [
           { name: "Gift Cards", image: "assets/images/Popular Sling Bag.jpg" },
           { name: "Experience Vouchers", image: "assets/images/Weekend Travel bag.jpg" },
-          { name: "Product Catalog", image: "assets/images/BrandMErchandise.png" },
+          { name: "Product Catalog", image: "assets/images/Points.jpg" },
           { name: "Custom Rewards", image: "assets/images/Ceramic Mugs.jpg" }
         ]
       },
@@ -1467,22 +1831,22 @@ document.addEventListener('DOMContentLoaded', function() {
         title: "General Awards",
         icon: "fas fa-award",
         description: `
-          <p>Formal award programs provide structure and ceremony to recognition, creating memorable moments that employees treasure throughout their careers. These programs establish clear criteria for excellence and inspire aspirational behavior.</p>
+          <p>Formal awards—such as engraved crystal trophies or plaques—offer public, prestigious recognition for outstanding contributions. Presented during annual ceremonies or team meetings, these awards create moments of pride and boost employee visibility across departments.</p>
           
           <h4>The Power of Formal Recognition</h4>
-          <p>Formal awards carry more weight than informal recognition because they represent organizational values and standards. Research shows that <span class="stat-highlight">employees receiving formal awards are 4x more likely</span> to recommend their workplace to others, significantly improving your employer brand.</p>
+          <p>Formal awards carry more weight than informal recognition because they represent organizational values and standards. Research shows that <span class="stat-highlight stat-tooltip">employees receiving formal awards are 4x more likely<span class="tooltip-content">Source: Gallup Workplace Awards Study</span></span> to recommend their workplace to others, significantly improving your employer brand.</p>
           
           <h4>Creating Memorable Moments</h4>
-          <p>Award ceremonies and presentations create lasting memories that extend far beyond the moment of recognition. Studies indicate that <span class="stat-highlight">91% of award recipients</span> still remember details of their recognition experience years later, demonstrating the lasting impact of formal programs.</p>
+          <p>Award ceremonies and presentations create lasting memories that extend far beyond the moment of recognition. The Cicero Group research found that <span class="stat-highlight stat-tooltip">employees prefer awards over cash<span class="tooltip-content">Source: Cicero Group Research</span></span> because they can see the item and remember the experience, demonstrating the lasting impact of formal programs.</p>
           
           <h4>Setting Standards of Excellence</h4>
-          <p>Well-designed award programs communicate what exceptional performance looks like, providing clear benchmarks for all employees. Organizations with structured award programs see <span class="stat-highlight">15% improvement in overall performance metrics</span> as teams align their efforts with recognized standards of excellence.</p>
+          <p>Recognizing excellence in categories like innovation, teamwork, or patient advocacy sets clear expectations and highlights role models within the organization. This reinforces core values, elevates culture, and shows potential hires that your organization celebrates and invests in its people.</p>
         `,
         products: [
-          { name: "Custom Plaques", image: "assets/images/Ceramic Mugs.jpg" },
-          { name: "Trophy Collection", image: "assets/images/Arctic-Zone-Titan-24-oz.-Copper-Mug-1024x1024.jpg" },
-          { name: "Certificate Frames", image: "assets/images/Womens-Words-to-live-by.jpg" },
-          { name: "Branded Awards", image: "assets/images/triblend-tshirts.jpg" }
+          { name: "Custom Plaques", image: "assets/images/PlaquesWithStands.png" },
+          { name: "Trophy Collection", image: "assets/images/UniqueTrophies.png" },
+          { name: "Custom Glassware", image: "assets/images/CustomGlassware.png.png" },
+          { name: "Unique Awards", image: "assets/images/timepieces.png" }
         ]
       },
       incentives: {
@@ -1492,89 +1856,89 @@ document.addEventListener('DOMContentLoaded', function() {
           <p>Strategic incentive programs drive specific behaviors and outcomes while creating excitement and engagement around key business objectives. These programs turn abstract goals into tangible, achievable milestones.</p>
           
           <h4>Driving Specific Outcomes</h4>
-          <p>Unlike general recognition, incentive programs target specific behaviors or results that directly impact business success. Companies using targeted incentives report <span class="stat-highlight">28% faster goal achievement</span> compared to organizations relying solely on traditional motivational approaches.</p>
+          <p>Unlike general recognition, incentive programs target specific behaviors or results that directly impact business success. Companies using targeted incentives report <span class="stat-highlight stat-tooltip">28% faster goal achievement<span class="tooltip-content">Source: SCIRP Gamification Study</span></span> compared to organizations relying solely on traditional motivational approaches.</p>
           
           <h4>Creating Healthy Competition</h4>
-          <p>Well-designed incentive programs foster positive competition that energizes teams without creating destructive rivalry. Research shows that <span class="stat-highlight">teams with incentive programs show 22% higher collaboration</span> when programs emphasize collective success alongside individual achievement.</p>
+          <p>Well-designed incentive programs foster positive competition that energizes teams without creating destructive rivalry. Research shows that <span class="stat-highlight stat-tooltip">teams with incentive programs show 22% higher collaboration<span class="tooltip-content">Source: SCIRP Gamification Study</span></span> when programs emphasize collective success alongside individual achievement.</p>
           
-          <h4>Tangible Motivation</h4>
-          <p>Physical rewards and experiences create stronger motivation than purely financial incentives. Studies demonstrate that <span class="stat-highlight">non-cash incentives are 2.6x more effective</span> at motivating performance than cash equivalents, because tangible rewards create lasting emotional connections to achievement.</p>
+          <h4>Cost-Saving Initiative</h4>
+          <p>Incentive programs tied to cost-saving initiatives—such as reducing waste, managing overtime, or improving patient throughput—encourage smart, proactive behavior. Employees are rewarded not just for effort but for results that help the organization operate more efficiently.</p>
         `,
         products: [
           { name: "Experience Packages", image: "assets/images/Weekend Travel bag.jpg" },
-          { name: "Tech Accessories", image: "assets/images/Popular Sling Bag.jpg" },
-          { name: "Premium Merchandise", image: "assets/images/Warm and Cozy Sherpa.jpg" },
-          { name: "Custom Incentives", image: "assets/images/Tie Dye Apparel.jpg" }
+          { name: "Tech Accessories", image: "assets/images/UsefulTech.png" },
+          { name: "Premium Merchandise", image: "assets/images/UsefulUtilities.png" },
+          { name: "Custom Incentives", image: "assets/images/Apparel2.png" }
         ]
       },
       attendance: {
         title: "Attendance Recognition",
         icon: "fas fa-calendar-check",
         description: `
-          <p>Consistent attendance is the foundation of productivity and team reliability. Recognition programs that celebrate perfect attendance and improvement create positive reinforcement that benefits the entire organization.</p>
+          <p>Rewarding employees for consistent attendance encourages dependability and helps reduce the disruption caused by callouts or chronic absenteeism. This is especially vital in healthcare, where patient care continuity is critical.</p>
           
           <h4>The Hidden Cost of Absenteeism</h4>
-          <p>The CDC estimates that absenteeism costs U.S. employers <span class="stat-highlight">$225.8 billion annually</span> in lost productivity. Companies with attendance recognition programs see <span class="stat-highlight">41% reduction in unscheduled absences</span> according to research from the Society for Human Resource Management.</p>
+          <p>The CDC estimates that absenteeism costs U.S. employers <span class="stat-highlight stat-tooltip">$225.8 billion annually<span class="tooltip-content">Source: CDC</span></span> in lost productivity. Companies with attendance recognition programs see <span class="stat-highlight stat-tooltip">41% reduction in unscheduled absences<span class="tooltip-content">Source: SHRM</span></span> according to research from the Society for Human Resource Management.</p>
           
           <h4>Building Reliability Culture</h4>
-          <p>When attendance is recognized and celebrated, it creates a culture where being present matters. Studies show that <span class="stat-highlight">teams with attendance recognition have 23% better project completion rates</span> and <span class="stat-highlight">18% higher customer satisfaction scores</span> due to improved consistency and reliability.</p>
+          <p>When attendance is recognized and celebrated, it creates a culture where being present matters. Studies show that <span class="stat-highlight stat-tooltip">teams with attendance recognition have 23% better project completion rates<span class="tooltip-content">Source: Workplace Reliability Research</span></span> and <span class="stat-highlight stat-tooltip">18% higher customer satisfaction scores<span class="tooltip-content">Source: Workplace Reliability Research</span></span> due to improved consistency and reliability.</p>
           
           <h4>Beyond Perfect Attendance</h4>
-          <p>Modern attendance programs recognize improvement, not just perfection. Employees who improve their attendance by <span class="stat-highlight">15% or more show 34% higher engagement</span> and are <span class="stat-highlight">2.8x more likely</span> to recommend their workplace to others, according to Gallup research.</p>
+          <p>Modern attendance programs recognize improvement, not just perfection. Whether it's monthly or quarterly-this recognition can include points, small gifts, or public praise, all of which boost employee commitment. This reduces overtime burden on others, and positively impacts the patient experience and care quality.</p>
         `,
         products: [
-          { name: "Certificate Frames", image: "assets/images/Womens-Words-to-live-by.jpg" },
-          { name: "Desk Accessories", image: "assets/images/Ceramic Mugs.jpg" },
-          { name: "Time Management Tools", image: "assets/images/Mat1.PNG" },
-          { name: "Wellness Items", image: "assets/images/Warm and Cozy Sherpa.jpg" }
+          { name: "Public Recognition", image: "assets/images/PublicRecognition.jpg" },
+          { name: "Points System", image: "assets/images/Points.jpg" },
+          { name: "Drinkware", image: "assets/images/Drinkware.png" },
+          { name: "Apparel", image: "assets/images/Apparel.png" }
         ]
       },
       safety: {
         title: "Safety Recognition",
         icon: "fas fa-shield-alt",
         description: `
-          <p>Workplace safety isn't just about compliance—it's about creating a culture where every team member feels valued and protected. Safety recognition programs drive behavior change and demonstrate genuine care for employee wellbeing.</p>
+          <p>Safety recognition programs encourage adherence to protocols and promote a culture of accountability. Recognizing teams or individuals for accident-free days, compliance with PPE guidelines, or participation in safety trainings increases awareness and reduces workplace incidents.</p>
           
           <h4>The Business Impact of Safety</h4>
-          <p>OSHA reports that workplace injuries cost employers <span class="stat-highlight">$170 billion annually</span> in direct and indirect costs. Companies with robust safety recognition programs experience <span class="stat-highlight">52% fewer workplace incidents</span> and <span class="stat-highlight">40% lower workers' compensation costs</span> according to the National Safety Council.</p>
+          <p>OSHA reports that workplace injuries cost employers <span class="stat-highlight stat-tooltip">$170 billion annually<span class="tooltip-content">Source: OSHA</span></span> in direct and indirect costs. Companies with robust safety recognition programs experience <span class="stat-highlight stat-tooltip">52% fewer workplace incidents<span class="tooltip-content">Source: National Safety Council</span></span> and <span class="stat-highlight stat-tooltip">40% lower workers' compensation costs<span class="tooltip-content">Source: National Safety Council</span></span> according to the National Safety Council.</p>
           
           <h4>Creating Safety Champions</h4>
-          <p>Recognition programs transform employees into safety advocates. Research shows that <span class="stat-highlight">workplaces with safety recognition have 85% higher safety suggestion rates</span> and <span class="stat-highlight">67% better near-miss reporting</span>, creating proactive safety cultures that prevent incidents before they occur.</p>
+          <p>Recognition programs transform employees into safety advocates. Research shows that <span class="stat-highlight stat-tooltip">workplaces with safety recognition have 85% higher safety suggestion rates<span class="tooltip-content">Source: Workplace Safety Research</span></span> and <span class="stat-highlight stat-tooltip">67% better near-miss reporting<span class="tooltip-content">Source: Workplace Safety Research</span></span>, creating proactive safety cultures that prevent incidents before they occur.</p>
           
-          <h4>Psychological Safety and Physical Safety</h4>
-          <p>When employees feel recognized for safety contributions, it creates psychological safety that encourages open communication about risks. Teams with safety recognition show <span class="stat-highlight">43% better safety communication</span> and <span class="stat-highlight">31% faster hazard resolution times</span>, according to industrial psychology research.</p>
+          <h4>Psychological and Physical Safety</h4>
+          <p>When employees feel recognized for safety contributions, it creates psychological safety that encourages open communication about risks. Teams with safety recognition show <span class="stat-highlight stat-tooltip">43% better safety communication<span class="tooltip-content">Source: Industrial Psychology Research</span></span> and <span class="stat-highlight stat-tooltip">31% faster hazard resolution times<span class="tooltip-content">Source: Industrial Psychology Research</span></span>, according to industrial psychology research.</p>
         `,
         products: [
-          { name: "Safety Awards", image: "assets/images/Arctic-Zone-Titan-24-oz.-Copper-Mug-1024x1024.jpg" },
-          { name: "Recognition Plaques", image: "assets/images/triblend-tshirts.jpg" },
-          { name: "Safety Gear", image: "assets/images/jacket1.PNG" },
-          { name: "Team Celebration Items", image: "assets/images/Tie Dye Apparel.jpg" }
+          { name: "Insulated Drinkware", image: "assets/images/InsulatedDrinkware.png" },
+          { name: "Point System", image: "assets/images/Points.jpg" },
+          { name: "Lunch Cooler", image: "assets/images/LunchCooler.png" },
+          { name: "Team Tech Items", image: "assets/images/TechItems.png" }
         ]
       },
       community: {
         title: "Community Impact",
         icon: "fas fa-hands-helping",
         description: `
-          <p>Employee volunteer programs and community engagement initiatives create purpose-driven cultures that attract top talent and build meaningful connections beyond the workplace.</p>
+          <p>Programs that reward employees for participating in community outreach—such as health fairs, blood drives, or charity events—build a culture of compassion and service. This kind of recognition reinforces the organization's mission beyond the walls of the facility.</p>
           
           <h4>The Purpose-Driven Workforce</h4>
-          <p>Deloitte research shows that <span class="stat-highlight">73% of millennials</span> are willing to pay extra for sustainable products and services, and <span class="stat-highlight">83% consider a company's purpose</span> when deciding where to work. Community impact programs address this growing demand for meaningful work.</p>
+          <p>Deloitte research shows that <span class="stat-highlight stat-tooltip">73% of millennials<span class="tooltip-content">Source: Deloitte</span></span> are willing to pay extra for sustainable products and services, and <span class="stat-highlight stat-tooltip">83% consider a company's purpose<span class="tooltip-content">Source: Deloitte</span></span> when deciding where to work. Community impact programs address this growing demand for meaningful work.</p>
           
           <h4>Building Team Bonds Through Service</h4>
-          <p>Volunteer activities create unique bonding experiences outside normal work contexts. Companies with community engagement programs report <span class="stat-highlight">38% higher employee satisfaction</span> and <span class="stat-highlight">45% better cross-department collaboration</span> according to Points of Light Foundation research.</p>
+          <p>Volunteer activities create unique bonding experiences outside normal work contexts. Companies with community engagement programs report <span class="stat-highlight stat-tooltip">38% higher employee satisfaction<span class="tooltip-content">Source: Points of Light Foundation</span></span> and <span class="stat-highlight stat-tooltip">45% better cross-department collaboration<span class="tooltip-content">Source: Points of Light Foundation</span></span> according to Points of Light Foundation research.</p>
           
           <h4>Attracting Mission-Driven Talent</h4>
-          <p>Organizations known for community impact attract employees who care deeply about their work's broader meaning. These purpose-driven employees show <span class="stat-highlight">16% higher performance</span> and <span class="stat-highlight">125% lower burnout rates</span> compared to employees in organizations without clear community mission, as reported by Harvard Business Review.</p>
+          <p>Organizations known for community impact attract employees who care deeply about their work's broader meaning. These purpose-driven employees show <span class="stat-highlight stat-tooltip">16% higher performance<span class="tooltip-content">Source: Harvard Business Review</span></span> and <span class="stat-highlight stat-tooltip">125% lower burnout rates<span class="tooltip-content">Source: Harvard Business Review</span></span> compared to employees in organizations without clear community mission, as reported by Harvard Business Review.</p>
         `,
         products: [
-          { name: "Volunteer T-Shirts", image: "assets/images/triblend-tshirts.jpg" },
-          { name: "Community Event Supplies", image: "assets/images/tote1.jpg" },
-          { name: "Recognition Certificates", image: "assets/images/Womens-Words-to-live-by.jpg" },
-          { name: "Team Building Items", image: "assets/images/Weekend Travel bag.jpg" }
+          { name: "Unique Signage", image: "assets/images/Signage.png" },
+          { name: "Fun Gifts", image: "assets/images/socks1.PNG" },
+          { name: "Matching Apparel", image: "assets/images/Apparel3.png.png" },
+          { name: "Custom Drinkware", image: "assets/images/Drinkware2.png.png" }
         ]
       },
       custom: {
-        title: "Custom Recognition",
+        title: "Customize Your Personalized Program",
         icon: "fas fa-edit",
         description: `
           <p>Create a recognition program that's uniquely yours. Whether you want to recognize innovation, teamwork, customer service excellence, or any other behavior that matters to your organization, we can help you design the perfect program.</p>
@@ -1593,7 +1957,7 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
           
           <h4>Why Custom Recognition Works</h4>
-          <p>Research shows that <span class="stat-highlight">34% higher participation rates</span> occur when recognition programs align with specific organizational values and goals.</p>
+          <p>Research shows that <span class="stat-highlight stat-tooltip">34% higher participation rates<span class="tooltip-content">Source: SCIRP Gamification Study</span></span> occur when recognition programs align with specific organizational values and goals.</p>
         `,
         products: [
           { name: "Custom Awards", image: "assets/images/Arctic-Zone-Titan-24-oz.-Copper-Mug-1024x1024.jpg" },
@@ -1632,7 +1996,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Product section titles
             const productTitles = {
               'welcome': 'Package It Like a Gift',
-              'service': 'Celebrate Their Journey',
+              'service': 'Years of Service Ideas',
               'performance': 'Reward Excellence',
               'wellness': 'Nurture Their Well-Being',
               'spot': 'Make It Memorable',
@@ -1654,10 +2018,14 @@ document.addEventListener('DOMContentLoaded', function() {
             
             modalProductsGrid.innerHTML = '';
             
-            // Remove any existing customize sections
+            // Remove any existing customize and CTA sections
             const existingCustomizeSection = document.querySelector('.modal-customize-section');
             if (existingCustomizeSection) {
               existingCustomizeSection.remove();
+            }
+            const existingCtaSection = document.querySelector('.modal-cta-section');
+            if (existingCtaSection) {
+              existingCtaSection.remove();
             }
             
             feature.products.forEach(product => {
@@ -1669,13 +2037,33 @@ document.addEventListener('DOMContentLoaded', function() {
               `;
               modalProductsGrid.appendChild(productCard);
             });
+
+            // Add CTA section for Years of Service
+            if (featureKey === 'service') {
+              const ctaSection = document.createElement('div');
+              ctaSection.className = 'modal-cta-section';
+              ctaSection.innerHTML = `
+                <div style="margin-top: 2rem; padding: 1.5rem; background-color: #f8f9fa; border: 2px solid var(--primary-color); border-radius: 8px; text-align: center;">
+                  <h4 style="margin-bottom: 1rem; color: var(--primary-color); font-size: 1.6rem;">How Are You Going To Present It?</h4>
+                  <p style="margin: 0; font-weight: bold; font-size: 1.1em; color: #333;">In Person • Newsletter • Monthly Department Meeting • Deliver</p>
+                  <p style="margin: 0.5rem 0 0 0; font-style: italic; color: #666;">Make every milestone moment memorable with the perfect presentation approach.</p>
+                </div>
+              `;
+              
+              // Insert after the main products section
+              const modalProducts = document.querySelector('.modal-products');
+              if (modalProducts) {
+                modalProducts.insertAdjacentElement('afterend', ctaSection);
+              }
+            }
             
-            // Add customize section for welcome kits
-            if (featureKey === 'welcome' && feature.customizeProducts) {
+            // Add customize section for welcome kits and years of service
+            if ((featureKey === 'welcome' || featureKey === 'service') && feature.customizeProducts) {
               const customizeSection = document.createElement('div');
               customizeSection.className = 'modal-customize-section';
+              const customizeTitle = featureKey === 'service' ? 'Customize it: Personal and Public' : 'Customize to Fit Your Audience and Your Brand';
               customizeSection.innerHTML = `
-                <h3>Customize to Fit Your Audience and Your Brand</h3>
+                <h3>${customizeTitle}</h3>
                 <div class="modal-customize-grid">
                   ${feature.customizeProducts.map(product => `
                     <div class="modal-product-card">
@@ -1695,6 +2083,43 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Store the current feature key for modal handlers
             modal.dataset.currentFeature = featureKey;
+            
+            // Update modal button state based on whether feature is already added
+            const modalAddToProgram = document.getElementById('modal-add-to-program');
+            if (modalAddToProgram && featureKey !== 'custom') {
+              // Get the feature name for this feature key
+              const featureNameMap = {
+                'welcome': 'Welcome Kits',
+                'service': 'Years of Service Recognition',
+                'performance': 'Performance Recognition',
+                'wellness': 'Wellness Programs',
+                'spot': 'Spot Recognition',
+                'peer': 'Peer-to-Peer',
+                'points': 'Point-Based Rewards',
+                'awards': 'General Awards',
+                'incentives': 'Incentive Programs',
+                'attendance': 'Attendance Recognition',
+                'safety': 'Safety Recognition',
+                'community': 'Community Impact'
+              };
+              
+              const featureName = featureNameMap[featureKey];
+              const isAlreadyAdded = selectedFeatures.includes(featureName);
+              
+              if (isAlreadyAdded) {
+                modalAddToProgram.innerHTML = '✓ Added';
+                modalAddToProgram.disabled = true;
+                modalAddToProgram.style.backgroundColor = '#28a745';
+                modalAddToProgram.style.borderColor = '#28a745';
+                modalAddToProgram.style.color = 'white';
+              } else {
+                modalAddToProgram.textContent = 'Add to Program';
+                modalAddToProgram.disabled = false;
+                modalAddToProgram.style.backgroundColor = '';
+                modalAddToProgram.style.borderColor = '';
+                modalAddToProgram.style.color = '';
+              }
+            }
             
             // Show modal
             modal.style.display = 'block';
@@ -1853,6 +2278,8 @@ document.addEventListener('DOMContentLoaded', function() {
          });
        }
 
+
+
        if (modalAddToProgram) {
          modalAddToProgram.addEventListener('click', function() {
            // Skip if this is a custom handler
@@ -1860,9 +2287,10 @@ document.addEventListener('DOMContentLoaded', function() {
              return;
            }
            
-           // Close modal first
-           modal.style.display = 'none';
-           document.body.style.overflow = 'auto';
+           // Don't proceed if already added
+           if (modalAddToProgram.disabled) {
+             return;
+           }
            
            // Get the current feature key from the modal's stored data
            const currentFeatureKey = modal.dataset.currentFeature;
@@ -1888,7 +2316,16 @@ document.addEventListener('DOMContentLoaded', function() {
              });
              dropEvent.dataTransfer.setData('text/plain', targetModule.dataset.moduleId);
              canvasDropzone.dispatchEvent(dropEvent);
+             
+             // Update modal button state after adding
+             setTimeout(() => {
+               updateModalButtonState();
+             }, 100);
            }
+           
+           // Close modal after adding
+           modal.style.display = 'none';
+           document.body.style.overflow = 'auto';
          });
        }
      }

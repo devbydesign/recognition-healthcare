@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { URL } = require('url'); // Import URL module for decoding
 
-const port = 3000;
+const port = 3001;
 
 // MIME types for different file extensions
 const mimeTypes = {
@@ -14,7 +14,8 @@ const mimeTypes = {
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
   '.gif': 'image/gif',
-  '.svg': 'image/svg+xml'
+  '.svg': 'image/svg+xml',
+  '.ico': 'image/x-icon'
 };
 
 // Create a simple HTTP server

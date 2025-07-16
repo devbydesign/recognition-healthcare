@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StayVisible Promotions - Build Your Program</title>
-  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <title>PromoMonster - Build Your Program</title>
+  <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=7">
   <link rel="stylesheet" href="navigation.css">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="script.js" defer></script>
@@ -221,8 +221,8 @@
 
     #generate-plan-btn:hover {
         background-color: var(--light-color) !important;
-        color: #3b0ba7 !important;
-        border-color: #3b0ba7 !important;
+        color: var(--secondary-color) !important;
+        border-color: var(--secondary-color) !important;
         text-decoration: none !important;
         transform: translateY(-3px) !important;
         box-shadow: 0 6px 12px rgba(0,0,0,0.15) !important;
@@ -274,6 +274,7 @@
       overflow-y: auto;
       box-shadow: 0 20px 60px rgba(58, 12, 163, 0.3);
       animation: modalSlideIn 0.4s ease-out;
+      position: relative; /* Ensures close button positions relative to this container */
     }
     
     @keyframes modalSlideIn {
@@ -287,28 +288,52 @@
       }
     }
     
+    /* Improved modal close button styles for feature popups */
     .feature-modal-close {
-      position: absolute;
-      right: 20px;
-      top: 20px;
-      font-size: 28px;
-      font-weight: bold;
-      color: #666;
-      cursor: pointer;
-      z-index: 10;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      transition: all 0.3s ease;
+      position: absolute !important;
+      right: 20px !important;
+      top: 20px !important; /* Back to original position */
+      font-size: 36px !important; /* 30% larger than 28px */
+      font-weight: 900 !important; /* Much thicker */
+      color: #666 !important;
+      cursor: pointer !important;
+      z-index: 2001 !important; /* Higher than modal z-index */
+      width: 52px !important; /* 30% larger than 40px */
+      height: 52px !important; /* 30% larger than 40px */
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      border-radius: 50% !important;
+      transition: all 0.3s ease !important;
+      background-color: rgba(255, 255, 255, 0.9) !important;
+      border: 2px solid transparent !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+      line-height: 0 !important; /* Remove line height completely */
+      text-align: center !important; /* Ensure text is horizontally centered */
+      padding-top: 4px !important; /* Push the × symbol down within the circle */
     }
-    
+
     .feature-modal-close:hover {
-      background-color: #f0f0f0;
-      color: var(--primary-color);
-      transform: scale(1.1);
+      background-color: #f0f0f0 !important;
+      color: var(--primary-color) !important;
+      transform: scale(1.1) !important;
+      border-color: var(--primary-color) !important;
+      box-shadow: 0 4px 12px rgba(58, 12, 163, 0.2) !important;
+    }
+
+    /* Override any conflicting styles from individual pages */
+    #feature-modal .feature-modal-close,
+    .feature-modal .feature-modal-close {
+      position: absolute !important;
+      right: 20px !important;
+      top: 20px !important; /* Back to original position */
+      font-size: 36px !important;
+      font-weight: 900 !important;
+      width: 52px !important;
+      height: 52px !important;
+      z-index: 2001 !important;
+      padding-bottom: 11px !important; /* Push the × symbol down within the circle */
+      line-height: 0 !important;
     }
     
     .feature-modal-header {
@@ -441,7 +466,7 @@
       color: #444;
       margin-bottom: 1.5rem;
       text-align: center;
-      font-size: 1.4rem;
+      font-size: 1.65rem;
     }
     
     .modal-products-grid {
@@ -491,7 +516,7 @@
       color: #444;
       margin-bottom: 1.5rem;
       text-align: center;
-      font-size: 1.4rem;
+      font-size: 1.65rem;
     }
     
     .modal-customize-grid {
@@ -710,6 +735,189 @@
         width: 100%;
       }
     }
+
+    /* Make title text black */
+    .hero h1 {
+      color: #000000 !important;
+    }
+
+    /* Make "Choose Your Elements" heading black */
+    .module-palette h3 {
+      color: #000000 !important;
+    }
+
+    /* Make each drag and drop feature title black */
+    .module-title {
+      color: #000000 !important;
+    }
+
+
+
+    /* Fix button hover colors that use old purple/blue */
+    #generate-plan-btn:hover {
+      background-color: var(--light-color) !important;
+      color: var(--secondary-color) !important;
+      border-color: var(--secondary-color) !important;
+    }
+
+    /* Fix form input focus colors */
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary-color) !important;
+      box-shadow: 0 0 0 3px rgba(94, 186, 15, 0.1) !important;
+    }
+
+    /* Fix captcha input focus */
+    input[type="number"]:focus {
+      border-color: var(--primary-color) !important;
+      box-shadow: 0 0 0 3px rgba(94, 186, 15, 0.1) !important;
+    }
+
+    /* Fix any remaining purple button references */
+    .modal-actions .add-to-program-btn:hover {
+      background-color: var(--secondary-color) !important;
+      border-color: var(--secondary-color) !important;
+    }
+
+    .contact-item:hover {
+      background: var(--primary-color) !important;
+      color: white !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(94, 186, 15, 0.2) !important;
+    }
+
+    .contact-item i {
+      color: var(--primary-color) !important;
+    }
+
+    /* Update consultation note colors */
+    .consultation-icon {
+      color: var(--primary-color) !important;
+      background: rgba(94, 186, 15, 0.08) !important;
+    }
+
+    .consultation-note strong {
+      color: var(--primary-color) !important;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      background-clip: text !important;
+    }
+
+    /* Fix summary section colors */
+    .summary-left h3 {
+      color: var(--primary-color) !important;
+    }
+
+    .get-started-faster h3 {
+      color: var(--primary-color) !important;
+    }
+
+    /* Inspirational Quote Container */
+    .inspirational-quote-container {
+      margin: 1.5rem auto;
+      max-width: 600px;
+      padding: 0 1rem;
+    }
+
+    .quote-content {
+      background: linear-gradient(135deg, rgba(94, 186, 15, 0.05), rgba(94, 186, 15, 0.1));
+      border: 1px solid rgba(94, 186, 15, 0.2);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 2px 10px rgba(94, 186, 15, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: fit-content;
+    }
+
+    .quote-icon {
+      color: var(--primary-color);
+      font-size: 1.2rem;
+      opacity: 0.7;
+      flex-shrink: 0;
+      align-self: flex-start;
+      margin: 0;
+    }
+
+    .quote-text {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #333;
+      margin: 0 !important;
+      line-height: 1.2;
+      font-style: italic;
+      flex: 1;
+      padding: 0 !important;
+      display: inline;
+      vertical-align: middle;
+    }
+
+    @media (max-width: 768px) {
+      .inspirational-quote-container {
+        margin: 1rem auto;
+        padding: 0 0.5rem;
+      }
+      
+      .quote-content {
+        padding: 0.75rem 1rem;
+        gap: 0.3rem;
+        min-height: fit-content;
+      }
+      
+      .quote-text {
+        font-size: 1rem;
+        padding: 0 !important;
+        margin: 0 !important;
+        line-height: 1.2;
+        display: inline;
+        vertical-align: middle;
+      }
+      
+      .quote-icon {
+        font-size: 1rem;
+        margin: 0;
+      }
+    }
+
+    /* Browse Incentives Button Styling */
+    .browse-incentives-btn {
+        display: inline-block;
+        background-color: #5eba0f;
+        color: white;
+        border: 2px solid #5eba0f;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-top: 0.75rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .browse-incentives-btn:hover {
+        background-color: black;
+        border-color: black;
+        color: white;
+        text-decoration: none;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    /* Hide Browse Incentives buttons in form output - can be easily shown again by commenting out this rule */
+    .browse-incentives-btn {
+        display: none !important;
+    }
+
+    .form-feature-item {
+        position: relative;
+        padding-bottom: 3rem;
+    }
   </style>
   <!-- Load centralized navigation BEFORE your main script -->
   <script src="navigation.js"></script>
@@ -736,8 +944,7 @@
         <!-- Module Palette (Left Sidebar) -->
         <div id="module-palette" class="module-palette">
           <h3>
-            Choose Your Elements
-            <a href="resources.html#detailed-features" class="see-more-link">See more detailed benefits of each feature</a>
+            Design Your Program
           </h3>
           <div class="modules-grid">
             <div class="program-module" draggable="true" data-module-id="welcome" data-tooltip="Onboard new hires with essential gear and a warm welcome.">
@@ -751,7 +958,7 @@
             <div class="program-module" draggable="true" data-module-id="anniversary" data-tooltip="Celebrate milestones with tiered awards based on years of service.">
               <div class="module-title">
                 <i class="fas fa-calendar-alt"></i>
-                Years of Service
+                Years of Service Recognition
               </div>
               <p class="module-summary">Honor loyalty and celebrate career milestones.</p>
               <button class="see-details-btn" data-feature="service">View Ideas</button>
@@ -759,7 +966,7 @@
             <div class="program-module" draggable="true" data-module-id="performance" data-tooltip="Reward top performers for exceeding goals and targets.">
               <div class="module-title">
                 <i class="fas fa-trophy"></i>
-                Performance Bonuses
+                Performance Recognition
               </div>
               <p class="module-summary">Recognize and reward outstanding achievements.</p>
               <button class="see-details-btn" data-feature="performance">View Ideas</button>
@@ -807,7 +1014,7 @@
             <div class="program-module" draggable="true" data-module-id="incentives" data-tooltip="Motivate specific behaviors with tangible rewards (merch, gift cards, experiences).">
               <div class="module-title">
                 <i class="fas fa-concierge-bell"></i>
-                Incentives
+                Incentive Programs
               </div>
               <p class="module-summary">Drive desired behaviors with meaningful rewards.</p>
               <button class="see-details-btn" data-feature="incentives">View Ideas</button>
@@ -871,17 +1078,34 @@
         <button id="save-program-btn" class="btn">Save & Continue</button>
         <button id="start-over-btn" class="btn btn-outline">Start Over</button>
       </div>
+      
+      <!-- Inspirational Quote -->
+      <div class="inspirational-quote-container">
+        <div class="quote-content">
+          <i class="fas fa-quote-left quote-icon"></i>
+          <p class="quote-text">The hardest part of anything is the first step—with us it's the easiest.</p>
+          <i class="fas fa-quote-right quote-icon"></i>
+        </div>
+      </div>
     </section>
 
     <!-- Contact & Delivery Details Section -->
     <section id="contact-delivery-section" class="contact-delivery-section" style="display: none;">
       <div class="form-container">
-        <h2>Submit and Save Your Plan.</h2>
+                        <h2 style="color: black;">Submit and Save Your Plan.</h2>
         <form id="plan-details-form">
           <div class="form-grid">
               <div class="form-group">
                 <label for="first-name">First Name*</label>
                 <input type="text" id="first-name" name="firstName" required>
+              </div>
+              <div class="form-group">
+                <label for="last-name">Last Name*</label>
+                <input type="text" id="last-name" name="lastName" required>
+              </div>
+              <div class="form-group">
+                <label for="company-name">Company Name*</label>
+                <input type="text" id="company-name" name="companyName" required>
               </div>
               <div class="form-group">
                 <label for="email">Email*</label>
@@ -893,9 +1117,9 @@
                 <small>Optional: Only if you'd like a quick call.</small>
               </div>
                <!-- Simple Math Captcha -->
-              <div class="form-group captcha-group">
+              <div class="form-group">
                   <label for="captcha">Security Check* <span id="captcha-question"></span> = ?</label>
-                  <input type="number" id="captcha" name="captcha" required>
+                  <input type="number" id="captcha" name="captcha" required onwheel="return false;" onkeydown="if(event.key==='ArrowUp'||event.key==='ArrowDown') return false;">
                   <input type="hidden" id="captcha-num1">
                   <input type="hidden" id="captcha-num2">
               </div>
@@ -907,9 +1131,7 @@
             <div id="form-features-list" class="form-features-list">
               <!-- Features will be populated by JavaScript -->
             </div>
-            <div class="inspirational-text">
-              The hardest part of anything is the first step—with us it's the easiest.
-            </div>
+
           </div>
           
           <!-- Consultation Note -->
@@ -931,7 +1153,7 @@
             <div id="plan-summary-content" class="plan-summary-content">
                 <!-- Content generated by JS -->
                 <div class="summary-header">
-                    <img src="assets/images/StayVisibleLogo.png" alt="StayVisible Logo" class="summary-logo">
+                    <img src="assets/images/PromoMonsterLogo.png" alt="PromoMonster Logo" class="summary-logo">
                     <h2>Your Customized Selection</h2>
                 </div>
                 <div id="whats-next" class="whats-next">
@@ -958,11 +1180,11 @@
                             <div class="contact-info">
                                 <div class="contact-item">
                                     <i class="fas fa-phone"></i>
-                                    <span>(888) 746-2111</span>
+                                    <span>(847) 877-2240</span>
                                 </div>
                                 <div class="contact-item">
                                     <i class="fas fa-envelope"></i>
-                                    <span>theresa@stayvisible.com</span>
+                                    <span>chuck.feldman@promo-monster.com</span>
                                 </div>
                             </div>
                         </div>
@@ -1009,7 +1231,7 @@
         </div>
         <div class="modal-actions">
           <button id="modal-add-to-program" class="btn add-to-program-btn">Add to Program</button>
-          <button id="modal-chat" class="btn btn-outline">Chat with Us</button>
+          <button id="modal-chat" class="btn btn-outline">Talk with us!</button>
         </div>
       </div>
     </div>
@@ -1018,8 +1240,8 @@
   <footer>
     <div class="container footer-grid">
       <div class="footer-section footer-company">
-        <h3>StayVisible</h3>
-        <p>P.O. Box 8234<br>New Fairfield, CT 06812<br>(888) 746-2111</p>
+        <h3>PromoMonster</h3>
+        <p>1563 Barclay Blvd<br>Buffalo Grove, Illinois 60089<br>(847) 877-2240</p>
       </div>
       <div class="footer-section footer-links">
         <h3>Quick Links</h3>
@@ -1033,23 +1255,23 @@
       <div class="footer-section footer-social">
         <h3>Follow Us</h3>
         <div class="social-icons">
-          <a href="https://www.facebook.com/stayvisiblellc" target="_blank" aria-label="Facebook">
+          <a href="https://www.facebook.com/promomonsterinc" target="_blank" aria-label="Facebook">
             <i class="fab fa-facebook-f"></i>
           </a>
-          <a href="https://x.com/StayVizLLC" target="_blank" aria-label="X (Twitter)">
+          <a href="https://x.com/promomonsterinc" target="_blank" aria-label="X (Twitter)">
             <i class="fab fa-x-twitter"></i>
           </a>
-          <a href="https://www.instagram.com/stayvisible2018/" target="_blank" aria-label="Instagram">
+          <a href="https://www.instagram.com/promomonsterinc/" target="_blank" aria-label="Instagram">
             <i class="fab fa-instagram"></i>
           </a>
-          <a href="https://www.linkedin.com/company/stay-visible-llc/" target="_blank" aria-label="LinkedIn">
+          <a href="https://www.linkedin.com/company/promomonster-inc-/" target="_blank" aria-label="LinkedIn">
             <i class="fab fa-linkedin-in"></i>
           </a>
         </div>
       </div>
     </div>
     <div class="container copyright">
-      <p>&copy; <span id="current-year"></span> StayVisible Promotions. All rights reserved. | Website by YourName/Company</p>
+      <p>&copy; <span id="current-year"></span> PromoMonster. All rights reserved.</p>
     </div>
   </footer>
 
@@ -1060,7 +1282,7 @@
       <img id="modal-img" src="" alt="Product Image">
       <h2 id="modal-title"></h2>
       <p id="modal-desc"></p>
-      <a href="contact.html?product=PRODUCT_TITLE" class="btn modal-quote-btn">Request Quote</a>
+      <a href="https://www.promo-monster.com/" target="_blank" class="btn modal-quote-btn">Browse Ideas</a>
     </div>
   </div>
 

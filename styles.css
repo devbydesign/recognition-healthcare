@@ -1,13 +1,14 @@
 :root {
-  --primary-color: #3a0ca3; /* Vibrant Purple */
-  --secondary-color: #4cc9f0; /* Bright Cyan */
+  --primary-color: #5eba0f; /* PromoMonster Green */
+  --secondary-color: #000000; /* Black */
   --accent-color: #f7b801; /* Energetic Yellow */
-  --brand-orange: #df7241; /* Brand Orange */
-  --dark-color: #333333; /* Dark Grey for text */
+  --brand-green: #5eba0f; /* Brand Green */
+  --brand-orange: #5eba0f; /* Alias for primary color to fix existing references */
+  --dark-color: #000000; /* Black for text */
   --light-color: #ffffff; /* White background */
   --medium-color: #f0f2f5; /* Light grey for backgrounds/borders */
   --text-muted: #666666; /* Muted text color */
-  --success-color: #48c774; /* Green for checkmarks etc. */
+  --success-color: #5eba0f; /* PromoMonster Green for checkmarks etc. */
   --border-radius: 6px;
   --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   --font-secondary: 'Georgia', serif; /* For select headings or accents */
@@ -92,13 +93,13 @@ ul, ol {
 header {
   background-color: var(--light-color);
   padding: 1rem 0;
-  color: #3B118E;
+  color: var(--secondary-color);
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 1500;
   margin-bottom: 0;
-  border-bottom: 1px solid rgba(59, 17, 142, 0.1);
+  border-bottom: 1px solid rgba(94, 186, 15, 0.1);
 }
 
 header .container {
@@ -115,7 +116,7 @@ header .container {
 }
 
 .logo img {
-  height: 50px;
+  height: 65px;
   width: auto;
   display: block;
 }
@@ -123,7 +124,7 @@ header .container {
 /* Adjust logo size for mobile */
 @media (max-width: 768px) {
   .logo img {
-    height: 40px;
+    height: 50px;
   }
 }
 
@@ -134,7 +135,7 @@ header .container {
 nav {
   display: flex;
   align-items: center;
-  background: linear-gradient(to right, rgba(59, 17, 142, 0.02), rgba(59, 17, 142, 0.05));
+  background: linear-gradient(to right, rgba(94, 186, 15, 0.02), rgba(94, 186, 15, 0.05));
   padding: 0.5rem 2rem; /* Increased horizontal padding */
   border-radius: 8px;
   margin: 0 -1rem; /* Negative margin to extend background */
@@ -151,7 +152,7 @@ nav ul {
 }
 
 nav ul li a {
-  color: #3B118E;
+  color: var(--secondary-color);
   text-decoration: none;
   transition: all var(--transition-speed);
   padding: 0.75rem 1rem;
@@ -162,12 +163,12 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-  color: var(--brand-orange);
-  background-color: rgba(59, 17, 142, 0.05);
+  color: var(--primary-color);
+  background-color: rgba(94, 186, 15, 0.05);
 }
 
 nav ul li a.active {
-  background-color: rgba(59, 17, 142, 0.08);
+  background-color: rgba(94, 186, 15, 0.08);
 }
 
 /* Dropdown Menu Styles */
@@ -184,7 +185,7 @@ nav ul li a.active {
   background-color: white;
   border: 1px solid #e0e7ff;
   border-radius: 8px;
-  box-shadow: 0 8px 25px rgba(59, 17, 142, 0.15);
+  box-shadow: 0 8px 25px rgba(149, 149, 149, 0.15);
   min-width: 200px;
   width: max-content;
   opacity: 0;
@@ -390,7 +391,7 @@ main {
   background-color: var(--light-color);
   color: var(--brand-orange);
   border: 2px solid var(--brand-orange);
-  box-shadow: 0 2px 4px rgba(222, 115, 63, 0.15);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .btn.btn-primary-subtle:hover {
@@ -398,7 +399,7 @@ main {
   color: var(--light-color);
   border-color: var(--brand-orange);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(255, 107, 53, 0.25);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
 }
 
 /* Already added button styling */
@@ -406,7 +407,7 @@ main {
   background-color: var(--light-color);
   color: var(--brand-orange);
   border: 2px solid var(--brand-orange);
-  box-shadow: 0 2px 4px rgba(222, 115, 63, 0.15);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .btn.btn-added:hover {
@@ -414,7 +415,7 @@ main {
   color: var(--light-color);
   border-color: var(--brand-orange);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4), 0 0 20px rgba(255, 107, 53, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Footer */
@@ -614,7 +615,7 @@ Base Section & Card Layouts
   justify-content: space-between;
   margin: 2rem auto;
   gap: 2rem;
-  background-color: #f0edf8;
+  background-color: #eaede9;
   padding: 3rem;
   border-radius: var(--border-radius);
   max-width: 1400px;
@@ -716,7 +717,7 @@ Base Section & Card Layouts
 
 .modal-content .btn,
 .modal-quote-btn {
-  background-color: #de733f;
+  background-color: var(--primary-color);
   color: var(--light-color);
   border: none;
   transition: all var(--transition-speed);
@@ -727,10 +728,10 @@ Base Section & Card Layouts
 
 .modal-content .btn:hover,
 .modal-quote-btn:hover {
-  background-color: #c55f2f;
+  background-color: var(--secondary-color);
   color: var(--light-color);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(222, 115, 63, 0.25);
+  box-shadow: 0 4px 8px rgba(94, 186, 15, 0.25);
 }
 
 /* Search Results */
@@ -765,7 +766,7 @@ section {
 }
 
 .featured-products-container {
-  background-color: #f8f7fc;
+  background-color: #f8f9fa;
   border-radius: 12px;
   padding: 2rem;
   margin-bottom: 2rem;
@@ -811,7 +812,7 @@ section {
 
 /* FAQ Section */
 .faq-section {
-  background-color: #f0edf8;
+  background-color: #f8f9fa;
   border-radius: 12px;
   padding: 2rem;
   margin: 2rem 0;
@@ -907,7 +908,7 @@ section {
 }
 
 .insights-section {
-  background-color: #f0edf8;
+  background-color: #eaede9;
   border-radius: 12px;
   padding: 2rem;
   margin: 2rem 0;
@@ -982,7 +983,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 
 /* Contact Page Styles */
 .contact-info-section {
-  background-color: #f0edf8;
+  background-color: #eaede9;
   border-radius: 12px;
   padding: 1.5rem;
   margin: 2rem 0;
@@ -1024,7 +1025,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 }
 
 .contact-form-section {
-  background-color: #f0edf8;
+  background-color: #eaede9;
   border-radius: 12px;
   padding: 2rem;
   margin: 2rem 0;
@@ -1045,7 +1046,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
-  color: var(--primary-color);
+  color: #000000;
   font-weight: 600;
 }
 
@@ -1103,7 +1104,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   width: 100%;
   height: 100%;
   /* Removed linear-gradient overlay */
-  background: url('assets/images/HospitalBanner2.png') center center/cover no-repeat;
+  background: url('assets/images/HospitalBanner3.png') center center/cover no-repeat;
   z-index: 1;
   filter: brightness(0.95); /* Slightly brighter */
 }
@@ -1205,7 +1206,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   bottom: 2rem;
   right: 2rem;
   z-index: 999;
-  background-color: var(--brand-orange);
+  background-color: var(--primary-color);
   color: var(--light-color);
   padding: 1.25rem 1.875rem; /* Increased padding */
   border-radius: 50px; /* Pill shape */
@@ -1220,7 +1221,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 
 .sticky-cta:hover {
   transform: translateY(-3px) scale(1.05);
-  background-color: #a04828; /* Darker orange on hover */
+  background-color: var(--secondary-color);
   color: var(--light-color);
   text-decoration: none;
 }
@@ -1238,6 +1239,9 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 .demo-section {
   padding: var(--section-padding);
   text-align: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .demo-content h3 {
@@ -1247,18 +1251,23 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 }
 
 .demo-visual {
-  margin-top: 2rem;
+  margin: 2rem auto;
   position: relative;
-  display: inline-block; /* Center the container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .demo-visual video,
 .demo-visual .demo-gif { /* Added .demo-gif */
-  max-width: 100%;
-  width: 1200px; /* Make GIF twice as big */
+  max-width: 900px;
+  width: 100%;
   height: auto;
   border-radius: var(--border-radius);
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  display: block;
+  margin: 0 auto;
 }
 
 /* Animation for oscillating arrow */
@@ -1273,12 +1282,13 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   right: 1rem; /* Position inside the right edge */
   transform: translateY(-50%);
   font-size: 9.1rem; /* Increased original 7rem by 30% */
-  color: var(--brand-orange);
+  color: var(--primary-color);
   animation: oscillate 1.5s infinite ease-in-out;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Added shadow */
   z-index: 5; /* Ensure shadow doesn't get hidden if video has background */
   display: inline-block; /* Ensure span behaves correctly within link */
   transition: color 0.2s ease; /* Smooth transition */
+  pointer-events: none; /* Allow clicks to pass through to the underlying link */
 }
 
 /* Style for the link wrapping the arrow */
@@ -1288,12 +1298,12 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 
 /* Ensure arrow color doesn't change on link hover */
 .arrow-link:hover .arrow-icon {
-  color: var(--brand-orange);
+  color: var(--primary-color);
 }
 
 /* Proof Section */
 .proof-section {
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
   color: var(--light-color);
   padding: 3rem 1rem;
   text-align: center;
@@ -1303,7 +1313,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 .proof-section .powerful-image-wrapper {
   padding-top: 2rem; /* Space between text and image */
   padding-bottom: 3rem; /* Restore bottom padding for the section */
-  background-color: var(--primary-color); /* Ensure this part also has the background */
+  background-color: var(--secondary-color); /* Ensure this part also has the background */
 }
 
 .proof-section .powerful-image {
@@ -1323,7 +1333,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 .proof-section .emphasis {
   font-size: 4rem; /* 2.5rem * 1.6 */
   font-weight: bold;
-  color: var(--accent-color);
+  color: var(--primary-color);
 }
 
 /* Responsive adjustments for landing page */
@@ -1335,7 +1345,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 }
 
 @media (max-width: 768px) {
-  .hero-landing { min-height: 50vh; padding: 3rem 1rem; }
+  .hero-landing { min-height: 35vh; padding: 3rem 1rem; } /* Further adjust height for smaller tablets */
   .hero-landing h1 { font-size: 2.8125rem; } /* Proportionally increased: 2.5 * 1.125 */
   .hero-landing h2 { font-size: 1.4625rem; } /* Proportionally increased: 1.3 * 1.125 */
   .hero-landing p { font-size: 1.2375rem; } /* Proportionally increased: 1.1 * 1.125 */
@@ -1349,7 +1359,8 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 
   .demo-visual video, 
   .demo-visual .demo-gif { /* Added .demo-gif */
-    width: 90%; 
+    width: 95%; 
+    max-width: 100%;
   } 
 
   .arrow-icon { 
@@ -1368,6 +1379,13 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 }
 
 @media (max-width: 576px) {
+  .hero-landing {
+    display: none; /* Hide the hero section entirely on phone views */
+  }
+
+  .why-matters {
+    padding-top: 2.5rem; /* Reduce top padding for the section that follows */
+  }
   .hero-landing h1 { font-size: 2.25rem; } /* Proportionally increased: 2.0 * 1.125 */
   .hero-landing h2 { font-size: 1.2375rem; } /* Proportionally increased: 1.1 * 1.125 */
 
@@ -1393,19 +1411,22 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 
 /* Button below demo GIF */
 .demo-action-button {
-  margin-top: 2rem;
-  background-color: var(--brand-orange);
+  margin: 3rem auto 0 auto;
+  display: block;
+  background-color: var(--primary-color);
   color: var(--light-color);
   padding: 1.5rem 3rem; /* Double of 0.75rem 1.5rem */
   font-size: 2rem; /* Double of 1rem (assuming base btn font-size) */
   /* Ensure other .btn styles are not negatively impacting */
-  border: 1px solid var(--brand-orange);
+  border: 1px solid var(--primary-color);
+  text-align: center;
+  width: fit-content;
 }
 
 .demo-action-button:hover {
-  background-color: #a04828; /* Darker orange on hover, consistent with other orange buttons */
+  background-color: var(--secondary-color);
   color: var(--light-color);
-  border-color: #a04828;
+  border-color: var(--secondary-color);
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
@@ -1507,7 +1528,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   gap: 0.75rem;
   font-weight: 600;
   font-size: 1.1rem;
-  color: var(--primary-color);
+  color: #000000 !important;
 }
 
 .program-module i {
@@ -1566,7 +1587,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   margin-top: 0;
   margin-bottom: 1.5rem;
   font-size: 1.3rem;
-  color: var(--primary-color);
+  color: #000000 !important;
   border-bottom: 1px solid #dee2e6;
   padding-bottom: 0.5rem;
 }
@@ -1614,9 +1635,113 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* ============================================================================
+   PROGRAM BUILDER 1 - CANVAS STYLING (Drag & Drop Interface)
+   ============================================================================ */
+
+/* Canvas dropzone hover effects for program modules */
 .canvas-dropzone .program-module:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Feature title text color overrides - BLACK TEXT for all variations */
+.canvas-dropzone .program-module .module-title,
+.program-canvas .canvas-dropzone .program-module .module-title,
+.program-canvas .program-module .module-title,
+.canvas-dropzone .program-module h3,
+.canvas-dropzone .program-module .module-title h3,
+.program-module .module-title,
+.program-module h3 {
+  color: #000000 !important;
+}
+
+/* ============================================================================
+   CANVAS ITEMS - Individual feature cards in "Your Program Plan" section
+   ============================================================================ */
+
+/* Main canvas item container */
+.canvas-item {
+  background: #ffffff;
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.canvas-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Canvas item content layout */
+.canvas-item-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Left side - icon and feature name */
+.canvas-item-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.canvas-item-left i {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+}
+
+/* FEATURE NAME TEXT - BLACK COLOR */
+.canvas-item-left span {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #000000 !important;
+}
+
+/* Right side - action buttons */
+.canvas-item-right {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* See Details button */
+.canvas-see-details {
+  background: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.canvas-see-details:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Remove button (X) */
+.remove-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.remove-btn:hover {
+  background: #c82333;
+  transform: scale(1.1);
 }
 
 /* Strength Meter */
@@ -1643,20 +1768,20 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 
 .strength-bar {
   height: 100%;
-  background-color: var(--success-color); /* Green */
+  background-color: var(--primary-color); /* PromoMonster Green */
   border-radius: 10px 0 0 10px;
   transition: width 0.5s ease-out, background-color 0.5s ease-out;
 }
 
 /* Adjust strength bar colors based on width */
 .strength-bar[style*="width: 33%"] {
-  background-color: #ffc107; /* Yellow */
+  background-color: var(--primary-color); /* PromoMonster Green */
 }
 .strength-bar[style*="width: 66%"] {
-  background-color: #fd7e14; /* Orange */
+  background-color: var(--primary-color); /* PromoMonster Green */
 }
 .strength-bar[style*="width: 100%"] {
-  background-color: var(--success-color); /* Green */
+  background-color: var(--primary-color); /* PromoMonster Green */
 }
 
 #strength-text {
@@ -1679,23 +1804,23 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 
 .builder-actions button:hover {
   background-color: var(--light-color);
-  color: #3b0ba7;
-  border-color: #3b0ba7;
+  color: var(--secondary-color);
+  border-color: var(--secondary-color);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-/* Ensure Start Over button matches */
+/* Start Over button - black base with reverse hover */
 .builder-actions #start-over-btn {
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
   color: var(--light-color);
-  border: 2px solid var(--primary-color);
+  border: 2px solid var(--secondary-color);
 }
 
 .builder-actions #start-over-btn:hover {
   background-color: var(--light-color);
-  color: #3b0ba7;
-  border-color: #3b0ba7;
+  color: var(--secondary-color);
+  border-color: var(--secondary-color);
 }
 
 /* Contact/Delivery Form */
@@ -1716,9 +1841,15 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 
 .form-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
     margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .captcha-group label {
@@ -1778,7 +1909,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 }
 
 .whats-next {
-  background-color: #e6f9ff; /* Light cyan */
+  background-color: white;
   border: 1px solid var(--secondary-color);
   padding: 1rem 1.5rem;
   border-radius: var(--border-radius);
@@ -1800,6 +1931,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   color: var(--primary-color);
   margin-top: 1.5rem;
   margin-bottom: 0.8rem;
+  font-size: 1.7rem;
 }
 
 #summary-modules-list {
@@ -1813,6 +1945,16 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   padding: 0.5rem 1rem;
   border-radius: 4px;
   margin-bottom: 0.5rem;
+}
+
+/* Override for feature summary items */
+#summary-modules-list li.feature-summary-item {
+  background-color: transparent !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: var(--border-radius) !important;
+  margin-bottom: 1rem !important;
+  border-left: 4px solid #5eba0f !important;
+  padding-left: 1.5rem !important;
 }
 
 #summary-contact-info {
@@ -1838,35 +1980,101 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 
 /* Print Styles */
 @media print {
+  /* Reset page margins */
+  @page {
+    margin: 0.5in;
+    size: auto;
+  }
+  
+  /* Hide everything first */
   body * {
     visibility: hidden;
   }
+  
+  /* Show only the plan summary section */
   .plan-summary-section, .plan-summary-section * {
     visibility: visible;
   }
+  
+  /* Reset body and html for printing */
+  html, body {
+    height: auto !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Position plan summary at top of page */
   .plan-summary-section {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    padding: 1cm; /* Add padding for print */
-    border: none;
-    background-color: white;
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    background-color: white !important;
+    min-height: auto !important;
+    page-break-before: auto !important;
+    transform: none !important;
   }
+  
+  /* Remove container spacing */
+  .container-wide {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+  
+  /* Optimize plan summary content */
   .plan-summary-content {
-    border: none;
-    box-shadow: none;
-    padding: 0;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 1rem !important;
+    margin: 0 !important;
+    background: white !important;
+    border-radius: 0 !important;
   }
-  .print-button {
-    display: none;
+  
+  /* Hide elements that shouldn't print */
+  .print-button,
+  header, footer, nav,
+  .program-builder-section, 
+  .contact-delivery-section, 
+  .next-step-section, 
+  .featured-products-section, 
+  .why-choose-us, 
+  .hero, 
+  .info-snippet,
+  .sticky-program-builder {
+    display: none !important;
+    visibility: hidden !important;
   }
-  header, footer, .program-builder-section, .contact-delivery-section, .next-step-section, .featured-products-section, .why-choose-us, .hero, .info-snippet {
-      display: none;
-  }
+  
+  /* Style the whats-next section for print */
   .whats-next {
-      border: 1px solid #ccc;
-      background-color: #eee;
+    border: 1px solid #ccc !important;
+    background-color: #f5f5f5 !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* Ensure proper text sizes for print */
+  .summary-header h2 {
+    font-size: 24px !important;
+  }
+  
+  .summary-left h3 {
+    font-size: 18px !important;
+  }
+  
+  /* Optimize images for print */
+  .summary-logo {
+    max-height: 60px !important;
+  }
+  
+  .summary-feature-images img {
+    width: 80px !important;
+    height: 80px !important;
   }
 }
 
@@ -1971,22 +2179,17 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   
   .module-palette .modules-grid {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    justify-content: center;
+    justify-items: center;
   }
 }
 
-@media (max-width: 768px) {
-  .module-palette .modules-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .program-module::after {
-    display: none; /* Hide tooltips on mobile */
-  }
-  
+/* Tablet view - sticky program canvas */
+@media (max-width: 992px) and (min-width: 769px) {
   .builder-interface {
     flex-direction: column;
     gap: 2rem;
-    padding-bottom: 220px; /* Add space for sticky canvas */
+    padding-bottom: 45vh; /* Add space for sticky canvas */
   }
   
   .module-palette {
@@ -1996,45 +2199,144 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   .program-canvas {
     order: 1;
     position: fixed !important;
-    bottom: 0 !important;
-    left: 10px;
-    right: 10px;
-    width: calc(100vw - 20px);
-    height: 200px;
-    max-height: 200px;
-    margin-bottom: 0;
+    top: auto !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: min(85vw, 450px) !important;
+    max-width: 450px;
+    max-height: 40vh;
+    margin: 0;
+    padding: 1rem;
     z-index: 1000;
-    border-radius: 15px 15px 0 0;
-    border-left: 2px solid var(--primary-color);
-    border-right: 2px solid var(--primary-color);
-    border-top: 2px solid var(--primary-color);
-    border-bottom: none;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
-    overflow: visible;
-    transform: none !important;
+    background: white;
+    border: 3px solid var(--primary-color);
+    border-radius: 20px;
+    box-shadow: 0 -10px 30px rgba(58, 12, 163, 0.2);
+    overflow-y: auto;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
   }
   
   .program-canvas h3 {
-    font-size: 1rem;
-    margin: 0;
-    padding: 0.75rem 1rem 0.5rem;
-    flex-shrink: 0;
+    color: black;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
   }
   
   .canvas-dropzone {
+    min-height: 200px;
+    border: 2px dashed #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    background: #fafafa;
     flex: 1;
-    min-height: 0;
-    padding: 0.5rem;
-    overflow-y: auto;
-    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .canvas-dropzone.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-style: italic;
   }
   
   .strength-meter {
     flex-shrink: 0;
     margin: 0;
-    padding: 0.5rem 1rem 0.75rem;
+    padding: 0;
+    max-width: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .module-palette .modules-grid {
+    grid-template-columns: 1fr;
+    justify-content: center;
+    justify-items: center;
+  }
+  
+  .program-module::after {
+    display: none; /* Hide tooltips on mobile */
+  }
+  
+  .builder-interface {
+    flex-direction: column;
+    gap: 2rem;
+    padding-bottom: 48vh; /* Add space for sticky canvas */
+  }
+  
+  .module-palette {
+    order: 2;
+  }
+  
+  .program-canvas {
+    order: 1;
+    position: fixed !important;
+    top: auto !important;
+    bottom: 15px !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: min(90vw, 400px) !important;
+    max-width: 400px;
+    max-height: 45vh;
+    margin: 0;
+    padding: 1rem;
+    z-index: 1000;
+    background: white;
+    border: 3px solid var(--primary-color);
+    border-radius: 20px;
+    box-shadow: 0 -10px 30px rgba(58, 12, 163, 0.2);
+    overflow-y: auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .program-canvas h3 {
+    color: black;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+  
+  .canvas-dropzone {
+    min-height: 200px;
+    border: 2px dashed #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    background: #fafafa;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .canvas-dropzone.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-style: italic;
+  }
+  
+  .strength-meter {
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
     max-width: none;
   }
   
@@ -2060,6 +2362,58 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   gap: 0.5rem;
 }
 
+/* Summary output layout: images left, button right */
+.feature-summary-output {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem 0;
+}
+
+.feature-summary-left {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+/* Feature title styling in summary output */
+.feature-summary-left strong {
+  font-size: calc(1rem + 4px);
+  font-weight: 600;
+}
+
+.feature-summary-right {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 68px;
+}
+
+/* Special centering for custom features without images */
+.feature-summary-output.no-images .feature-summary-right {
+  margin-top: 0;
+  align-items: center;
+  min-height: 60px;
+}
+
+.summary-feature-images {
+  display: flex;
+  gap: 8px;
+  flex-wrap: nowrap;
+  margin-top: 8px;
+  overflow-x: auto;
+}
+
+.summary-feature-images img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #e9ecef;
+  flex-shrink: 0;
+}
+
 .custom-description {
   font-style: italic;
   color: var(--text-muted);
@@ -2075,12 +2429,150 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   margin-top: 0.5rem;
 }
 
+/* Center product images in input form section only */
+.form-feature-item .feature-product-images {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+  justify-content: center;
+}
+
 .feature-product-thumb {
-  width: 60px;
-  height: 60px;
+  width: 120px;
+  height: 120px;
   object-fit: cover;
   border-radius: 4px;
   border: 1px solid #ddd;
+}
+
+/* Form features list styling for Program Builder 1 */
+.form-features-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.form-feature-item {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.form-feature-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary-color);
+}
+
+.form-feature-item h4 {
+  font-size: 1.2em;
+  margin-bottom: 8px;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.form-feature-item p {
+  font-size: 0.9em;
+  line-height: 1.4;
+  color: #666;
+  font-style: italic;
+  margin-bottom: 15px;
+}
+
+/* Browse Incentives Button Styling for summary output only */
+.browse-incentives-btn {
+  display: inline-block;
+  background-color: #5eba0f;
+  color: white;
+  border: 2px solid #5eba0f;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.browse-incentives-btn:hover {
+  background-color: black;
+  border-color: black;
+  color: white;
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Hide Browse Incentives buttons in form output - can be easily shown again by commenting out this rule */
+.browse-incentives-btn {
+  display: none !important;
+}
+
+/* Feature product images styling */
+.feature-product-images {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+.form-feature-item .feature-product-images {
+  justify-content: center;
+}
+
+/* Selected features display styling */
+.form-selected-features {
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 30px;
+  margin: 30px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.form-selected-features h3 {
+  text-align: center;
+  font-size: 1.6em;
+  margin-bottom: 25px;
+  font-weight: bold;
+  color: black;
+}
+
+@media (max-width: 768px) {
+  .form-features-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-selected-features {
+    padding: 20px;
+  }
+
+  /* Mobile responsive for summary output */
+  .feature-summary-output {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+  }
+
+  .feature-summary-right {
+    align-self: flex-start;
+    min-width: auto;
+  }
+
+  .summary-feature-images {
+    gap: 6px;
+  }
+
+  .summary-feature-images img {
+    width: 80px;
+    height: 80px;
+  }
 }
 
 /* Custom feature edit form styling */
@@ -2410,28 +2902,35 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   gap: 0.35rem;
   background: none;
   color: #333;
-  padding: 0.15rem 0;
+  padding: 0.5rem 1rem;
   text-decoration: none;
   font-weight: 600;
   font-size: 1.05rem;
   transition: all 0.3s ease;
   position: relative;
   border-bottom: 2px solid var(--brand-orange);
+  border-radius: 8px;
+  background: linear-gradient(135deg, transparent 0%, rgba(94, 186, 15, 0.05) 100%);
 }
 
 .vital-stats-cta:hover {
-  color: #333;
+  color: var(--primary-color);
   text-decoration: none;
   border-bottom-color: var(--primary-color);
+  background: linear-gradient(135deg, rgba(94, 186, 15, 0.1) 0%, rgba(94, 186, 15, 0.15) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(94, 186, 15, 0.2);
 }
 
 .vital-stats-cta i {
   font-size: 1.1rem;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
+  color: var(--primary-color);
 }
 
 .vital-stats-cta:hover i {
-  transform: scale(1.1);
+  transform: scale(1.2) rotate(5deg);
+  color: var(--primary-color);
 }
 
 @media (max-width: 768px) {
@@ -2554,4 +3053,128 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
     font-size: 0.8rem;
     padding: 0.35rem 0.7rem;
   }
+}
+
+/* ================================
+   FEATURE PAGE TITLE STYLING
+   ================================ */
+
+/* Override primary color for all headings on feature pages to use black instead of green */
+main.container h1,
+main.container h2,
+main.container h3 {
+  color: #000000 !important;
+}
+
+/* Ensure section headings in feature pages are black */
+.content-section h2,
+.resources-header h1,
+.detailed-modules-section h2 {
+  color: #000000 !important;
+}
+
+/* ================================
+   MODAL CHAT BUTTON STYLING
+   ================================ */
+
+/* Make modal chat buttons black instead of orange/green */
+#modal-chat.btn.btn-outline,
+.modal-content #modal-chat.btn.btn-outline {
+  background-color: transparent !important;
+  color: #000000 !important;
+  border: 1px solid #000000 !important;
+}
+
+#modal-chat.btn.btn-outline:hover,
+.modal-content #modal-chat.btn.btn-outline:hover {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #000000 !important;
+}
+
+/* ================================
+   STATISTIC TOOLTIP STYLING
+   ================================ */
+
+/* Base tooltip styling */
+.stat-tooltip {
+  position: relative;
+  cursor: help;
+  border-bottom: 1px dotted var(--primary-color);
+}
+
+.stat-tooltip .tooltip-content {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.95);
+  color: white;
+  text-align: center;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.4;
+  
+  /* Make tooltips wider rather than taller */
+  white-space: nowrap;
+  min-width: 200px;
+  max-width: 400px;
+  width: max-content;
+}
+
+/* Tooltip arrow */
+.stat-tooltip .tooltip-content::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.95) transparent transparent transparent;
+}
+
+/* Show tooltip on hover */
+.stat-tooltip:hover .tooltip-content {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* For very long tooltips, allow wrapping */
+.stat-tooltip .tooltip-content.wrap {
+  white-space: normal;
+  max-width: 350px;
+  width: 350px;
+}
+
+/* Alternative positioning for tooltips that might go off-screen */
+.stat-tooltip.tooltip-top .tooltip-content {
+  bottom: 125%;
+}
+
+.stat-tooltip.tooltip-bottom .tooltip-content {
+  top: 125%;
+  bottom: auto;
+}
+
+.stat-tooltip.tooltip-bottom .tooltip-content::after {
+  top: -10px;
+  border-color: transparent transparent rgba(0, 0, 0, 0.95) transparent;
+}
+
+/* Tooltip source links */
+.tooltip-content .source-link {
+  color: #87CEEB;
+  text-decoration: underline;
+}
+
+.tooltip-content .source-link:hover {
+  color: #B0E0E6;
 }

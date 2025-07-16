@@ -1,4 +1,10 @@
 /* Centralized Navigation Styles - Include in all pages */
+:root {
+  --primary-color: #5eba0f; /* PromoMonster Green */
+  --secondary-color: #000000; /* Black */
+  --brand-orange: #5eba0f; /* Alias for primary color */
+}
+
 /* Fix navigation menu height issue and center alignment - 20% smaller */
 nav {
   align-items: center !important;
@@ -49,13 +55,18 @@ nav ul li a {
   min-width: 600px !important;
   padding: 1rem 0 !important;
   gap: 0;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
 }
 
 .dropdown-column {
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
   flex: 1;
   min-width: 0;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  height: auto !important;
 }
 
 .dropdown-column.overview-column {
@@ -85,6 +96,7 @@ nav ul li a {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: center !important;
 }
 
 .dropdown-column li a {
@@ -94,7 +106,7 @@ nav ul li a {
 .dropdown-column li a:hover {
   background-color: #f8f9fa !important;
   padding-left: 1.2rem !important;
-  color: var(--brand-orange) !important;
+  color: var(--primary-color) !important;
 }
 
 /* Responsive adjustments for 3-column dropdown */

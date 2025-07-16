@@ -284,10 +284,11 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('selectedFeatures', JSON.stringify(selectedFeatures));
             localStorage.setItem('selectedFeatures2', JSON.stringify(selectedFeatures2));
             
-            // For Program Builder 1, we need to also clear the canvas state 
-            // so the new feature gets loaded on page load
+            // For Program Builder 1, we need to preserve existing canvas state 
+            // Note: Custom features require manual addition in Program Builder 1, 
+            // so we don't automatically add them to canvas state
             if (isAddingToProgramBuilder1) {
-              localStorage.removeItem('programBuilderCanvas');
+              console.log('Custom feature added - user will need to add manually in Program Builder 1:', customFeatureName);
             }
             
             button.innerHTML = '<i class="fas fa-check-circle"></i> Added!';
@@ -326,11 +327,43 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('selectedFeatures', JSON.stringify(selectedFeatures));
         localStorage.setItem('selectedFeatures2', JSON.stringify(selectedFeatures2));
         
-        // For Program Builder 1, we need to also clear the canvas state 
-        // so the new feature gets loaded when the page loads
+        // For Program Builder 1, we need to preserve existing canvas state 
+        // and add the new feature to it
         if (isAddingToProgramBuilder1) {
-          localStorage.removeItem('programBuilderCanvas');
-          console.log('Cleared canvas state for Program Builder 1 to auto-load new feature:', featureName);
+          // Get current canvas state
+          let existingCanvasState = [];
+          try {
+            const canvasState = localStorage.getItem('programBuilderCanvas');
+            if (canvasState) {
+              existingCanvasState = JSON.parse(canvasState);
+            }
+          } catch (e) {
+            console.error('Error reading existing canvas state:', e);
+          }
+          
+          // Map feature name to module ID
+          const featureToModuleId = {
+            'Welcome Kits': 'welcome',
+            'Years of Service Recognition': 'anniversary', 
+            'Performance Recognition': 'performance',
+            'Wellness Programs': 'wellness',
+            'Spot Recognition': 'spot',
+            'Peer-to-Peer': 'peer',
+            'Point-Based Rewards': 'points',
+            'General Awards': 'awards',
+            'Incentive Programs': 'incentives',
+            'Attendance Recognition': 'attendance',
+            'Safety Recognition': 'safety',
+            'Community Impact': 'community',
+            'Patient Care Recognition': 'patient-care'
+          };
+          
+          const newModuleId = featureToModuleId[featureName];
+          if (newModuleId && !existingCanvasState.includes(newModuleId)) {
+            existingCanvasState.push(newModuleId);
+            localStorage.setItem('programBuilderCanvas', JSON.stringify(existingCanvasState));
+            console.log('Added new feature to existing canvas state:', featureName, '-> module ID:', newModuleId);
+          }
         }
         
         button.innerHTML = '<i class="fas fa-check-circle"></i> Added!';

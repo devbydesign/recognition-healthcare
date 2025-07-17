@@ -1,5 +1,5 @@
-title: StayVisible Promotions
-description: Your source for premium promotional products
+title: RBB Marketing
+description: Your source for premium promotional products and employee recognition solutions
 url: http://localhost:4000
 baseurl: ""
 permalink: pretty
@@ -19,6 +19,6 @@ colors:
 
 # Contact Information
 contact:
-  email: info@stayvisible.com
-  phone: (555) 123-4567
-  address: 123 Promotion Ave, Marketing City, MC 12345 
+  email: info@rbbmarketing.com
+  phone: (987) 654-3210
+  address: 456 Sample Road, Example Town, EX 67890 

@@ -2065,6 +2065,40 @@ document.addEventListener('DOMContentLoaded', function() {
           { name: "Sling Bag", image: "assets/images/SlingBag2.png" },
           { name: "Insulated Drinkware", image: "assets/images/InsulatedDrinkware.png" }
         ]
+      },
+      custom: {
+        title: "Custom Recognition",
+        icon: "fas fa-edit",
+        description: `
+          <p>Create a personalized recognition program that fits your unique organizational needs and culture.</p>
+          
+          <h4>Design Your Own Program</h4>
+          <p>Every organization is different. Use our custom recognition feature to design something that aligns perfectly with your values, goals, and employee preferences.</p>
+          
+          <h4>Flexible and Tailored</h4>
+          <p>Whether it's recognizing specific behaviors, celebrating unique achievements, or creating entirely new recognition categories, our custom option gives you the flexibility to build exactly what your team needs.</p>
+          
+          <div class="custom-form-section">
+            <h4>Program Details</h4>
+            <div class="custom-form-group">
+              <label for="custom-feature-name">Program Name*</label>
+              <input type="text" id="custom-feature-name" placeholder="Enter a name for your custom recognition program" required>
+            </div>
+            <div class="custom-form-group">
+              <label for="custom-feature-description">Description (Optional)</label>
+              <textarea id="custom-feature-description" rows="4" placeholder="Describe what this recognition program will accomplish..."></textarea>
+            </div>
+            <div class="validation-note" style="display: none; color: #e74c3c; font-size: 0.9rem; margin-top: 0.5rem;">
+              Please enter a program name to continue.
+            </div>
+          </div>
+        `,
+        products: [
+          { name: "Custom Socks", image: "assets/images/CustomSocks.png.png" },
+          { name: "Custom Glassware", image: "assets/images/CustomGlassware.png.png" },
+          { name: "Gift Cards", image: "assets/images/GiftCards.png" },
+          { name: "Custom Bundle", image: "assets/images/bundle2.PNG" }
+        ]
       }
     };
 

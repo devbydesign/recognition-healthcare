@@ -927,6 +927,48 @@
         position: relative;
         padding-bottom: 3rem;
     }
+
+    /* Custom Feature Form Styles */
+    .custom-form-section {
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      border: 1px solid #e9ecef;
+    }
+
+    .custom-form-group {
+      margin-bottom: 1rem;
+    }
+
+    .custom-form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .custom-form-group input,
+    .custom-form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .custom-form-group input:focus,
+    .custom-form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(94, 186, 15, 0.1);
+    }
+
+    .custom-form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
   </style>
   <!-- Load centralized navigation BEFORE your main script -->
   <script src="navigation.js"></script>
@@ -1266,7 +1308,7 @@
     <div class="container footer-grid">
       <div class="footer-section footer-company">
         <h3>RBB Marketing</h3>
-        <p>1563 Barclay Blvd<br>Buffalo Grove, Illinois 60089<br>(847) 877-2240</p>
+        <p>123 Example Street<br>Sample City, IL 60000<br>(555) 123-4567</p>
       </div>
       <div class="footer-section footer-links">
         <h3>Quick Links</h3>

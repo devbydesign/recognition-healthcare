@@ -318,18 +318,14 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
-    const isAlreadyAdded = selectedFeatures.includes(featureName);
-
-    if (!isAlreadyAdded) {
-      selectedFeatures.push(featureName);
-      selectedFeatures2.push(featureName);
-      try {
-        localStorage.setItem('selectedFeatures', JSON.stringify(selectedFeatures));
-        localStorage.setItem('selectedFeatures2', JSON.stringify(selectedFeatures2));
-        
-        // For Program Builder 1, we need to preserve existing canvas state 
-        // and add the new feature to it
-        if (isAddingToProgramBuilder1) {
+    if (isAddingToProgramBuilder1) {
+      // Only add to Program Builder 1 storage
+      const isAlreadyAdded = selectedFeatures.includes(featureName);
+      if (!isAlreadyAdded) {
+        selectedFeatures.push(featureName);
+        try {
+          localStorage.setItem('selectedFeatures', JSON.stringify(selectedFeatures));
+          
           // Get current canvas state
           let existingCanvasState = [];
           try {
@@ -355,7 +351,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'Attendance Recognition': 'attendance',
             'Safety Recognition': 'safety',
             'Community Impact': 'community',
-            'Patient Care Recognition': 'patient-care'
+            'Patient Care Recognition': 'patient-care',
+            'Volunteer Recognition': 'volunteer'
           };
           
           const newModuleId = featureToModuleId[featureName];
@@ -364,29 +361,60 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('programBuilderCanvas', JSON.stringify(existingCanvasState));
             console.log('Added new feature to existing canvas state:', featureName, '-> module ID:', newModuleId);
           }
+          
+          button.innerHTML = '<i class="fas fa-check-circle"></i> Added!';
+          button.disabled = false; // Keep enabled so it can still be clicked
+          button.classList.add('btn-added');
+          button.style.backgroundColor = '';
+          button.style.boxShadow = '';
+          
+          if (redirectUrl) {
+             // Redirect after a short delay to allow user to see feedback
+             setTimeout(() => {
+                 window.location.href = redirectUrl;
+             }, 400); 
+          }
+          
+        } catch (e) {
+          console.error('Error saving to localStorage:', e);
+          button.innerHTML = 'Error!';
         }
-        
-        button.innerHTML = '<i class="fas fa-check-circle"></i> Added!';
-        button.disabled = false; // Keep enabled so it can still be clicked
-        button.classList.add('btn-added');
-        button.style.backgroundColor = '';
-        button.style.boxShadow = '';
-        
+      } else {
+        // Feature already added, but still allow navigation to program builder
         if (redirectUrl) {
-           // Redirect after a short delay to allow user to see feedback
-           setTimeout(() => {
-               window.location.href = redirectUrl;
-           }, 400); 
+          window.location.href = redirectUrl;
         }
-        
-      } catch (e) {
-        console.error('Error saving to localStorage:', e);
-        button.innerHTML = 'Error!';
       }
     } else {
-      // Feature already added, but still allow navigation to program builder
-      if (redirectUrl) {
-        window.location.href = redirectUrl;
+      // Adding to Program Builder 2 storage only
+      const isAlreadyAdded = selectedFeatures2.includes(featureName);
+      if (!isAlreadyAdded) {
+        selectedFeatures2.push(featureName);
+        try {
+          localStorage.setItem('selectedFeatures2', JSON.stringify(selectedFeatures2));
+          
+          button.innerHTML = '<i class="fas fa-check-circle"></i> Added!';
+          button.disabled = false; // Keep enabled so it can still be clicked
+          button.classList.add('btn-added');
+          button.style.backgroundColor = '';
+          button.style.boxShadow = '';
+          
+          if (redirectUrl) {
+             // Redirect after a short delay to allow user to see feedback
+             setTimeout(() => {
+                 window.location.href = redirectUrl;
+             }, 400); 
+          }
+          
+        } catch (e) {
+          console.error('Error saving to localStorage:', e);
+          button.innerHTML = 'Error!';
+        }
+      } else {
+        // Feature already added, but still allow navigation to program builder
+        if (redirectUrl) {
+          window.location.href = redirectUrl;
+        }
       }
     }
   };
@@ -455,7 +483,8 @@ document.addEventListener('DOMContentLoaded', function() {
           'attendance': 'Attendance Recognition',
           'safety': 'Safety Recognition',
           'community': 'Community Impact',
-          'patient-care': 'Patient Care Recognition'
+          'patient-care': 'Patient Care Recognition',
+          'volunteer': 'Volunteer Recognition'
         };
         canvasFeatures = moduleIds.map(id => moduleToFeatureName[id]).filter(Boolean);
       }
@@ -567,7 +596,8 @@ document.addEventListener('DOMContentLoaded', function() {
           'attendance': 'Attendance Recognition',
           'safety': 'Safety Recognition',
           'community': 'Community Impact',
-          'patient-care': 'Patient Care Recognition'
+          'patient-care': 'Patient Care Recognition',
+          'volunteer': 'Volunteer Recognition'
         };
         
         const featureName = featureNameMap[currentFeatureKey];
@@ -1141,7 +1171,8 @@ document.addEventListener('DOMContentLoaded', function() {
         'Attendance Recognition': 'attendance',
         'Safety Recognition': 'safety',
         'Community Impact': 'community',
-        'Patient Care Recognition': 'patient-care'
+        'Patient Care Recognition': 'patient-care',
+        'Volunteer Recognition': 'volunteer'
       };
 
       let featuresAdded = false;
@@ -1252,7 +1283,8 @@ document.addEventListener('DOMContentLoaded', function() {
           'Attendance Recognition': 'Building reliability culture and reducing absenteeism through consistent recognition',
           'Safety Recognition': 'Creating safety champions and preventing workplace incidents through proactive recognition',
           'Community Impact': 'Building purpose-driven culture through recognition of volunteer and community engagement',
-          'Patient Care Recognition': 'Recognizing exceptional patient care and fostering a culture of empathy'
+          'Patient Care Recognition': 'Recognizing exceptional patient care and fostering a culture of empathy',
+          'Volunteer Recognition': 'Celebrating employee volunteerism to enhance engagement and organizational purpose'
         };
 
         formFeaturesList.innerHTML = '';
@@ -1409,7 +1441,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Safety Recognition': 'https://promomonster-clientportal.com/sub_category_post/employee-appreciation-merchandise-apparel/',
                 'Community Impact': 'https://promomonster-clientportal.com/sub_category_post/incentives-all-products/',
                 'Custom Recognition': 'https://promomonster-clientportal.com/sub_category_post/incentives-all-products/',
-                'Patient Care Recognition': 'https://promomonster-clientportal.com/sub_category_post/incentives-all-products/'
+                'Patient Care Recognition': 'https://promomonster-clientportal.com/sub_category_post/incentives-all-products/',
+                'Volunteer Recognition': 'https://promomonster-clientportal.com/sub_category_post/incentives-all-products/'
             };
             
             summaryModulesList.innerHTML = selectedModuleNames.map(name => {
@@ -1677,6 +1710,7 @@ document.addEventListener('DOMContentLoaded', function() {
             'Safety Recognition': 'safety',
             'Community Impact': 'community',
             'Patient Care Recognition': 'patient-care',
+            'Volunteer Recognition': 'volunteer',
             // Legacy fallbacks for old naming
             'Years of Service': 'service',
             'Performance Bonuses': 'performance'
@@ -1990,51 +2024,46 @@ document.addEventListener('DOMContentLoaded', function() {
         title: "Patient Care Recognition",
         icon: "fas fa-heart-pulse",
         description: `
-          <p>Recognizing employees for exceptional patient care strengthens healthcare organizations by fostering a culture of empathy and excellence. The importance of patient care recognition, its benefits, and its impact on staff and patients is critical and supported by key statistics.</p>
+          <p>Recognize exceptional patient care to boost staff motivation, enhance patient satisfaction, and strengthen organizational loyalty.</p>
           
-          <h4>Impact on Patient Satisfaction</h4>
-          <p>Hospitals with robust recognition programs see a <span class="stat-highlight stat-tooltip">12% improvement in patient satisfaction scores<span class="tooltip-content">Source: Press Ganey</span></span>, demonstrating the direct impact of celebrating caring behavior.</p>
+          <h4>The Impact on Patient Care</h4>
+          <!-- Source: Press Ganey -->
+          <p>Healthcare organizations with robust recognition programs see a <span class="stat-highlight stat-tooltip">12% improvement in patient satisfaction scores<span class="tooltip-content">Source: Press Ganey</span></span> and <span class="stat-highlight stat-tooltip">31% lower voluntary turnover<span class="tooltip-content">Source: Gallup</span></span> among clinical staff.</p>
           
-          <h4>Staff Retention and Engagement</h4>
-          <p>Healthcare organizations with strong recognition programs experience <span class="stat-highlight stat-tooltip">31% lower voluntary turnover<span class="tooltip-content">Source: Gallup</span></span>, creating a workplace where employees feel valued and motivated to deliver exceptional care.</p>
+          <h4>Building a Culture of Care</h4>
+          <p>When healthcare staff feel valued and recognized, they deliver better patient care. Our recognition program helps create a positive environment where exceptional care is celebrated and rewarded.</p>
           
-          <h4>Building a Culture of Excellence</h4>
-          <p>Recognition reinforces your core mission of exceptional patient care and encourages staff to prioritize empathy in every interaction. Enable peer nominations to foster a culture of mutual appreciation and shared commitment to excellence.</p>
+          <h4>Recognition That Makes a Difference</h4>
+          <p>From personalized awards to practical items that enhance the workday, each recognition piece is designed to show appreciation for the critical work healthcare professionals do.</p>
         `,
         products: [
-          { name: "Comfort Blankets", image: "assets/images/Blankets.png.png" },
+          { name: "Customizable Awards", image: "assets/images/ServicePins.PNG" },
+          { name: "Blankets", image: "assets/images/Blankets.png.png" },
           { name: "Personalized Pens", image: "assets/images/PersonalizedPen.png.png" },
-          { name: "Custom Socks", image: "assets/images/CustomSocks.png.png" },
-          { name: "Customizable Awards", image: "assets/images/ServicePins.PNG" }
+          { name: "Custom Socks", image: "assets/images/CustomSocks.png.png" }
         ]
       },
-      custom: {
-        title: "Customize Your Personalized Program",
-        icon: "fas fa-edit",
+      'volunteer': {
+        title: "Volunteer Recognition",
+        icon: "fas fa-hands-helping",
         description: `
-          <p>Create a recognition program that's uniquely yours. Whether you want to recognize innovation, teamwork, customer service excellence, or any other behavior that matters to your organization, we can help you design the perfect program.</p>
+          <p>Recognizing employees who volunteer—whether within the organization or externally—supports a purpose-driven culture and encourages civic engagement. Tracking and celebrating volunteer hours through branded items, awards, or time-off incentives deepens employee satisfaction and enhances your organization’s image.</p>
           
-          <div class="custom-form-container">
-            <h4>Tell us about your custom recognition idea:</h4>
-            <div class="custom-form-group">
-              <label for="custom-feature-name">Program Name*</label>
-              <input type="text" id="custom-feature-name" placeholder="e.g., Innovation Awards, Customer Hero Recognition" required>
-              <small class="validation-note">Please enter a program name to continue</small>
-            </div>
-            <div class="custom-form-group">
-              <label for="custom-feature-description">Description</label>
-              <textarea id="custom-feature-description" placeholder="Describe what behaviors or achievements you want to recognize, and any specific ideas you have for this program..." rows="4"></textarea>
-            </div>
-          </div>
+          <h4>The Impact of Employee Volunteering</h4>
+          <!-- Source: Deloitte Volunteer Impact Research -->
+          <p>According to Deloitte's research, companies with volunteer recognition programs see <span class="stat-highlight stat-tooltip">89% higher employee engagement scores<span class="tooltip-content">Source: Deloitte Volunteer Impact Research</span></span> and <span class="stat-highlight stat-tooltip">70% stronger positive company reputation<span class="tooltip-content">Source: Deloitte Volunteer Impact Research</span></span>.</p>
           
-          <h4>Why Custom Recognition Works</h4>
-          <p>Research shows that <span class="stat-highlight stat-tooltip">34% higher participation rates<span class="tooltip-content">Source: SCIRP Gamification Study</span></span> occur when recognition programs align with specific organizational values and goals.</p>
+          <h4>Building Community Connections</h4>
+          <p>When employees are recognized for their volunteer efforts, they're more likely to continue giving back. Our volunteer recognition program helps create a sustainable culture of community service.</p>
+          
+          <h4>Recognition That Inspires</h4>
+          <p>From comfortable apparel for volunteer events to practical items that show appreciation, each recognition piece is designed to celebrate and encourage continued community involvement.</p>
         `,
         products: [
-          { name: "Custom Awards", image: "assets/images/Arctic-Zone-Titan-24-oz.-Copper-Mug-1024x1024.jpg" },
-          { name: "Branded Items", image: "assets/images/BrandMErchandise.png" },
-          { name: "Personalized Gifts", image: "assets/images/Ceramic Mugs.jpg" },
-          { name: "Experience Packages", image: "assets/images/Popular Sling Bag.jpg" }
+          { name: "Blankets", image: "assets/images/Blankets.png.png" },
+          { name: "Apparel", image: "assets/images/Apparel.png" },
+          { name: "Sling Bag", image: "assets/images/SlingBag2.png" },
+          { name: "Insulated Drinkware", image: "assets/images/InsulatedDrinkware.png" }
         ]
       }
     };

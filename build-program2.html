@@ -1856,6 +1856,24 @@
               </div>
             </div>
 
+            <!-- Volunteer Recognition Feature -->
+            <div class="detailed-module" data-feature-id="volunteer">
+              <h3>
+                <i class="fas fa-hands-helping module-icon"></i>
+                Volunteer Recognition
+              </h3>
+              <p class="module-description">Celebrate and encourage employee volunteerism with meaningful recognition that strengthens community engagement and corporate social responsibility.</p>
+              <ul class="module-benefits">
+                <li>89% improved employee engagement</li>
+                <li>70% enhanced company reputation</li>
+                <li>Stronger community impact</li>
+              </ul>
+              <div class="module-actions">
+                <button class="btn learn-more-btn" data-feature="volunteer">View Ideas</button>
+                <button class="add-to-program-btn" data-feature="Volunteer Recognition">Add to Program</button>
+              </div>
+            </div>
+
             <!-- Custom Recognition Feature - Double Width -->
             <div class="detailed-module custom-module" data-feature-id="custom">
               <h3 style="text-align: center;"><i class="fas fa-edit module-icon"></i>Customize Your Personalized Program</h3>
@@ -2093,8 +2111,8 @@
       function saveSelectedFeatures() {
         try {
           const featuresArray = Array.from(selectedFeatures);
-          localStorage.setItem('selectedFeatures', JSON.stringify(featuresArray));
-          console.log('Features saved to localStorage:', featuresArray);
+          localStorage.setItem('selectedFeatures2', JSON.stringify(featuresArray));
+          console.log('Features saved to localStorage (selectedFeatures2):', featuresArray);
         } catch (error) {
           console.error('Error saving features to localStorage:', error);
         }
@@ -2102,7 +2120,7 @@
       
       function loadSelectedFeatures() {
         try {
-          const savedFeatures = localStorage.getItem('selectedFeatures');
+          const savedFeatures = localStorage.getItem('selectedFeatures2');
           if (savedFeatures) {
             const featuresArray = JSON.parse(savedFeatures);
             featuresArray.forEach(feature => {
@@ -2116,12 +2134,12 @@
                 selectedFeatures.add(normalizedFeature);
               }
             });
-            console.log('Features loaded from localStorage:', featuresArray);
+            console.log('Features loaded from localStorage (selectedFeatures2):', featuresArray);
             
             // Save normalized features back to localStorage to fix inconsistencies
             const normalizedArray = Array.from(selectedFeatures);
             if (JSON.stringify(featuresArray) !== JSON.stringify(normalizedArray)) {
-              localStorage.setItem('selectedFeatures', JSON.stringify(normalizedArray));
+              localStorage.setItem('selectedFeatures2', JSON.stringify(normalizedArray));
               console.log('Updated localStorage with normalized feature names');
             }
             
@@ -2135,8 +2153,8 @@
       
       function clearSelectedFeatures() {
         try {
-          localStorage.removeItem('selectedFeatures');
-          console.log('Features cleared from localStorage');
+          localStorage.removeItem('selectedFeatures2');
+          console.log('Features cleared from localStorage (selectedFeatures2)');
         } catch (error) {
           console.error('Error clearing features from localStorage:', error);
         }
@@ -2297,7 +2315,9 @@
         const featureDescriptions = {
           'Welcome Kits': 'A vital first step to improving your employee well-being and efficiency',
           'Years of Service': 'Building loyalty and recognition that strengthens your organizational foundation',
+          'Years of Service Recognition': 'Building loyalty and recognition that strengthens your organizational foundation',
           'Performance Bonuses': 'Driving excellence through targeted rewards that motivate and inspire',
+          'Performance Recognition': 'Driving excellence through targeted rewards that motivate and inspire',
           'Wellness Programs': 'Promoting health and vitality that enhances both personal and professional success',
           'Spot Recognition': 'Creating positive momentum through immediate acknowledgment of exceptional work',
           'Peer-to-Peer': 'Fostering a culture of appreciation where team members celebrate each other',
@@ -2308,7 +2328,8 @@
           'Safety Recognition': 'Creating safety champions and preventing workplace incidents through proactive recognition',
           'Community Impact': 'Building purpose-driven culture through recognition of volunteer and community engagement',
           'Custom Recognition': 'Tailored recognition programs that address your unique organizational values and goals',
-          'Patient Care Recognition': 'Recognizing exceptional patient care and fostering a culture of empathy'
+          'Patient Care Recognition': 'Recognizing exceptional patient care and fostering a culture of empathy',
+          'Volunteer Recognition': 'Celebrating employee volunteerism to enhance engagement and organizational purpose'
         };
 
         formFeaturesList.innerHTML = '';
@@ -2344,14 +2365,23 @@
             const featureKey = getFeatureKeyFromName(feature);
             const featureInfo = featureData[featureKey];
             
-
+            // Debug logging for troubleshooting
+            console.log('Form feature mapping:', {
+              feature,
+              featureKey,
+              hasFeatureInfo: !!featureInfo,
+              hasProducts: !!(featureInfo && featureInfo.products),
+              productCount: featureInfo && featureInfo.products ? featureInfo.products.length : 0
+            });
             
             let productImagesHTML = '';
             if (featureInfo && featureInfo.products) {
               const productImages = featureInfo.products.slice(0, 4).map(product => 
-                `<img src="${product.image}" alt="${product.name}" class="feature-product-thumb">`
+                `<img src="${product.image}" alt="${product.name}" class="feature-product-thumb" onerror="this.style.display='none'">`
               ).join('');
               productImagesHTML = `<div class="feature-product-images">${productImages}</div>`;
+            } else {
+              console.warn('No feature info or products found for:', feature, 'with key:', featureKey);
             }
             
             featureItem.innerHTML = `
@@ -2400,7 +2430,9 @@
           const featureLinks = {
             'Welcome Kits': 'https://www.promo-monster.com/:quicksearch.htm?quicksearchbox=Welcome+Kits&LoP=&HiP=',
             'Years of Service': 'https://www.promo-monster.com/:quicksearch.htm?quicksearchbox=service+award&LoP=&HiP=',
+            'Years of Service Recognition': 'https://www.promo-monster.com/:quicksearch.htm?quicksearchbox=service+award&LoP=&HiP=',
             'Performance Bonuses': 'https://promomonster-clientportal.com/sub_category_post/incentives-employee/',
+            'Performance Recognition': 'https://promomonster-clientportal.com/sub_category_post/incentives-employee/',
             'Wellness Programs': 'https://promomonster-clientportal.com/sub_category_post/health-and-wellness-all-products/',
             'Spot Recognition': 'https://promomonster-clientportal.com/sub_category_post/employee-appreciation-all-products/',
             'Peer-to-Peer': 'https://promomonster-clientportal.com/sub_category_post/back-to-work-desk/',
@@ -2411,6 +2443,7 @@
             'Safety Recognition': 'https://promomonster-clientportal.com/sub_category_post/employee-appreciation-merchandise-apparel/',
             'Community Impact': 'https://promomonster-clientportal.com/sub_category_post/incentives-all-products/',
             'Patient Care Recognition': 'https://promomonster-clientportal.com/sub_category_post/incentives-all-products/',
+            'Volunteer Recognition': 'https://promomonster-clientportal.com/sub_category_post/incentives-all-products/',
             'Custom Recognition': 'https://promomonster-clientportal.com/sub_category_post/incentives-all-products/'
           };
           
@@ -2557,7 +2590,9 @@
         const nameMapping = {
           'Welcome Kits': 'welcome',
           'Years of Service': 'service',
+          'Years of Service Recognition': 'service', // Handle both naming variations
           'Performance Bonuses': 'performance',
+          'Performance Recognition': 'performance', // Handle both naming variations
           'Wellness Programs': 'wellness',
           'Spot Recognition': 'spot',
           'Peer-to-Peer': 'peer',
@@ -2569,6 +2604,7 @@
           'Safety Recognition': 'safety',
           'Community Impact': 'community',
           'Patient Care Recognition': 'patient-care',
+          'Volunteer Recognition': 'volunteer',
           'Custom Recognition': 'custom'
         };
         const result = nameMapping[name] || null;
@@ -2884,10 +2920,12 @@
             <p>Recognizing employees for exceptional patient care strengthens healthcare organizations by fostering a culture of empathy and excellence. The importance of patient care recognition, its benefits, and its impact on staff and patients is critical and supported by key statistics.</p>
             
             <h4>Impact on Patient Satisfaction</h4>
-            <p>Hospitals with robust recognition programs see a <span class="stat-highlight">12% improvement in patient satisfaction scores</span>, demonstrating the direct impact of celebrating caring behavior.</p>
+            <!-- Source: Press Ganey -->
+            <p>Hospitals with robust recognition programs see a <span class="stat-highlight stat-tooltip">12% improvement in patient satisfaction scores<span class="tooltip-content">Source: Press Ganey</span></span>, demonstrating the direct impact of celebrating caring behavior.</p>
             
             <h4>Staff Retention and Engagement</h4>
-            <p>Healthcare organizations with strong recognition programs experience <span class="stat-highlight">31% lower voluntary turnover</span>, creating a workplace where employees feel valued and motivated to deliver exceptional care.</p>
+            <!-- Source: Gallup -->
+            <p>Healthcare organizations with strong recognition programs experience <span class="stat-highlight stat-tooltip">31% lower voluntary turnover<span class="tooltip-content">Source: Gallup</span></span>, creating a workplace where employees feel valued and motivated to deliver exceptional care.</p>
             
             <h4>Building a Culture of Excellence</h4>
             <p>Recognition reinforces your core mission of exceptional patient care and encourages staff to prioritize empathy in every interaction. Enable peer nominations to foster a culture of mutual appreciation and shared commitment to excellence.</p>
@@ -2897,6 +2935,29 @@
             { name: "Personalized Pens", image: "assets/images/PersonalizedPen.png.png" },
             { name: "Custom Socks", image: "assets/images/CustomSocks.png.png" },
             { name: "Customizable Awards", image: "assets/images/ServicePins.PNG" }
+          ]
+        },
+        volunteer: {
+          title: "Volunteer Recognition",
+          icon: "fas fa-hands-helping",
+          description: `
+            <p>Recognizing employees who volunteer—whether within the organization or externally—supports a purpose-driven culture and encourages civic engagement. Tracking and celebrating volunteer hours through branded items, awards, or time-off incentives deepens employee satisfaction and enhances your organization’s image.</p>
+            
+            <h4>The Impact of Employee Volunteering</h4>
+            <!-- Source: Deloitte Volunteer Impact Research -->
+            <p>According to Deloitte's research, companies with volunteer recognition programs see <span class="stat-highlight stat-tooltip">89% higher employee engagement scores<span class="tooltip-content">Source: Deloitte Volunteer Impact Research</span></span> and <span class="stat-highlight stat-tooltip">70% stronger positive company reputation<span class="tooltip-content">Source: Deloitte Volunteer Impact Research</span></span>.</p>
+            
+            <h4>Building Community Connections</h4>
+            <p>When employees are recognized for their volunteer efforts, they're more likely to continue giving back. Our volunteer recognition program helps create a sustainable culture of community service.</p>
+            
+            <h4>Recognition That Inspires</h4>
+            <p>From comfortable apparel for volunteer events to practical items that show appreciation, each recognition piece is designed to celebrate and encourage continued community involvement.</p>
+          `,
+          products: [
+            { name: "Blankets", image: "assets/images/Blankets.png.png" },
+            { name: "Apparel", image: "assets/images/Apparel.png" },
+            { name: "Sling Bag", image: "assets/images/SlingBag2.png" },
+            { name: "Insulated Drinkware", image: "assets/images/InsulatedDrinkware.png" }
           ]
         },
         custom: {
@@ -3053,6 +3114,7 @@
               'safety': 'Safety Recognition',
               'community': 'Community Impact',
               'patient-care': 'Patient Care Recognition',
+              'volunteer': 'Volunteer Recognition',
               'custom': 'Custom Recognition'
             };
             

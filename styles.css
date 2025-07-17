@@ -523,12 +523,14 @@ Base Section & Card Layouts
 
 /* Standard Section Styling */
 .content-section {
-  padding: 3rem 1rem;
+  padding: 3rem 30px;
   margin: 0 auto;
   max-width: 1400px;
 }
 .content-section:nth-child(even) {
   background-color: #f8f9fb;
+  padding: 3rem 30px;
+  border-radius: 15px;
 }
 .content-section h2 {
   text-align: center;
@@ -985,7 +987,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 .contact-info-section {
   background-color: #eaede9;
   border-radius: 12px;
-  padding: 1.5rem;
+  padding: 30px;
   margin: 2rem 0;
   max-width: 600px;
   display: flex;
@@ -2841,7 +2843,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   margin: 2rem 0;
-  padding: 1.5rem;
+  padding: 30px;
   background-color: #f8f9fb;
   border-radius: 12px;
 }
@@ -2950,7 +2952,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 
 /* Reduce section padding for compact sections */
 .content-section:has(.compact-grid) {
-  padding: 2rem 0;
+  padding: 2rem 30px;
 }
 
 .content-section:has(.compact-grid) .section-intro {
@@ -3355,6 +3357,15 @@ main.container h3 {
 .wellness-effective-container {
   background-color: #ebedea;
   padding: 3rem;
+  border-radius: 15px;
+  margin: 2rem auto;
+  max-width: 1400px;
+}
+
+/* Attendance Recognition Container */
+.attendance-container {
+  background-color: #f6fcf2;
+  padding: 30px;
   border-radius: 15px;
   margin: 2rem auto;
   max-width: 1400px;

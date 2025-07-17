@@ -877,7 +877,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const ctaSection = document.createElement('div');
                 ctaSection.className = 'modal-cta-section';
                 ctaSection.innerHTML = `
-                  <div style="margin-top: 2rem; padding: 1.5rem; background-color: #f8f9fa; border: 2px solid var(--primary-color); border-radius: 8px; text-align: center;">
+                  <div style="margin-top: 2rem; padding: 30px; background-color: #f8f9fa; border: 2px solid var(--primary-color); border-radius: 8px; text-align: center;">
                     <h4 style="margin-bottom: 1rem; color: var(--primary-color); font-size: 1.6rem;">How Are You Going To Present It?</h4>
                     <p style="margin: 0; font-weight: bold; font-size: 1.1em; color: #333;">In Person • Newsletter • Monthly Department Meeting • Deliver</p>
                     <p style="margin: 0.5rem 0 0 0; font-style: italic; color: #666;">Make every milestone moment memorable with the perfect presentation approach.</p>
@@ -2144,7 +2144,7 @@ document.addEventListener('DOMContentLoaded', function() {
               const ctaSection = document.createElement('div');
               ctaSection.className = 'modal-cta-section';
               ctaSection.innerHTML = `
-                <div style="margin-top: 2rem; padding: 1.5rem; background-color: #f8f9fa; border: 2px solid var(--primary-color); border-radius: 8px; text-align: center;">
+                <div style="margin-top: 2rem; padding: 30px; background-color: #f8f9fa; border: 2px solid var(--primary-color); border-radius: 8px; text-align: center;">
                   <h4 style="margin-bottom: 1rem; color: var(--primary-color); font-size: 1.6rem;">How Are You Going To Present It?</h4>
                   <p style="margin: 0; font-weight: bold; font-size: 1.1em; color: #333;">In Person • Newsletter • Monthly Department Meeting • Deliver</p>
                   <p style="margin: 0.5rem 0 0 0; font-style: italic; color: #666;">Make every milestone moment memorable with the perfect presentation approach.</p>

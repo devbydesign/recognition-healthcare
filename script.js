@@ -1428,14 +1428,14 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Feature links mapping for Browse Incentives buttons
             const featureLinks = {
-                'Welcome Kits': 'https://www.promo-monster.com/:quicksearch.htm?quicksearchbox=Welcome+Kits&LoP=&HiP=',
-                'Years of Service': 'https://www.promo-monster.com/:quicksearch.htm?quicksearchbox=service+award&LoP=&HiP=',
+                'Welcome Kits': 'https://www.rbbmarketing.com/:quicksearch.htm?quicksearchbox=Welcome+Kits&LoP=&HiP=',
+                'Years of Service': 'https://www.rbbmarketing.com/:quicksearch.htm?quicksearchbox=service+award&LoP=&HiP=',
                 'Performance Bonuses': 'https://rbbmarketing-clientportal.com/sub_category_post/incentives-employee/',
                 'Wellness Programs': 'https://promomonster-clientportal.com/sub_category_post/health-and-wellness-all-products/',
                 'Spot Recognition': 'https://promomonster-clientportal.com/sub_category_post/employee-appreciation-all-products/',
                 'Peer-to-Peer': 'https://promomonster-clientportal.com/sub_category_post/back-to-work-desk/',
                 'Point-Based Rewards': 'https://promomonster-clientportal.com/simple_product/merchandise-incentive-program-2/',
-                'General Awards': 'https://www.promo-monster.com/awards-recognition-paper-weights-crystal.htm',
+                'General Awards': 'https://www.rbbmarketing.com/awards-recognition-paper-weights-crystal.htm',
                 'Incentive Programs': 'https://promomonster-clientportal.com/sub_category_post/incentives-employee/',
                 'Attendance Recognition': 'https://promomonster-clientportal.com/sub_category_post/employee-appreciation-merchandise-drinkware/',
                 'Safety Recognition': 'https://promomonster-clientportal.com/sub_category_post/employee-appreciation-merchandise-apparel/',

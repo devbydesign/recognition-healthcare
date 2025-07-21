@@ -1086,12 +1086,12 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 /* New Landing Hero */
 .hero-landing {
   position: relative;
-  min-height: 60vh;
+  min-height: clamp(40vh, 8vw + 45vh, 60vh); /* Fluid scaling */
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* Stick to top instead of center */
   justify-content: center;
   text-align: center;
-  padding: 4rem 1rem;
+  padding: 0 1rem; /* Remove top/bottom padding to stick to top */
   color: var(--light-color);
   overflow: hidden;
 }
@@ -1103,7 +1103,8 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   width: 100%;
   height: 100%;
   /* Removed linear-gradient overlay */
-  background: url('assets/images/Banner-Basic.png') center center/cover no-repeat;
+  background: url('assets/images/Banner-Basic.png') center top/cover no-repeat; /* Stick to top */
+  background-size: clamp(100%, 2vw + 98%, 120%); /* Fluid background scaling */
   z-index: 1;
   filter: brightness(0.95); /* Slightly brighter */
 }
@@ -1361,8 +1362,8 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
     width: 160% !important; /* Slightly reduce width */
     left: -30% !important; /* Adjust positioning */
   }
-  .hero-text-overlay h1 {
-    font-size: 2.5rem !important; /* Scale down from 3rem */
+  .hero-text-overlay h2 {
+    font-size: 3.2rem !important; /* Larger tablet size */
   }
   .hero-text-overlay .overlay-background {
     padding: 0.8rem !important; /* Scale down from 1rem */
@@ -1377,8 +1378,8 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   .hero-text-overlay {
     margin-top: calc(28vh * 0.55) !important; /* Adjust for smaller container */
   }
-  .hero-text-overlay h1 {
-    font-size: 2.3rem !important; /* Further scale down */
+  .hero-text-overlay h2 {
+    font-size: 3rem !important; /* Large tablet size */
   }
 }
 
@@ -1386,8 +1387,8 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   .hero-text-overlay {
     margin-top: calc(26vh * 0.55) !important; /* Adjust for smaller container */
   }
-  .hero-text-overlay h1 {
-    font-size: 2.1rem !important; /* Continue scaling down */
+  .hero-text-overlay h2 {
+    font-size: 2.8rem !important; /* Medium tablet size */
   }
 }
 
@@ -1395,8 +1396,8 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   .hero-text-overlay {
     margin-top: calc(24vh * 0.55) !important; /* Adjust for smaller container */
   }
-  .hero-text-overlay h1 {
-    font-size: 1.9rem !important; /* Prepare for smaller scaling */
+  .hero-text-overlay h2 {
+    font-size: 2.6rem !important; /* Small tablet size */
   }
   .hero-text-overlay .overlay-background {
     padding: 0.6rem !important; /* Reduce padding more */
@@ -1418,8 +1419,8 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
     width: 140% !important; /* Reduce width more */
     left: -20% !important; /* Adjust positioning */
   }
-  .hero-text-overlay h1 {
-    font-size: 1.8rem !important; /* Scale for 140% image scaling */
+  .hero-text-overlay h2 {
+    font-size: 2.4rem !important; /* Mobile tablet size */
   }
   .hero-text-overlay .overlay-background {
     padding: 0.5rem !important; /* Smaller padding for smaller screens */
@@ -1430,8 +1431,8 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   .hero-text-overlay {
     margin-top: calc(22vh * 0.45) !important; /* Adjust for smaller container */
   }
-  .hero-text-overlay h1 {
-    font-size: 1.6rem !important; /* Continue scaling down */
+  .hero-text-overlay h2 {
+    font-size: 2rem !important; /* Large mobile size */
   }
 }
 
@@ -1439,8 +1440,8 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   .hero-text-overlay {
     margin-top: calc(20vh * 0.45) !important; /* Adjust for smaller container */
   }
-  .hero-text-overlay h1 {
-    font-size: 1.4rem !important; /* Final scale down before mobile */
+  .hero-text-overlay h2 {
+    font-size: 1.8rem !important; /* Mobile size */
   }
   .hero-text-overlay .overlay-background {
     padding: 0.4rem !important; /* Minimal padding */
@@ -1455,10 +1456,39 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   .why-matters {
     padding-top: 2.5rem; /* Reduce top padding for the section that follows */
   }
+  
+  .why-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .why-image {
+    order: 0; /* Reset order so image appears between title and text */
+    margin: 1rem 0; /* Add some spacing around image */
+  }
+  
+  .why-text {
+    order: 1; /* Move text after image */
+  }
+  
+  .why-text p {
+    font-size: 1rem; /* Slightly smaller text for mobile */
+    line-height: 1.6; /* Tighter line height for mobile */
+  }
+  
   .hero-landing h1 { font-size: 2.25rem; } /* Proportionally increased: 2.0 * 1.125 */
   .hero-landing h2 { font-size: 1.2375rem; } /* Proportionally increased: 1.1 * 1.125 */
 
   .sticky-cta { display: none; } /* Optionally hide sticky CTA on very small screens */
+  
+  .hero-text-overlay h2 {
+    font-size: 1.5rem !important; /* Small mobile size */
+  }
+  
+  .hero-text-overlay .overlay-background {
+    padding: 0.8rem !important; /* Appropriate padding for mobile */
+  }
 }
 
 /* Powerful Image Section */
@@ -3509,4 +3539,31 @@ main.container h3 {
   .proof-section .powerful-image {
     width: 80%; /* Adjust for smaller screens if needed, e.g. original 90% of smaller view */
   }
+}
+
+/* Fluid scaling for hero text overlay that moves and scales with the image */
+.hero-text-overlay {
+  margin-top: clamp(15vh, 20vw, 35vh) !important; /* Starts lower down the image at 35vh on 2560px, moves up to 15vh on small screens */
+  width: clamp(220%, 25vw + 180%, 320%) !important; /* Much wider to force exactly 2 lines */
+  left: calc(-1 * (clamp(220%, 25vw + 180%, 320%) - 100%) / 2) !important; /* Dynamically center based on actual width */
+  transform: scale(clamp(0.7, 0.3vw + 0.65, 1)) !important; /* Scale with image */
+  text-align: center !important; /* Center text */
+}
+
+.hero-text-overlay .overlay-background {
+  background-color: rgba(35,69,108,0.7) !important;
+  border-radius: clamp(15px, 1vw + 10px, 25px) !important; /* Scale border radius */
+  padding: clamp(0.4rem, 1.5vw + 0.2rem, 1.5rem) !important; /* More aggressive scaling */
+  display: inline-block !important; /* Center the background on text */
+  margin: 0 auto !important;
+  max-width: 70% !important; /* Optimal width for exactly 2 lines */
+}
+
+.hero-text-overlay h2 {
+  font-size: clamp(1.3rem, 2.5vw + 0.8rem, 3.2rem) !important; /* Smaller responsive scaling */
+  font-weight: bold !important;
+  margin: 0 !important;
+  text-shadow: clamp(1px, 0.2vw + 0.5px, 2px) clamp(1px, 0.2vw + 0.5px, 2px) clamp(2px, 0.5vw + 1px, 4px) rgba(0,0,0,0.3) !important; /* Scale shadow */
+  color: white !important;
+  line-height: 1.2 !important; /* Tighter line height for 2 lines */
 }

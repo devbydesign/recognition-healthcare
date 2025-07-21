@@ -2373,6 +2373,9 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 .feature-summary-left {
   flex: 0 1 auto;
   min-width: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* Feature title styling in summary output */
@@ -2532,6 +2535,8 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   padding: 30px;
   margin: 30px 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .form-selected-features h3 {

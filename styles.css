@@ -1086,7 +1086,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 /* New Landing Hero */
 .hero-landing {
   position: relative;
-  min-height: clamp(40vh, 8vw + 45vh, 60vh); /* Fluid scaling */
+  min-height: clamp(15vh, 15vw + 20vh, 60vh); /* Much more aggressive height scaling */
   display: flex;
   align-items: flex-start; /* Stick to top instead of center */
   justify-content: center;

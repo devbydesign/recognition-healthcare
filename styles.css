@@ -347,7 +347,7 @@ nav ul li a.active {
 
 /* Main Content */
 main {
-  padding: 2rem 0;
+  padding: 0;
 }
 
 .btn {
@@ -614,7 +614,7 @@ Base Section & Card Layouts
   justify-content: space-between;
   margin: 2rem auto;
   gap: 2rem;
-  background-color: #eaede9;
+  background-color: #eff0f5;
   padding: 3rem;
   border-radius: var(--border-radius);
   max-width: 1400px;
@@ -1204,7 +1204,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   position: fixed;
   bottom: 2rem;
   right: 2rem;
-  z-index: 999;
+  z-index: 9999;
   background-color: var(--primary-color);
   color: var(--light-color);
   padding: 1.25rem 1.875rem; /* Increased padding */
@@ -1241,6 +1241,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  z-index: auto; /* Override container z-index to prevent stacking context */
 }
 
 .demo-content h3 {
@@ -1251,7 +1252,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 
 .demo-visual {
   margin: 2rem auto;
-  position: relative;
+  position: relative; /* Ensure positioning context for absolute children */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1259,7 +1260,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 }
 
 .demo-visual video,
-.demo-visual .demo-gif { /* Added .demo-gif */
+.demo-visual .demo-gif {
   max-width: 900px;
   width: 100%;
   height: auto;
@@ -1275,19 +1276,28 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   50% { transform: translateX(10px); }
 }
 
+.arrow-link {
+  text-decoration: none;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
 .arrow-icon {
   position: absolute;
-  top: 40%; /* Moved up from 50% */
-  right: 1rem; /* Position inside the right edge */
+  top: 60%;
+  right: 160px;
   transform: translateY(-50%);
-  font-size: 9.1rem; /* Increased original 7rem by 30% */
+  font-size: 9.1rem;
   color: var(--primary-color);
-  animation: oscillate 1.5s infinite ease-in-out;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Added shadow */
-  z-index: 5; /* Ensure shadow doesn't get hidden if video has background */
-  display: inline-block; /* Ensure span behaves correctly within link */
-  transition: color 0.2s ease; /* Smooth transition */
-  pointer-events: none; /* Allow clicks to pass through to the underlying link */
+  animation: oscillate 1.8s infinite ease-in-out;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  z-index: 1; /* Keep icon above background but below the link's clickable area */
+  pointer-events: none;
 }
 
 /* Style for the link wrapping the arrow */
@@ -1336,44 +1346,104 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 }
 
 /* Responsive adjustments for landing page */
-@media (max-width: 992px) {
+@media (max-width: 992px) and (min-width: 769px) {
+  .hero-landing {
+    min-height: 30vh; /* Further reduced to eliminate empty space */
+    padding: 0 1rem 1rem 1rem; /* Reduce bottom padding too */
+    align-items: flex-start; /* Align to top instead of center */
+  }
+  .hero-landing-bg {
+    background-size: 120%; /* Scale up image to allow for cropping */
+    background-position: center top; /* Stick to top instead of center */
+  }
+  .hero-text-overlay {
+    margin-top: calc(30vh * 0.55) !important; /* Adjust for new container height */
+    width: 160% !important; /* Slightly reduce width */
+    left: -30% !important; /* Adjust positioning */
+  }
+  .hero-text-overlay h1 {
+    font-size: 2.5rem !important; /* Scale down from 3rem */
+  }
+  .hero-text-overlay .overlay-background {
+    padding: 0.8rem !important; /* Scale down from 1rem */
+  }
   .hero-landing h1 { font-size: 3.375rem; } /* Proportionally increased: 3.0 * 1.125 */
   .hero-landing h2 { font-size: 1.6875rem; } /* Proportionally increased: 1.5 * 1.125 */
   .why-content { grid-template-columns: 1fr; gap: 2rem; }
   .why-image { order: -1; } /* Move image above text on smaller screens */
 }
 
+@media (max-width: 900px) and (min-width: 769px) {
+  .hero-text-overlay {
+    margin-top: calc(28vh * 0.55) !important; /* Adjust for smaller container */
+  }
+  .hero-text-overlay h1 {
+    font-size: 2.3rem !important; /* Further scale down */
+  }
+}
+
+@media (max-width: 850px) and (min-width: 769px) {
+  .hero-text-overlay {
+    margin-top: calc(26vh * 0.55) !important; /* Adjust for smaller container */
+  }
+  .hero-text-overlay h1 {
+    font-size: 2.1rem !important; /* Continue scaling down */
+  }
+}
+
+@media (max-width: 800px) and (min-width: 769px) {
+  .hero-text-overlay {
+    margin-top: calc(24vh * 0.55) !important; /* Adjust for smaller container */
+  }
+  .hero-text-overlay h1 {
+    font-size: 1.9rem !important; /* Prepare for smaller scaling */
+  }
+  .hero-text-overlay .overlay-background {
+    padding: 0.6rem !important; /* Reduce padding more */
+  }
+}
+
 @media (max-width: 768px) {
-  .hero-landing { min-height: 35vh; padding: 3rem 1rem; } /* Further adjust height for smaller tablets */
-  .hero-landing h1 { font-size: 2.8125rem; } /* Proportionally increased: 2.5 * 1.125 */
-  .hero-landing h2 { font-size: 1.4625rem; } /* Proportionally increased: 1.3 * 1.125 */
-  .hero-landing p { font-size: 1.2375rem; } /* Proportionally increased: 1.1 * 1.125 */
-
-  .sticky-cta {
-    padding: 1rem 1.5rem; /* Increased padding for smaller screens */
-    font-size: 1.125rem; /* Increased font size for smaller screens */
-    bottom: 1rem;
-    right: 1rem;
+  .hero-landing {
+    min-height: 25vh; /* Further reduced to eliminate empty space */
+    padding: 0 1rem 0.5rem 1rem; /* Minimal bottom padding */
+    align-items: flex-start; /* Align to top instead of center */
   }
-
-  .demo-visual video, 
-  .demo-visual .demo-gif { /* Added .demo-gif */
-    width: 95%; 
-    max-width: 100%;
-  } 
-
-  .arrow-icon { 
-    top: 40%; /* Moved up for smaller screens */
-    right: 0.5rem; /* Closer for smaller screens */
-    font-size: 5.85rem; /* Increased original 4.5rem by 30% */
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Slightly smaller shadow */
+  .hero-landing-bg {
+    background-size: 140%; /* Scale up more for smaller tablets to crop more sides */
+    background-position: center top; /* Stick to top instead of center */
   }
-
-  .proof-section .emphasis { 
-    font-size: 3.2rem; /* 2rem * 1.6 */
+  .hero-text-overlay {
+    margin-top: calc(25vh * 0.45) !important; /* Adjust for new container height */
+    width: 140% !important; /* Reduce width more */
+    left: -20% !important; /* Adjust positioning */
   }
-  .proof-section .powerful-image {
-    width: 80%; /* Adjust for smaller screens if needed, e.g. original 90% of smaller view */
+  .hero-text-overlay h1 {
+    font-size: 1.8rem !important; /* Scale for 140% image scaling */
+  }
+  .hero-text-overlay .overlay-background {
+    padding: 0.5rem !important; /* Smaller padding for smaller screens */
+  }
+}
+
+@media (max-width: 650px) {
+  .hero-text-overlay {
+    margin-top: calc(22vh * 0.45) !important; /* Adjust for smaller container */
+  }
+  .hero-text-overlay h1 {
+    font-size: 1.6rem !important; /* Continue scaling down */
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-text-overlay {
+    margin-top: calc(20vh * 0.45) !important; /* Adjust for smaller container */
+  }
+  .hero-text-overlay h1 {
+    font-size: 1.4rem !important; /* Final scale down before mobile */
+  }
+  .hero-text-overlay .overlay-background {
+    padding: 0.4rem !important; /* Minimal padding */
   }
 }
 
@@ -2622,7 +2692,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   position: fixed;
   bottom: 2rem;
   right: 2rem;
-  z-index: 999;
+  z-index: 9999;
   background-color: var(--brand-orange);
   color: var(--light-color);
   padding: 1.25rem 1.875rem;
@@ -3393,5 +3463,50 @@ main.container h3 {
   .wellness-container .compact-card-simple img {
     width: 95%;
     height: 95%;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-text-overlay {
+    margin-top: 20vh !important; /* Final adjustment before mobile hide */
+  }
+  .hero-text-overlay h1 {
+    font-size: 1.4rem !important; /* Final scale down before mobile */
+  }
+  .hero-text-overlay .overlay-background {
+    padding: 0.4rem !important; /* Minimal padding */
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-landing h1 { font-size: 2.8125rem; } /* Proportionally increased: 2.5 * 1.125 */
+  .hero-landing h2 { font-size: 1.4625rem; } /* Proportionally increased: 1.3 * 1.125 */
+  .hero-landing p { font-size: 1.2375rem; } /* Proportionally increased: 1.1 * 1.125 */
+
+  .sticky-cta {
+    padding: 1rem 1.5rem; /* Increased padding for smaller screens */
+    font-size: 1.125rem; /* Increased font size for smaller screens */
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  .demo-visual video, 
+  .demo-visual .demo-gif { /* Added .demo-gif */
+    width: 95%; 
+    max-width: 100%;
+  } 
+
+  .arrow-icon { 
+    top: 40%; /* Moved up for smaller screens */
+    right: 0.5rem; /* Closer for smaller screens */
+    font-size: 5.85rem; /* Increased original 4.5rem by 30% */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Slightly smaller shadow */
+  }
+
+  .proof-section .emphasis { 
+    font-size: 3.2rem; /* 2rem * 1.6 */
+  }
+  .proof-section .powerful-image {
+    width: 80%; /* Adjust for smaller screens if needed, e.g. original 90% of smaller view */
   }
 }

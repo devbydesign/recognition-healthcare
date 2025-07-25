@@ -10,6 +10,10 @@
   <link rel="stylesheet" href="navigation.css">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script src="script.js" defer></script>
+  <script src="https://cdn.emailjs.com/sdk/2.6.4/email.min.js"></script>
+  <script>
+    emailjs.init("Ymk4ILqxc716wQA3q");
+  </script>
   <style>
 
     /* Plan Summary Section Styling */
@@ -969,6 +973,10 @@
       resize: vertical;
       min-height: 100px;
     }
+
+    .hidden {
+      display: none;
+    }
   </style>
   <!-- Load centralized navigation BEFORE your main script -->
   <script src="navigation.js"></script>
@@ -997,12 +1005,18 @@
           <h3>
             Design Your Program
           </h3>
+        <form id="plan-details-form">
+          <input name="affiliateName" type="hidden" value="Theresa Gonzalez">
+          <input name="affiliateEmail" type="hidden" value="theresa@stayvisible.com">
+          <input name="headerImgPath" type="hidden" value="https://htmlgen.tempbuild.org/img/StayVis-Header-2.png">
+          <input name="footerImgPath" type="hidden" value="https://htmlgen.webdevbydesign.com/img/Stay-Vis-footer-2024-Q2-w-catalogNew.png">
           <div class="modules-grid">
             <div class="program-module" draggable="true" data-module-id="welcome" data-tooltip="Onboard new hires with essential gear and a warm welcome.">
               <div class="module-title">
                 <i class="fas fa-gift"></i>
                 Welcome Kits
               </div>
+              <input type="checkbox" name="planList" id="welcome" value="Welcome Kits" class="hidden">
               <p class="module-summary">Create memorable first impressions for new team members.</p>
               <button class="see-details-btn" data-feature="welcome">View Ideas</button>
             </div>
@@ -1011,6 +1025,7 @@
                 <i class="fas fa-calendar-alt"></i>
                 Years of Service Recognition
               </div>
+              <input type="checkbox" name="planList" id="anniversary" value="Years of Service Recognition" class="hidden">
               <p class="module-summary">Honor loyalty and celebrate career milestones.</p>
               <button class="see-details-btn" data-feature="service">View Ideas</button>
             </div>
@@ -1019,6 +1034,7 @@
                 <i class="fas fa-trophy"></i>
                 Performance Recognition
               </div>
+              <input type="checkbox" name="planList" id="performance" value="Performance Recognition" class="hidden">
               <p class="module-summary">Recognize and reward outstanding achievements.</p>
               <button class="see-details-btn" data-feature="performance">View Ideas</button>
             </div>
@@ -1027,6 +1043,7 @@
                 <i class="fas fa-heartbeat"></i>
                 Wellness Programs
               </div>
+              <input type="checkbox" name="planList" id="wellness" value="Wellness Programs" class="hidden">
               <p class="module-summary">Support employee health and work-life balance.</p>
               <button class="see-details-btn" data-feature="wellness">View Ideas</button>
             </div>
@@ -1035,6 +1052,7 @@
                 <i class="fas fa-star"></i>
                 Spot Recognition
               </div>
+              <input type="checkbox" name="planList" id="spot" value="Spot Recognition" class="hidden">
               <p class="module-summary">Provide instant appreciation for exceptional work.</p>
               <button class="see-details-btn" data-feature="spot">View Ideas</button>
             </div>
@@ -1043,6 +1061,7 @@
                 <i class="fas fa-users"></i>
                 Peer-to-Peer
               </div>
+              <input type="checkbox" name="planList" id="peer" value="Peer-to-Peer" class="hidden">
               <p class="module-summary">Empower team members to celebrate each other.</p>
               <button class="see-details-btn" data-feature="peer">View Ideas</button>
             </div>
@@ -1051,6 +1070,7 @@
                 <i class="fas fa-star-half-alt"></i>
                 Point-Based Rewards
               </div>
+              <input type="checkbox" name="planList" id="points" value="Point-Based Rewards" class="hidden">
               <p class="module-summary">Create flexible, engaging reward experiences.</p>
               <button class="see-details-btn" data-feature="points">View Ideas</button>
             </div>
@@ -1059,6 +1079,7 @@
                 <i class="fas fa-award"></i>
                 General Awards
               </div>
+              <input type="checkbox" name="planList" id="awards" value="General Awards" class="hidden">
               <p class="module-summary">Celebrate specific accomplishments formally.</p>
               <button class="see-details-btn" data-feature="awards">View Ideas</button>
             </div>
@@ -1067,6 +1088,7 @@
                 <i class="fas fa-concierge-bell"></i>
                 Incentive Programs
               </div>
+              <input type="checkbox" name="planList" id="incentives" value="Incentive Programs" class="hidden">
               <p class="module-summary">Drive desired behaviors with meaningful rewards.</p>
               <button class="see-details-btn" data-feature="incentives">View Ideas</button>
             </div>
@@ -1075,6 +1097,7 @@
                 <i class="fas fa-calendar-check"></i>
                 Attendance Recognition
               </div>
+              <input type="checkbox" name="planList" id="attendance" value="Attendance Recognition" class="hidden">
               <p class="module-summary">Celebrate reliable team members and reduce absenteeism.</p>
               <button class="see-details-btn" data-feature="attendance">View Ideas</button>
             </div>
@@ -1083,6 +1106,7 @@
                 <i class="fas fa-shield-alt"></i>
                 Safety Recognition
               </div>
+              <input type="checkbox" name="planList" id="safety" value="Safety Recognition" class="hidden">
               <p class="module-summary">Build a culture of safety and prevent workplace incidents.</p>
               <button class="see-details-btn" data-feature="safety">View Ideas</button>
             </div>
@@ -1091,6 +1115,7 @@
                 <i class="fas fa-hands-helping"></i>
                 Community Impact
               </div>
+              <input type="checkbox" name="planList" id="community" value="Community Impact" class="hidden">
               <p class="module-summary">Honor service and build purpose-driven culture.</p>
               <button class="see-details-btn" data-feature="community">View Ideas</button>
             </div>
@@ -1099,6 +1124,7 @@
                 <i class="fas fa-heart-pulse"></i>
                 Patient Care Recognition
               </div>
+              <input type="checkbox" name="planList" id="patient" value="Patient Care Recognition" class="hidden">
               <p class="module-summary">Honor excellence in patient care delivery.</p>
               <button class="see-details-btn" data-feature="patient-care">View Ideas</button>
             </div>
@@ -1107,6 +1133,7 @@
                 <i class="fas fa-hand-holding-heart"></i>
                 Volunteer Recognition
               </div>
+              <input type="checkbox" name="planList" id="volunteer" value="Volunteer Recognition" class="hidden">
               <p class="module-summary">Honor those who give back to their communities.</p>
               <button class="see-details-btn" data-feature="volunteer">View Ideas</button>
             </div>
@@ -1115,6 +1142,7 @@
                 <i class="fas fa-edit"></i>
                 Custom Recognition
               </div>
+              <input type="checkbox" name="planList" id="custom" value="Custom Recognition" class="hidden">
               <p class="module-summary">Design something unique for your organization.</p>
               <button class="see-details-btn" data-feature="custom">Design Here</button>
             </div>
@@ -1160,7 +1188,6 @@
     <section id="contact-delivery-section" class="contact-delivery-section" style="display: none;">
       <div class="form-container">
                         <h2 style="color: black;">Submit and Save Your Plan.</h2>
-        <form id="plan-details-form">
           <div class="form-grid">
               <div class="form-group">
                 <label for="first-name">First Name*</label>
@@ -1251,7 +1278,7 @@
                                 </div>
                                 <div class="contact-item">
                                     <i class="fas fa-envelope"></i>
-                                    <span>chuck.feldman@rbbmarketing.com</span>
+                                    <span>theresa@stayvisible.com</span>
                                 </div>
                             </div>
                         </div>
@@ -1354,5 +1381,43 @@
   </div>
 
   <!-- Inline script removed - functionality moved to script.js -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("plan-details-form");
+      form.addEventListener("submit", function(event) {
+        event.preventDefault();
 
+        visiblePlanInputs = Array.from(document.querySelectorAll('.modules-grid .program-module[style*="display: none;"] input[name="planList"]'));
+        formattedPlans = `<ul>${visiblePlanInputs.map(input => `<li>${input.value}</li>`).join('')}</ul>`;
+        affiliateName = document.getElementsByName('affiliateName')[0]?.value || '';
+        affiliateEmail = document.getElementsByName('affiliateEmail')[0]?.value || '';
+        headerImgPath = document.getElementsByName('headerImgPath')[0]?.value || '';
+        footerImgPath = document.getElementsByName('footerImgPath')[0]?.value || '';
+        firstName = document.getElementsByName('firstName')[0]?.value || '';
+        lastName = document.getElementsByName('lastName')[0]?.value || '';
+        phone = document.getElementsByName('phone')[0]?.value || '';
+        email = document.getElementsByName('email')[0]?.value || '';
+        companyName = document.getElementsByName('companyName')[0]?.value || '';
+
+        emailjs.send("service_00hboeb", "template_1cfzg9f", {
+          planList: formattedPlans,
+          affiliateName: affiliateName,
+          affiliateEmail: affiliateEmail,
+          headerImgPath: headerImgPath,
+          footerImgPath: footerImgPath,
+          firstName: firstName,
+          lastName: lastName,
+          phone: phone,
+          email: email,
+          companyName: companyName,
+        })
+          .then(() => {
+            alert("Your submission was successful!");
+            form.reset();
+          }, (error) => {
+            alert("Your submission failed to save: " + JSON.stringify(error));
+          });
+      });
+});
+</script>
 </body>

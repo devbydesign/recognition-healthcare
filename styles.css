@@ -423,6 +423,7 @@ footer {
   margin-top: 0;
   position: relative;
   overflow: hidden;
+  z-index: 0;
 }
 
 footer::before {

@@ -92,32 +92,126 @@
     .selected-feature-item {
       background: white;
       color: #000000;
-      padding: 0.8rem 1.2rem;
+      padding: 0.8rem 8px;
       border-radius: 8px;
       margin: 0.4rem;
-      display: inline-block;
+      display: flex;
+      align-items: center;
       font-size: 1.1rem;
       font-weight: 600;
       position: relative;
       border: 2px solid var(--primary-color);
-      white-space: nowrap;
       max-width: 100%;
       box-sizing: border-box;
-      overflow: hidden;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      justify-content: space-between;
+    }
+    
+    .selected-feature-item .feature-text {
+      flex: 1;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
+      padding-left: 8px;
+      padding-right: 8px;
+      min-width: 0; /* Allow flex item to shrink below content size */
+    }
+    
+    .selected-feature-item .button-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding-right: 8px;
+      flex-shrink: 0;
     }
     
     .selected-feature-item .remove-feature {
       background: none;
       border: none;
       color: var(--primary-color);
-      margin-left: 0.8rem;
       cursor: pointer;
       font-weight: bold;
       font-size: 1.3rem;
       line-height: 1;
-      padding: 0;
-      width: auto;
-      height: auto;
+      padding: 4px;
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .selected-feature-item .edit-feature {
+      background: none;
+      border: none;
+      color: var(--accent-color);
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: 4px;
+      width: 24px;
+      height: 24px;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .selected-feature-item .edit-feature:hover {
+      color: var(--primary-color);
+      transform: scale(1.1);
+    }
+    
+    /* Edit Feature Modal Form Styles */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--primary-color);
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+    }
+    
+    .form-input:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(35, 69, 108, 0.1);
+    }
+    
+    .form-textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+      border: 2px solid var(--primary-color);
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--secondary-color);
+      border-color: var(--secondary-color);
     }
     
     .finalize-program-btn {
@@ -1045,6 +1139,57 @@
       
       .modal-actions {
         flex-direction: column;
+      }
+
+      /* Mobile-specific adjustments for selected feature items */
+      .selected-feature-item {
+        padding: 0.6rem 4px !important; /* Force compact padding */
+        flex-wrap: nowrap !important; /* Force everything on one line */
+        align-items: center !important; /* Center align all items */
+        display: flex !important; /* Ensure flex display */
+        width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important; /* Prevent any overflow */
+      }
+      
+      .selected-feature-item .feature-text {
+        padding-left: 4px !important;
+        padding-right: 2px !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        flex: 1 !important; /* Take all available space */
+        min-width: 0 !important; /* Allow shrinking below content width */
+        white-space: normal !important; /* Allow text wrapping */
+        overflow: hidden !important;
+      }
+      
+      .selected-feature-item .button-group {
+        padding-right: 4px !important;
+        gap: 1px !important; /* Minimal gap */
+        flex-shrink: 0 !important; /* Never shrink buttons */
+        width: 44px !important; /* Fixed width */
+        min-width: 44px !important; /* Ensure minimum width */
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        overflow: visible !important;
+      }
+      
+      .selected-feature-item .edit-feature,
+      .selected-feature-item .remove-feature {
+        width: 18px !important;
+        height: 18px !important;
+        font-size: 0.8rem !important;
+        padding: 1px !important;
+        flex-shrink: 0 !important; /* Prevent any shrinking */
+        min-width: 18px !important;
+        margin: 0 !important;
+        border: none !important;
+        background: none !important;
+      }
+      
+      .selected-feature-item .remove-feature {
+        font-size: 1rem !important; /* Keep X button readable */
       }
     }
 
@@ -2067,7 +2212,32 @@
     </div>
   </div>
 
-  
+  <!-- Custom Feature Edit Modal -->
+  <div id="edit-feature-modal" class="feature-modal">
+    <div class="feature-modal-content">
+      <span class="feature-modal-close" id="edit-modal-close">&times;</span>
+      <div class="feature-modal-header">
+        <i class="fas fa-edit"></i>
+        <h2>Edit Custom Feature</h2>
+      </div>
+      <div class="feature-modal-body">
+        <form id="edit-feature-form">
+          <div class="form-group">
+            <label for="edit-feature-name">Feature Name:</label>
+            <input type="text" id="edit-feature-name" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-feature-description">Description:</label>
+            <textarea id="edit-feature-description" class="form-textarea" rows="4" placeholder="Describe your custom recognition program..."></textarea>
+          </div>
+          <div class="modal-actions">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <button type="button" id="cancel-edit" class="btn btn-outline">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <script>
     // Program Builder 2 Functionality
@@ -2203,9 +2373,18 @@
             
             const featureItem = document.createElement('div');
             featureItem.className = 'selected-feature-item';
-            featureItem.innerHTML = `
-              ${feature}
-              <button class="remove-feature" data-feature="${feature}">×</button>
+            
+            // Check if this is a custom feature to add edit button
+            const isCustomFeature = feature.startsWith('Custom: ');
+            const editButton = isCustomFeature ? 
+              `<button class="edit-feature" data-feature="${feature}" title="Edit custom feature">✏️</button>` : '';
+            
+              featureItem.innerHTML = `
+              <span class="feature-text">${feature}</span>
+              <div class="button-group">
+                ${editButton}
+                <button class="remove-feature" data-feature="${feature}">×</button>
+              </div>
             `;
             selectedFeaturesContainer.appendChild(featureItem);
           });
@@ -2263,12 +2442,17 @@
         });
       });
       
-      // Remove feature from program
+      // Remove feature from program and Edit feature functionality
       selectedFeaturesContainer.addEventListener('click', function(e) {
         if (e.target.classList.contains('remove-feature')) {
           const feature = e.target.dataset.feature;
           selectedFeatures.delete(feature);
           updateStickyBuilder();
+        }
+        
+        if (e.target.classList.contains('edit-feature')) {
+          const feature = e.target.dataset.feature;
+          openEditFeatureModal(feature);
         }
       });
 
@@ -3275,6 +3459,114 @@
       // Show a message if features were loaded
       if (hasLoadedFeatures && selectedFeatures.size > 0) {
         console.log(`Loaded ${selectedFeatures.size} previously selected features`);
+      }
+      
+      // Edit Feature Modal Functions
+      function openEditFeatureModal(feature) {
+        const modal = document.getElementById('edit-feature-modal');
+        const nameInput = document.getElementById('edit-feature-name');
+        const descriptionInput = document.getElementById('edit-feature-description');
+        
+        // Extract the custom name from the feature (remove "Custom: " prefix)
+        const customName = feature.replace('Custom: ', '');
+        
+        // Load existing data
+        nameInput.value = customName;
+        descriptionInput.value = localStorage.getItem(`custom_desc_${customName}`) || '';
+        
+        // Store the original feature name for updating
+        modal.dataset.originalFeature = feature;
+        
+        // Show modal
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        nameInput.focus();
+      }
+      
+      function closeEditFeatureModal() {
+        const modal = document.getElementById('edit-feature-modal');
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        
+        // Clear form
+        document.getElementById('edit-feature-form').reset();
+        delete modal.dataset.originalFeature;
+      }
+      
+      function saveEditedFeature(originalFeature, newName, newDescription) {
+        const newFeatureName = `Custom: ${newName}`;
+        
+        // If the name changed, we need to update the selectedFeatures set
+        if (originalFeature !== newFeatureName) {
+          selectedFeatures.delete(originalFeature);
+          selectedFeatures.add(newFeatureName);
+          
+          // Remove old description and add new one
+          const oldCustomName = originalFeature.replace('Custom: ', '');
+          localStorage.removeItem(`custom_desc_${oldCustomName}`);
+        }
+        
+        // Save the new description
+        localStorage.setItem(`custom_desc_${newName}`, newDescription);
+        
+        // Update the sticky builder display
+        updateStickyBuilder();
+        
+        // Close the modal
+        closeEditFeatureModal();
+      }
+      
+      // Edit Modal Event Listeners
+      const editModal = document.getElementById('edit-feature-modal');
+      const editModalClose = document.getElementById('edit-modal-close');
+      const cancelEditBtn = document.getElementById('cancel-edit');
+      const editForm = document.getElementById('edit-feature-form');
+      
+      if (editModalClose) {
+        editModalClose.addEventListener('click', closeEditFeatureModal);
+      }
+      
+      if (cancelEditBtn) {
+        cancelEditBtn.addEventListener('click', closeEditFeatureModal);
+      }
+      
+      if (editForm) {
+        editForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          const nameInput = document.getElementById('edit-feature-name');
+          const descriptionInput = document.getElementById('edit-feature-description');
+          const originalFeature = editModal.dataset.originalFeature;
+          
+          const newName = nameInput.value.trim();
+          const newDescription = descriptionInput.value.trim();
+          
+          if (!newName) {
+            alert('Please enter a feature name.');
+            nameInput.focus();
+            return;
+          }
+          
+          const newFeatureName = `Custom: ${newName}`;
+          
+          // Check if this name conflicts with existing features (but allow same name if it's the current feature)
+          if (newFeatureName !== originalFeature && selectedFeatures.has(newFeatureName)) {
+            alert('A custom feature with this name already exists. Please choose a different name.');
+            nameInput.focus();
+            return;
+          }
+          
+          saveEditedFeature(originalFeature, newName, newDescription);
+        });
+      }
+      
+      // Close modal when clicking outside
+      if (editModal) {
+        editModal.addEventListener('click', function(e) {
+          if (e.target === editModal) {
+            closeEditFeatureModal();
+          }
+        });
       }
     });
 

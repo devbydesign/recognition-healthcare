@@ -1603,7 +1603,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 .program-module {
   position: relative;
   padding: 1.5rem;
-  background: white;
+  background: #eaf2fa;
   border: 1px solid var(--border-color);
   border-radius: 8px;
   cursor: grab;
@@ -1935,6 +1935,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
   margin: 0 auto;
   background-color: var(--light-color);
   padding: 2rem;
+  padding: 20px;
   border-radius: var(--border-radius);
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }

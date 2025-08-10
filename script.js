@@ -1787,7 +1787,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ],
         customizeProducts: [
           { name: "Wall Plaque", image: "assets/images/WallAward.PNG" },
-          { name: "Customized Merch", image: "assets/images/ServicePins.PNG" },
+          { name: "Customized Merch", image: "assets/images/Customized Merchandise.png" },
           { name: "Awards", image: "assets/images/EOM.png" },
           { name: "Plateau Merch Catalog", image: "assets/images/CustomGiftLevels.PNG" }
         ]
@@ -1948,8 +1948,8 @@ document.addEventListener('DOMContentLoaded', function() {
           <p>Incentive programs tied to cost-saving initiatives—such as reducing waste, managing overtime, or improving patient throughput—encourage smart, proactive behavior. Employees are rewarded not just for effort but for results that help the organization operate more efficiently.</p>
         `,
         products: [
-          { name: "Experience Packages", image: "assets/images/Weekend Travel bag.jpg" },
-          { name: "Tech Accessories", image: "assets/images/UsefulTech.png" },
+          { name: "Brand Merch", image: "assets/images/Custom Merch.png" },
+          { name: "Tech Accessories", image: "assets/images/TechItems2.png.png" },
           { name: "Premium Merchandise", image: "assets/images/UsefulUtilities.png" },
           { name: "Custom Incentives", image: "assets/images/Apparel2.png" }
         ]
@@ -1972,8 +1972,8 @@ document.addEventListener('DOMContentLoaded', function() {
         products: [
           { name: "Public Recognition", image: "assets/images/PublicRecognition.jpg" },
           { name: "Points System", image: "assets/images/Points.jpg" },
-          { name: "Drinkware", image: "assets/images/Drinkware.png" },
-          { name: "Apparel", image: "assets/images/Apparel.png" }
+          { name: "Drinkware", image: "assets/images/DrinkwareMug.png.png" },
+          { name: "Apparel", image: "assets/images/ApparelSweater.png" }
         ]
       },
       safety: {
@@ -1992,10 +1992,10 @@ document.addEventListener('DOMContentLoaded', function() {
           <p>When employees feel recognized for safety contributions, it creates psychological safety that encourages open communication about risks. Teams with safety recognition show <span class="stat-highlight stat-tooltip">43% better safety communication<span class="tooltip-content">Source: Industrial Psychology Research</span></span> and <span class="stat-highlight stat-tooltip">31% faster hazard resolution times<span class="tooltip-content">Source: Industrial Psychology Research</span></span>, according to industrial psychology research.</p>
         `,
         products: [
-          { name: "Insulated Drinkware", image: "assets/images/InsulatedDrinkware.png" },
+          { name: "Insulated Drinkware", image: "assets/images/InsulatedDrinkware4.png" },
           { name: "Point System", image: "assets/images/Points.jpg" },
-          { name: "Lunch Cooler", image: "assets/images/LunchCooler.png" },
-          { name: "Team Tech Items", image: "assets/images/TechItems.png" }
+          { name: "Lunch Cooler", image: "assets/images/LunchCooler2.png" },
+          { name: "Team Tech Items", image: "assets/images/TechItems2.png.png" }
         ]
       },
       community: {
@@ -2017,7 +2017,7 @@ document.addEventListener('DOMContentLoaded', function() {
           { name: "Unique Signage", image: "assets/images/Signage.png" },
           { name: "Fun Gifts", image: "assets/images/socks1.PNG" },
           { name: "Matching Apparel", image: "assets/images/Apparel3.png.png" },
-          { name: "Custom Drinkware", image: "assets/images/Drinkware2.png.png" }
+          { name: "Custom Drinkware", image: "assets/images/DrinkwareMug.png.png" }
         ]
       },
       'patient-care': {
@@ -2060,10 +2060,10 @@ document.addEventListener('DOMContentLoaded', function() {
           <p>From comfortable apparel for volunteer events to practical items that show appreciation, each recognition piece is designed to celebrate and encourage continued community involvement.</p>
         `,
         products: [
-          { name: "Blankets", image: "assets/images/Blankets.png.png" },
+          { name: "Blankets", image: "assets/images/Customized Merchandise.png" },
           { name: "Apparel", image: "assets/images/Apparel.png" },
-          { name: "Sling Bag", image: "assets/images/SlingBag2.png" },
-          { name: "Insulated Drinkware", image: "assets/images/InsulatedDrinkware.png" }
+          { name: "Sling Bag", image: "assets/images/SlingBackpacks.png" },
+          { name: "Insulated Drinkware", image: "assets/images/Drinkware3.png" }
         ]
       },
       custom: {

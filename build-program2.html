@@ -3575,8 +3575,21 @@
           form.addEventListener("submit", function(event) {
             event.preventDefault();
     
-            visiblePlanInputs = Array.from(document.querySelectorAll('.selected-features .selected-feature-item button'));
-            formattedPlans = `<ul>${visiblePlanInputs.map(input => `<li>${input.getAttribute('data-feature')}</li>`).join('')}</ul>`;
+            featureItems = Array.from(document.querySelectorAll('#form-features-list .form-feature-item'));
+            ul = document.createElement('ul');
+            featureItems.forEach(item => {
+              const h4 = item.querySelector('h4');
+              const p = item.querySelector('p');
+              const li = document.createElement('li');
+              if (h4 && /custom/i.test(h4.textContent)) {
+                li.textContent = `${h4.textContent}: ${p?.textContent || ''}`;
+                ul.appendChild(li);
+              }else{
+                li.textContent = `${h4.textContent}`;
+                ul.appendChild(li);
+              }
+            });
+            formattedPlans = ul.outerHTML;
             affiliateName = document.getElementsByName('affiliateName')[0]?.value || '';
             affiliateEmail = document.getElementsByName('affiliateEmail')[0]?.value || '';
             headerImgPath = document.getElementsByName('headerImgPath')[0]?.value || '';

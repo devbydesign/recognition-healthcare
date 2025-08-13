@@ -283,7 +283,13 @@
     }
     
     .detailed-module.added {
-      background: linear-gradient(135deg, #dbe4e9 0%, #a8becf 100%);
+      /* Fallback gradient */
+      /* Primary-based gradient that auto-adjusts with --primary-color */
+      background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--primary-color) 5%, transparent) 0%,
+        color-mix(in srgb, var(--primary-color) 85%, black) 190%
+      );
       border: 2px solid var(--primary-color);
       box-shadow: 0 8px 25px rgba(58, 12, 163, 0.15);
       transform: translateY(-3px);

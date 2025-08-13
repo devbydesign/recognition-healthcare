@@ -1824,15 +1824,15 @@ document.addEventListener('DOMContentLoaded', function() {
           
           <h4>The Business Case for Wellness</h4>
           <!-- Source: https://www.cdc.gov/pcd/issues/2010/jul/10_0013.htm -->
-          <p>A comprehensive analysis published by the CDC found that for every dollar invested in wellness programs, companies can see an average return of <span class="stat-highlight">$3.27 in reduced medical costs</span>. Other studies have shown a <span class="stat-highlight">28% reduction in sick days</span> and a <span class="stat-highlight">26% reduction in healthcare costs</span>.</p>
+          <p>A comprehensive analysis published by the CDC found that for every dollar invested in wellness programs, companies can see an average return of <span class="stat-highlight stat-tooltip">$3.27 in reduced medical costs<span class="tooltip-content">Source: CDC</span></span>. Other studies have shown a <span class="stat-highlight stat-tooltip">28% reduction in sick days<span class="tooltip-content">Source: Harvard Business Review</span></span> and a <span class="stat-highlight stat-tooltip">26% reduction in healthcare costs<span class="tooltip-content">Source: Harvard Business Review</span></span>.</p>
           
           <h4>More Than Physical Health</h4>
           <!-- Source: https://hbr.org/2010/12/whats-the-hard-return-on-employee-wellness-programs -->
-          <p>Modern wellness programs address mental health and work-life balance. Johnson & Johnson's wellness program famously saved the company <span class="stat-highlight">$250 million</span> in healthcare costs over a decade, as reported by Harvard Business Review.</p>
+          <p>Modern wellness programs address mental health and work-life balance. Johnson & Johnson's wellness program famously saved the company <span class="stat-highlight stat-tooltip">$250 million<span class="tooltip-content">Source: Harvard Business Review</span></span> in healthcare costs over a decade, as reported by Harvard Business Review.</p>
           
           <h4>Wellness as a Culture Builder</h4>
           <!-- Source: https://www.gallup.com/workplace/236021/why-wellness-program-isnt-enough.aspx -->
-          <p>Wellness initiatives demonstrate genuine care for employee wellbeing. Employees who feel their company cares about their well-being are <span class="stat-highlight">3x more likely</span> to be engaged at work, according to Gallup research.</p>
+          <p>Wellness initiatives demonstrate genuine care for employee wellbeing. Employees who feel their company cares about their well-being are <span class="stat-highlight stat-tooltip">3x more likely<span class="tooltip-content">Source: Gallup</span></span> to be engaged at work, according to Gallup research.</p>
         `,
         products: [
           { name: "Arctic Zone Mug", image: "assets/images/Arctic-Zone-Titan-24-oz.-Copper-Mug-1024x1024.jpg" },

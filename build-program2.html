@@ -283,12 +283,10 @@
     }
     
     .detailed-module.added {
-      /* Fallback gradient */
-      /* Primary-based gradient that auto-adjusts with --primary-color */
       background: linear-gradient(
         135deg,
-        color-mix(in srgb, var(--primary-color) 5%, transparent) 0%,
-        color-mix(in srgb, var(--primary-color) 85%, black) 190%
+        color-mix(in srgb, var(--offset-color) 5%, transparent) 0%,
+        color-mix(in srgb, var(--primary-color) 85%, black) 220%
       );
       border: 2px solid var(--primary-color);
       box-shadow: 0 8px 25px rgba(58, 12, 163, 0.15);
@@ -422,7 +420,7 @@
     
     /* Extend the hero background gradient to cover the entire page */
     body {
-      background-color: #eaede9;
+      background: color-mix(in srgb, var(--offset-color) 6.8%, transparent);
       min-height: 100vh;
     }
     
@@ -981,7 +979,13 @@
     
     /* Custom Module Styling */
     .custom-module {
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      /* Fallback gradient */
+      /* Primary-based gradient that auto-adjusts with --primary-color */
+      background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--offset-color) 5%, transparent) 0%,
+        color-mix(in srgb, var(--primary-color) 25%, transparent) 190%
+      );
       border: 2px solid var(--primary-color);
       position: relative;
       overflow: hidden;

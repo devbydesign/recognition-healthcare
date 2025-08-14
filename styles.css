@@ -9,6 +9,7 @@
   --medium-color: #f0f2f5; /* Light grey for backgrounds/borders */
   --text-muted: #666666; /* Muted text color */
   --success-color: #23456C; /* RBB Marketing Blue for checkmarks etc. */
+  --offset-color: color-mix(in srgb, var(--primary-color), black 0%);
   --border-radius: 6px;
   --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   --font-secondary: 'Georgia', serif; /* For select headings or accents */
@@ -161,11 +162,11 @@ nav ul li a {
 
 nav ul li a:hover {
   color: var(--primary-color);
-  background-color: rgba(35,69,108,0.05);
+  background: color-mix(in srgb, var(--offset-color) 8%, transparent);
 }
 
 nav ul li a.active {
-  background-color: rgba(35,69,108,0.08);
+  background: color-mix(in srgb, var(--offset-color) 8%, transparent);
 }
 
 /* Dropdown Menu Styles */
@@ -983,7 +984,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 
 /* Contact Page Styles */
 .contact-info-section {
-  background-color: #eaede9;
+  background: color-mix(in srgb, var(--offset-color) 10%, transparent);
   border-radius: 12px;
   padding: 30px;
   margin: 2rem 0;
@@ -1025,7 +1026,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 }
 
 .contact-form-section {
-  background-color: #eaede9;
+  background: color-mix(in srgb, var(--offset-color) 10%, transparent);
   border-radius: 12px;
   padding: 2rem;
   margin: 2rem 0;
@@ -1603,7 +1604,7 @@ main.container > h1 + p { /* Selects paragraph immediately following h1 in main 
 .program-module {
   position: relative;
   padding: 1.5rem;
-  background: color-mix(in srgb, var(--primary-color) 8.6%, transparent);
+  background: color-mix(in srgb, var(--offset-color) 6.8%, transparent);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   cursor: grab;

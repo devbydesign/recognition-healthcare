@@ -3546,24 +3546,24 @@ main.container h3 {
 
 /* Fluid scaling for hero text overlay that moves and scales with the image */
 .hero-text-overlay {
-  margin-top: clamp(15vh, 20vw, 35vh) !important; /* Starts lower down the image at 35vh on 2560px, moves up to 15vh on small screens */
-  width: clamp(220%, 25vw + 180%, 320%) !important; /* Much wider to force exactly 2 lines */
-  left: calc(-1 * (clamp(220%, 25vw + 180%, 320%) - 100%) / 2) !important; /* Dynamically center based on actual width */
-  transform: scale(clamp(0.7, 0.3vw + 0.65, 1)) !important; /* Scale with image */
+  margin-top: clamp(15vh, 20vw, 45vh) !important; /* Starts lower down the image at 35vh on 2560px, moves up to 15vh on small screens */
+  width: clamp(160%, 15vw + 140%, 260%) !important; /* Narrower and shrinks faster with viewport */
+  left: calc(-1 * (clamp(160%, 15vw + 140%, 260%) - 100%) / 2) !important; /* Dynamically center based on actual width */
+  transform: none !important; /* Let font-size and container dimensions drive proportional scaling */
   text-align: center !important; /* Center text */
 }
 
 .hero-text-overlay .overlay-background {
   background-color: rgba(35,69,108,0.7) !important;
   border-radius: clamp(15px, 1vw + 10px, 25px) !important; /* Scale border radius */
-  padding: clamp(0.4rem, 1.5vw + 0.2rem, 1.5rem) !important; /* More aggressive scaling */
+  padding: clamp(0.25rem, 1vw + 0.1rem, 1.2rem) !important; /* Shrink padding faster */
   display: inline-block !important; /* Center the background on text */
   margin: 0 auto !important;
-  max-width: 70% !important; /* Optimal width for exactly 2 lines */
+  max-width: clamp(50%, 8vw + 50%, 70%) !important; /* Shrink background width more on smaller screens */
 }
 
 .hero-text-overlay h2 {
-  font-size: clamp(1.3rem, 2.5vw + 0.8rem, 3.2rem) !important; /* Smaller responsive scaling */
+  font-size: calc(1.24vw + 0.2rem) !important; /* Continuously scale with viewport width */
   font-weight: bold !important;
   margin: 0 !important;
   text-shadow: clamp(1px, 0.2vw + 0.5px, 2px) clamp(1px, 0.2vw + 0.5px, 2px) clamp(2px, 0.5vw + 1px, 4px) rgba(0,0,0,0.3) !important; /* Scale shadow */

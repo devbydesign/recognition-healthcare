@@ -15,12 +15,17 @@
   <script>
     emailjs.init("Ymk4ILqxc716wQA3q");
   </script>
+  <script src="https://cdn.emailjs.com/sdk/2.6.4/email.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    emailjs.init("Ymk4ILqxc716wQA3q");
+  </script>
 </head>
 <body>
   <!-- Navigation will be inserted here automatically by navigation.js -->
 
   <main class="container">
-    <h1>Contact RBB Marketing</h1>
+    <h1>Contact Us</h1>
     
     <p>We're here to help with all your promotional product and employee recognition needs.</p>
     
@@ -28,9 +33,9 @@
     <section class="contact-info-section">
        <div class="contact-details">
         <ul>
-          <li><strong>Phone:</strong> (987) 654-3210</li>
+          <li><strong>Phone:</strong> (555) 555-5555</li>
           <li><strong>Email:</strong> rbadiner@rbbmarketing.com</li>
-          <li><strong>Address:</strong> 456 Sample Road, Example Town, EX 67890</li>
+          <li><strong>Address:</strong> Placeholder address here</li>
         </ul>
       </div>
     </section>
@@ -54,6 +59,10 @@
           <textarea id="message" name="message" rows="5" required></textarea>
         </div>
 
+          <input name="affiliateName" type="hidden" value="Rick Badiner">
+          <input name="affiliateEmail" type="hidden" value="Rbadiner@rbbmarketing.com">
+          <input name="headerImgPath" type="hidden" value="https://htmlgen.webdevbydesign.com/img/rbb-header.png">
+          <input name="footerImgPath" type="hidden" value="https://htmlgen.webdevbydesign.com/img/rbb-footer.png">
         <input name="affiliateName" type="hidden" value="Rick Badiner">
           <input name="affiliateEmail" type="hidden" value="Rbadiner@rbbmarketing.com">
           <input name="headerImgPath" type="hidden" value="https://htmlgen.webdevbydesign.com/img/rbb-header.png">
@@ -62,7 +71,9 @@
       </form>
     </section>
   </main>
-  <script src="footer.js"></script>
+
+  <script src="footer.js" defer></script>
+
   
   <script>
     document.addEventListener("DOMContentLoaded", function () {

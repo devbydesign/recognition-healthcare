@@ -58,12 +58,54 @@
           <label for="message">Message</label>
           <textarea id="message" name="message" rows="5" required></textarea>
         </div>
-        
+
+          <input name="affiliateName" type="hidden" value="Rick Badiner">
+          <input name="affiliateEmail" type="hidden" value="Rbadiner@rbbmarketing.com">
+          <input name="headerImgPath" type="hidden" value="https://htmlgen.webdevbydesign.com/img/rbb-header.png">
+          <input name="footerImgPath" type="hidden" value="https://htmlgen.webdevbydesign.com/img/rbb-footer.png">
+        <input name="affiliateName" type="hidden" value="Rick Badiner">
+          <input name="affiliateEmail" type="hidden" value="Rbadiner@rbbmarketing.com">
+          <input name="headerImgPath" type="hidden" value="https://htmlgen.webdevbydesign.com/img/rbb-header.png">
+          <input name="footerImgPath" type="hidden" value="https://htmlgen.webdevbydesign.com/img/rbb-footer.png">
         <button type="submit" class="btn">Send Message</button>
       </form>
     </section>
   </main>
 
   <script src="footer.js" defer></script>
+
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+          const form = document.getElementById("contact-form");
+          form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            affiliateName = document.getElementsByName('affiliateName')[0]?.value || '';
+            affiliateEmail = document.getElementsByName('affiliateEmail')[0]?.value || '';
+            name = document.getElementsByName('name')[0]?.value || '';
+            message = document.getElementsByName('message')[0]?.value || '';
+            email = document.getElementsByName('email')[0]?.value || '';
+            headerImgPath = document.getElementsByName('headerImgPath')[0]?.value || '';
+            footerImgPath = document.getElementsByName('footerImgPath')[0]?.value || '';
+    
+            emailjs.send("service_ag1505e", "template_f4w145i", {
+              affiliateName: affiliateName,
+              affiliateEmail: affiliateEmail,
+              name: name,
+              message: message,
+              email: email,
+              headerImgPath: headerImgPath,
+              footerImgPath: footerImgPath,
+            })
+              .then(() => {
+                alert("Your submission was successful!");
+                form.reset();
+              }, (error) => {
+                alert("Your submission failed to save: " + JSON.stringify(error));
+              });
+          });
+    });
+  </script>
 </body>
 </html> 
